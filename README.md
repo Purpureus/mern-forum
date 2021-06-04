@@ -1,0 +1,1 @@
+<h1>Simple forum app made with React & Express</h1>
