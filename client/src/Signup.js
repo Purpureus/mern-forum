@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 const Signup = () => {
 
     const storage = window.localStorage;
-    const { loginData, setLoginData } = useContext(LoginDataContext);
+    const [, setLoginData] = useContext(LoginDataContext);
     const history = useHistory();
 
     const [nameField, setNameField] = useState('');
@@ -16,7 +16,7 @@ const Signup = () => {
     function handleSubmit(e) {
 	e.preventDefault();
 
-	if(passwordField == repeatPasswordField) {
+	if(passwordField === repeatPasswordField) {
 	    let newUserDatabase = JSON.parse(storage.getItem('user-database'));
 	    
 	    newUserDatabase.push({

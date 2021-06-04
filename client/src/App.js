@@ -1,4 +1,3 @@
-import './App.css';
 import Home from './Home';
 import Header from './Header';
 import Post from './Post';
@@ -41,61 +40,60 @@ function App() {
                 id: 1,
                 author: "asdf",
                 title:
-                "Post number 2 with a really really long title which should overflow the page if it's not well made so let's see what happens",
+                    "Post number 2 with a really really long title which should overflow the page if it's not well made so let's see what happens",
                 content: "Some content.",
             },
         ];
 
         storage.setItem('post-storage', JSON.stringify(postList));
         storage.setItem('login-data', JSON.stringify(loginData));
-        
+
     }, [storage, loginData]);
-    
+
     return (
         <Router>
-        <div className="App">
-        
-        <div className="content">
-        <LoginDataContext.Provider value={{loginData, setLoginData}}>
-        <Header></Header>
-        
-        <Switch>
-        
-        <Route exact path="/">
-        <Home />
-        </Route>
-        
-        <Route exact path="/createpost">
-        <CreatePost />
-        </Route>
-        
-        <Route path="/post/:postId">
-        <Post />
-        </Route>
-        
-        <Route path="/user/:requestedUsername">
-        <UserDetails />
-        </Route>
-        
-        <Route path="/login">
-        <Login />
-        </Route>
-        
-        <Route path="/signup">
-        <Signup></Signup>
-        </Route>
-        
-        <Route>Page not found!</Route>
-        
-        </Switch>
-        
-        </LoginDataContext.Provider>
-        </div>
-        
-        </div>
+            <div className="App">
+
+                <div className="content">
+                    <LoginDataContext.Provider value={[loginData, setLoginData]}>
+                        <Header></Header>
+
+                        <Switch>
+
+                            <Route exact path="/">
+                                <Home />
+                            </Route>
+
+                            <Route exact path="/createpost">
+                                <CreatePost />
+                            </Route>
+
+                            <Route path="/post/:postId">
+                                <Post />
+                            </Route>
+
+                            <Route path="/user/:requestedUsername">
+                                <UserDetails />
+                            </Route>
+
+                            <Route path="/login">
+                                <Login />
+                            </Route>
+
+                            <Route path="/signup">
+                                <Signup></Signup>
+                            </Route>
+
+                            <Route>Page not found!</Route>
+
+                        </Switch>
+
+                    </LoginDataContext.Provider>
+                </div>
+
+            </div>
         </Router>
-        );
-    }
-    
-    export default App
-    
+    );
+}
+
+export default App

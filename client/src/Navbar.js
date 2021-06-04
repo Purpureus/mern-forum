@@ -6,14 +6,14 @@ const Navbar = () => {
 
     const history = useHistory();
 
-    const { loginData, setLoginData } = useContext(LoginDataContext);
+    const [loginData, setLoginData] = useContext(LoginDataContext);
 
     function logOut() {
-	setLoginData({
-	    username: "",
-	    logged: false
-	});
-	history.go(-1);
+        setLoginData({
+            username: "",
+            logged: false
+        });
+        history.go(-1);
     }
 
     return (
@@ -24,14 +24,14 @@ const Navbar = () => {
             <div className="flex-separator"></div>
 
             { loginData && loginData.logged
-              ? <p>Logged as <Link to={`/user/${loginData.username}`}>{loginData.username}</Link></p>
-              : <p>[Not logged in]</p>
-	    }
+                ? <p>Logged as <Link to={`/user/${loginData.username}`}>{loginData.username}</Link></p>
+                : <p>[Not logged in]</p>
+            }
 
-	    { loginData && loginData.logged
-	      ? <Link className="nav-button" to="/" onClick={logOut}>Log out</Link>
-	      : <Link className="nav-button" to="/login">Log in</Link>
-	    }
+            { loginData && loginData.logged
+                ? <Link className="nav-button" to="/" onClick={logOut}>Log out</Link>
+                : <Link className="nav-button" to="/login">Log in</Link>
+            }
             <Link className="nav-button" to="/signup">Sign up</Link>
 
         </nav>

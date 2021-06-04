@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const CreatePost = () => {
 
-    const { loginData } = useContext(LoginDataContext);
+    const [ loginData ] = useContext(LoginDataContext);
 
     const history = useHistory();
     const forumStorage = window.localStorage;

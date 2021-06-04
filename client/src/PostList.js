@@ -4,7 +4,7 @@ import {  useContext } from 'react';
 
 const PostList = (props) => {
 
-    const { loginData } = useContext(LoginDataContext);
+    const [ loginData ] = useContext(LoginDataContext);
 
     const storage = window.localStorage;
     const postList = JSON.parse(storage.getItem('post-storage'));

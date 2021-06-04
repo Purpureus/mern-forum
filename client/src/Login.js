@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 const Login = () => {
 
     const history = useHistory();
-    const { loginData, setLoginData } = useContext(LoginDataContext);
+    const [, setLoginData] = useContext(LoginDataContext);
 
     const [nameField, setNameField] = useState('');
     const [passwordField, setPasswordField] = useState('');
