@@ -9,6 +9,8 @@ const PostList = () => {
     const storage = window.localStorage;
     const postList = JSON.parse(storage.getItem('post-storage'));
 
+    // const postList = fetch('');
+
     return (
         <div className="post-list">
 
