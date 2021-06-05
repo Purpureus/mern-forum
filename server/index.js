@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/posts', require('./routes/api/posts'));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', '../../client/index.html'));
+    res.send('<p>API is working</p>');
 });
 
 const PORT = process.env.PORT || 8000;

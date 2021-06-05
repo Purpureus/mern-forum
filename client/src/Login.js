@@ -20,32 +20,32 @@ const Login = () => {
         let doesUserExist = false;
         let user = null;
 
-        for(let userIndex = 0; userIndex < userDatabase.length; userIndex++) {
+        for (let userIndex = 0; userIndex < userDatabase.length; userIndex++) {
             let currentUser = userDatabase[userIndex];
-            if( nameField.toLowerCase() === currentUser.username.toLowerCase() ) {
+            if (nameField.toLowerCase() === currentUser.username.toLowerCase()) {
                 doesUserExist = true;
                 user = currentUser;
             }
         }
 
-        if(doesUserExist) {
+        if (doesUserExist) {
             const isPasswordCorrect = (passwordField === user.password);
 
-            if(isPasswordCorrect) {
-		setLoginData({
+            if (isPasswordCorrect) {
+                setLoginData({
                     username: user.username,
                     logged: true
-		});
-		history.go(-1);
-		return;
+                });
+                history.go(-1);
+                return;
             }
-	    
+
             setErrorMessage("Incorrect password.");
-	    return;
+            return;
         }
-	
+
         setErrorMessage("Could not find any user with that name.");
-	return;
+        return;
     }
 
     return (
@@ -53,20 +53,20 @@ const Login = () => {
 
             <label htmlFor="username-field">Username</label>
             <input name="username-field" type="text"
-		   placeholder="Username" required
-                   value={nameField}
-                   onChange={(e) => setNameField(e.target.value)}/>
+                placeholder="Username" required
+                value={nameField}
+                onChange={(e) => setNameField(e.target.value)} />
 
             <label htmlFor="pswd-field">Password</label>
             <input name="pswd-field" type="text"
-		   placeholder="Password" required
-		   autoComplete="off"
-                   value={passwordField}
-                   onChange={(e) => setPasswordField(e.target.value)}/>
+                placeholder="Password" required
+                autoComplete="off"
+                value={passwordField}
+                onChange={(e) => setPasswordField(e.target.value)} />
 
-            <p id="form-error-message">{ errorMessage }</p>
+            <p id="form-error-message">{errorMessage}</p>
 
-            <input type="submit" readOnly value="Submit"/>
+            <input type="submit" readOnly value="Submit" />
 
         </form>
     );

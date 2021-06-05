@@ -1,10 +1,10 @@
 import PostList from "./PostList";
 
-const Home = (props) => {
-    
+const Home = () => {
+
     return (
         <div className="main-board">
-            <PostList postList={props.postList} />
+            <PostList />
         </div>
     );
 };

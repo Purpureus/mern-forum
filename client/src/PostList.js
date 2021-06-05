@@ -1,10 +1,10 @@
 import { LoginDataContext } from './LoginDataContext';
 import { Link } from 'react-router-dom';
-import {  useContext } from 'react';
+import { useContext } from 'react';
 
-const PostList = (props) => {
+const PostList = () => {
 
-    const [ loginData ] = useContext(LoginDataContext);
+    const [loginData] = useContext(LoginDataContext);
 
     const storage = window.localStorage;
     const postList = JSON.parse(storage.getItem('post-storage'));
@@ -17,7 +17,7 @@ const PostList = (props) => {
 
                 <div className="flex-separator"></div>
 
-		{loginData.logged && <Link to="/createpost" className="link">Create post</Link> }
+                {loginData.logged && <Link to="/createpost" className="link">Create post</Link>}
             </div>
 
             { postList.map((post) => (
@@ -31,7 +31,7 @@ const PostList = (props) => {
                     <Link to={`/user/${post.author}`} className="post-author">{post.author}</Link>
 
                 </div>
-            )) }
+            ))}
 
         </div>
     );
