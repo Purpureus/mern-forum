@@ -7,48 +7,48 @@ import Login from './Login';
 import Signup from './Signup';
 
 import { LoginDataContext } from './LoginDataContext';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
 
-    let storage = window.localStorage;
+    // let storage = window.localStorage;
     const [loginData, setLoginData] = useState({
         logged: true,
         username: "Admin"
     });
 
-    useEffect(() => {
-        const userDatabase = [
-            {
-                username: "Admin",
-                password: "admin123",
-                biography: "admin123",
-                userId: 0
-            },
-        ];
+    // useEffect(() => {
+    //     const userDatabase = [
+    //         {
+    //             username: "Admin",
+    //             password: "admin123",
+    //             biography: "admin123",
+    //             userId: 0
+    //         },
+    //     ];
 
-        storage.setItem('user-database', JSON.stringify(userDatabase));
-        const postList = [
-            {
-                id: 0,
-                author: "asdf",
-                title: "Post number 1",
-                content: "Some content.",
-            },
-            {
-                id: 1,
-                author: "asdf",
-                title:
-                    "Post number 2 with a really really long title which should overflow the page if it's not well made so let's see what happens",
-                content: "Some content.",
-            },
-        ];
+    //     storage.setItem('user-database', JSON.stringify(userDatabase));
+    //     const postList = [
+    //         {
+    //             id: 0,
+    //             author: "asdf",
+    //             title: "Post number 1",
+    //             content: "Some content.",
+    //         },
+    //         {
+    //             id: 1,
+    //             author: "asdf",
+    //             title:
+    //                 "Post number 2 with a really really long title which should overflow the page if it's not well made so let's see what happens",
+    //             content: "Some content.",
+    //         },
+    //     ];
 
-        storage.setItem('post-storage', JSON.stringify(postList));
-        storage.setItem('login-data', JSON.stringify(loginData));
+    //     storage.setItem('post-storage', JSON.stringify(postList));
+    //     storage.setItem('login-data', JSON.stringify(loginData));
 
-    }, [storage, loginData]);
+    // }, [storage, loginData]);
 
     return (
         <Router>
@@ -84,6 +84,10 @@ function App() {
                                 <Signup></Signup>
                             </Route>
 
+                            <Route path="/404">
+                                404: Not found
+                            </Route>
+
                             <Route>Page not found!</Route>
 
                         </Switch>
@@ -96,4 +100,4 @@ function App() {
     );
 }
 
-export default App
+export default App;

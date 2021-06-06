@@ -1,15 +1,12 @@
 import { LoginDataContext } from './LoginDataContext';
+import usePosts from './usePosts';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 
 const PostList = () => {
 
     const [loginData] = useContext(LoginDataContext);
-
-    const storage = window.localStorage;
-    const postList = JSON.parse(storage.getItem('post-storage'));
-
-    // const postList = fetch('');
+    const [posts] = usePosts();
 
     return (
         <div className="post-list">
@@ -22,7 +19,7 @@ const PostList = () => {
                 {loginData.logged && <Link to="/createpost" className="link">Create post</Link>}
             </div>
 
-            { postList.map((post) => (
+            {posts && posts.map((post) => (
                 <div className="post item" key={post.id}>
 
                     <Link to={`/post/${post.id}`} className="post-title">{post.title}</Link>

@@ -6,6 +6,7 @@ const fs = require('fs');
 router.get('/', (req, res) => {
     fs.readFile('db/posts.json', (err, data) => {
         if (err) {
+            console.log(`Error: ${err}`)
             res.json({
                 status: 404,
                 msg: err
@@ -18,7 +19,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    // res.json(posts.filter(post => post.id === parseInt(req.params.id)));
     res.json({
         id: req.params.id,
         title: `Post number ${req.params.id}`,
@@ -27,18 +27,34 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    const newPost = {
-        id: uuid.v4(),
-        title: req.body.title,
-        content: req.body.content
-    };
+    fs.readFile('db/posts.json', (err, data) => {
+        if (err) {
+            console.log(`Error: ${err}`)
+            return (res.json({
+                status: 404,
+                msg: err
+            }));
+        }
 
-    if (!newPost.title || !newPost.content) {
-        return (res.status(400).json({ msg: "Please include post title and content" }));
-    }
+        if (!req.body.title || !req.body.content) {
+            return (res.send('Error: please include post title and content'));
+        }
 
-    // posts.push(newPost);
-    // res.json(posts);
+        const posts = JSON.parse(data);
+        posts.push({
+            id: posts.length,
+            title: req.body.title,
+            content: req.body.content,
+            author: "Guest"
+        });
+
+        fs.writeFile(
+            'db/posts.json',
+            JSON.stringify(posts),
+            (err) => `Error: ${err}`);
+
+        return (res.json(JSON.parse(data)));
+    });
 });
 
 module.exports = router;
