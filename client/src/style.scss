@@ -165,20 +165,32 @@ body {
 .post {
     padding: 20px;
 
-    .postTitle {
+    .post-title {
         font-size: 1.4rem;
-        /* font-weight: bold; */
     }
 
-    .postAuthor {
+    .post-author {
         opacity: .7;
     }
 
-    .postContent {
+    .post-content {
         border-top: 2px solid #0001;
         margin-top: 10px;
         padding: 20px 0;
         opacity: .8;
+    }
+
+    #delete-post {
+        background: #a00;
+        color: white;
+        padding: 7px;
+        border-radius: 5px;
+        &:hover {
+            background: #c00;
+        }
+        &:active {
+            background: #800;
+        }
     }
 }
 

@@ -6,7 +6,7 @@ const fs = require('fs');
 router.get('/', (req, res) => {
     fs.readFile('db/posts.json', (err, data) => {
         if (err) {
-            console.log(`Error: ${err}`)
+            console.log(`Error: ${err}`);
             res.json({
                 status: 404,
                 msg: err
@@ -19,17 +19,24 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    res.json({
-        id: req.params.id,
-        title: `Post number ${req.params.id}`,
-        content: `Bla bla bla`
+    fs.readFile('db/posts.json', (err, data) => {
+        if (err) {
+            console.log(`Error: ${err}`);
+            res.json({
+                status: 404,
+                msg: err
+            });
+            return;
+        }
+
+        res.json(JSON.parse(data).find(post => post.id == req.params.id));
     });
 });
 
 router.post('/', (req, res) => {
     fs.readFile('db/posts.json', (err, data) => {
         if (err) {
-            console.log(`Error: ${err}`)
+            console.log(`Error: ${err}`);
             return (res.json({
                 status: 404,
                 msg: err
@@ -51,9 +58,34 @@ router.post('/', (req, res) => {
         fs.writeFile(
             'db/posts.json',
             JSON.stringify(posts),
-            (err) => `Error: ${err}`);
+            (err) => `Error: ${err}`
+        );
 
         return (res.json(JSON.parse(data)));
+    });
+});
+
+router.delete('/:id', (req, res) => {
+    fs.readFile('db/posts.json', (err, data) => {
+        if (err) {
+            console.log(`Error: ${err}`);
+            return (res.json({
+                status: 404,
+                msg: err
+            }));
+        }
+
+
+        const posts = JSON.parse(data);
+        const newPosts = posts.filter(post => post.id != req.params.id);
+
+        fs.writeFile(
+            'db/posts.json',
+            JSON.stringify(newPosts),
+            (err) => `Error: ${err}`
+        );
+
+        res.json(newPosts);
     });
 });
 

@@ -1,41 +1,89 @@
-import usePosts from './usePosts';
-import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, Link, useHistory } from 'react-router-dom';
 
 const Post = () => {
-	const { postId } = useParams();
 
-	const [posts, , isPending, error] = usePosts();
-	if (isPending) {
-		return (
-			<p className="info">Loading file...</p>
-		);
+	const history = useHistory();
+	const { postId } = useParams();
+	const [post, setPost] = useState(null);
+	const [fetchLoading, setFetchLoading] = useState(true);
+	const [fetchError, setFetchError] = useState(null);
+
+	useEffect(() => {
+		const abortController = new AbortController();
+		const url = `http://localhost:8000/api/posts/${postId}`;
+
+		fetch(url, { signal: abortController.signal })
+			.then(res => {
+				if (!res.ok) {
+					throw Error(`Couldn't fetch data from ${url}`);
+				}
+				return res.json();
+			})
+			.then(data => {
+				setPost(data);
+				setFetchLoading(false);
+				setFetchError(null);
+			})
+			.catch(err => {
+				if (err.name === 'AbortError') {
+					console.log(`Fetch has been aborted (${err})`);
+					return;
+				}
+				setFetchLoading(false);
+				setFetchError(err.message);
+			});
+
+		return () => abortController.abort();
+	}, [postId]);
+
+	function deletePost() {
+		const url = `http://localhost:8000/api/posts/${postId}`;
+		const options = {
+			method: 'DELETE'
+		};
+
+		fetch(url, options)
+			.then(res => {
+				if (!res.ok) {
+					throw Error(`Couldn't fetch data from${url}`);
+				}
+				return res.json();
+			})
+			.then(() => {
+				history.push('/');
+			})
+			.catch(err => {
+				setFetchError(err.message);
+			});
 	}
-	if (error) {
-		return (
-			<p className="error">Error: {error}</p>
-		);
-	}
-	if (!posts || !posts[postId]) {
-		return (
-			<p className="error">The requested post does not exist.</p>
-		);
-	}
-	const post = posts[postId];
 
 	return (
-		<div className="post">
-			<h1 className="postTitle">
-				{post.title}
-			</h1>
+		<>
+			{ fetchError && <p className="error">An error occurred: {fetchError}</p>}
+			{ fetchLoading && <p>Loading posts...</p>}
 
-			<Link className="postAuthor" to={`/user/${post.author}`}>
-				By {post.author}
-			</Link>
+			{post &&
+				<div className="post">
+					<h1 className="post-title">
+						{post.title}
+					</h1>
 
-			<p className="postContent">
-				{post.content}
-			</p>
-		</div>
+					<Link className="post-author" to={`/ user / ${post.author} `}>
+						By {post.author}
+					</Link>
+
+					<p className="post-content">
+						{post.content}
+					</p>
+
+					<button className="button" id="delete-post"
+						onClick={() => deletePost()}>
+						Delete post
+						</button>
+				</div>
+			}
+		</>
 	);
 };
 

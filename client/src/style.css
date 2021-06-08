@@ -34,20 +34,21 @@ button {
   padding: 0;
 }
 
-.error {
+.error,
+.info {
   background: #f003;
-  border: 1px solid #f00;
+  border: 1px solid #000;
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
 }
 
+.error {
+  border-color: #f00;
+}
+
 .info {
-  background: #00f3;
-  border: 1px solid #00f;
-  border-radius: 10px;
-  margin: 10px;
-  padding: 10px;
+  border-color: #00f;
 }
 
 a, .link {
@@ -176,20 +177,34 @@ body {
   padding: 20px;
 }
 
-.post .postTitle {
+.post .post-title {
   font-size: 1.4rem;
-  /* font-weight: bold; */
 }
 
-.post .postAuthor {
+.post .post-author {
   opacity: .7;
 }
 
-.post .postContent {
+.post .post-content {
   border-top: 2px solid #0001;
   margin-top: 10px;
   padding: 20px 0;
   opacity: .8;
+}
+
+.post #delete-post {
+  background: #a00;
+  color: white;
+  padding: 7px;
+  border-radius: 5px;
+}
+
+.post #delete-post:hover {
+  background: #c00;
+}
+
+.post #delete-post:active {
+  background: #800;
 }
 
 .user-details {
