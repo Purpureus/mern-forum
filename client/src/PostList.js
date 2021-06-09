@@ -1,6 +1,7 @@
 import { LoginDataContext } from './LoginDataContext';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
+import useFetch from './useFetch';
 
 const PostList = () => {
 
@@ -9,10 +10,13 @@ const PostList = () => {
     const [posts, setPosts] = useState(null);
     const [fetchLoading, setFetchLoading] = useState(true);
     const [fetchError, setFetchError] = useState(null);
+    const [doFetch] = useFetch();
 
     useEffect(() => {
         const abortController = new AbortController();
         const url = `http://localhost:8000/api/posts`;
+
+        doFetch();
 
         fetch(url, { signal: abortController.signal })
             .then(res => {
@@ -35,7 +39,7 @@ const PostList = () => {
             });
 
         return () => abortController.abort();
-    }, []);
+    }, [doFetch]);
 
     return (
         <>
@@ -45,17 +49,17 @@ const PostList = () => {
             <div className="post-list">
 
                 <div className="item post-list-controls">
-                    <button>Sort by title &darr;</button>
+                    <div>Post title</div>
 
                     <div className="flex-separator"></div>
 
                     {loginData.logged && <Link to="/createpost" className="link">Create post</Link>}
                 </div>
 
-                {posts && posts.map((post) => (
-                    <div className="post item" key={post.id}>
+                {posts && posts.map((post, postIndex) => (
+                    <div className="post item" key={postIndex}>
 
-                        <Link to={`/post/${post.id}`} className="post-title">{post.title}</Link>
+                        <Link to={`/post/${post.postId}`} className="post-title">{post.title}</Link>
 
                         <div className="flex-separator"></div>
 

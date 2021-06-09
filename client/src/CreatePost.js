@@ -2,6 +2,7 @@ import { LoginDataContext } from './LoginDataContext';
 import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import useFetch from './useFetch';
 
 const CreatePost = () => {
 
@@ -10,13 +11,17 @@ const CreatePost = () => {
     const [loginData] = useContext(LoginDataContext);
     const history = useHistory();
 
+    const [doFetch] = useFetch();
     const [, setPosts] = useState(null);
-    const [fetchLoading, setFetchLoading] = useState(true);
+    const [fetchLoading, setFetchLoading] = useState(false);
     const [fetchError, setFetchError] = useState(null);
 
     function submitPost(e) {
         e.preventDefault();
 
+        doFetch();
+
+        setFetchLoading(false);
         const url = `http://localhost:8000/api/posts`;
         const options = {
             method: 'POST',
@@ -73,8 +78,8 @@ const CreatePost = () => {
                         onChange={(e) => setPostContent(e.target.value)}
                         name="post-content"></textarea>
 
-                    <input name="post-submit" type="submit" value={fetchLoading ?
-                        "Submitting..." : "Submit post"} />
+                    <input name="post-submit" type="submit"
+                        value={fetchLoading ? "Submitting..." : "Submit post"} />
 
                 </form>
                 : <div className="error">
