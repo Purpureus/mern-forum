@@ -1,5 +1,5 @@
 import { LoginDataContext } from './LoginDataContext';
-import { useState, useEffect, useContext, useMemo } from 'react';
+import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import useFetch from './useFetch';
@@ -11,23 +11,11 @@ const CreatePost = () => {
     const [loginData] = useContext(LoginDataContext);
     const history = useHistory();
 
-    const [doFetch] = useFetch();
-    const [fetchLoading, setFetchLoading] = useState(false);
-    const [fetchError, setFetchError] = useState(null);
-    const abortController = useMemo(() => {
-        return (new AbortController());
-    }, []);
-
-    useEffect(() => {
-        return (() => abortController.abort());
-    }, [abortController]);
+    const [doFetch, fetchLoading, fetchError] = useFetch();
 
     function submitPost(e) {
         e.preventDefault();
 
-        doFetch();
-
-        setFetchLoading(false);
         const url = `http://localhost:8000/api/posts`;
         const options = {
             method: 'POST',
@@ -37,29 +25,12 @@ const CreatePost = () => {
             body: JSON.stringify({
                 title: postTitle,
                 content: postContent
-            }),
-            signal: abortController.signal
+            })
         };
 
-        fetch(url, options)
-            .then(res => {
-                if (!res.ok) {
-                    throw Error(`Couldn't fetch data from ${url}`);
-                }
-                return res.json();
-            })
-            .then(res => {
-                setFetchError(null);
-                setFetchLoading(false);
-                return (history.go(-1));
-            })
-            .catch(err => {
-                if (err.name === 'AbortError') {
-                    return console.log(`Fetch has been aborted (${err})`);
-                }
-                setFetchLoading(false);
-                setFetchError(err.message);
-            });
+        doFetch(url, options, () => {
+            history.go(-1);
+        });
     }
 
     return (

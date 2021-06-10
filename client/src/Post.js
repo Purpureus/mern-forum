@@ -1,42 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams, Link, useHistory } from 'react-router-dom';
+import useFetch from './useFetch';
 
 const Post = () => {
 
 	const history = useHistory();
 	const { postId } = useParams();
-	const [post, setPost] = useState(null);
-	const [fetchLoading, setFetchLoading] = useState(true);
-	const [fetchError, setFetchError] = useState(null);
+	const [doFetch, fetchLoading, fetchError, post] = useFetch();
 
 	useEffect(() => {
-		const abortController = new AbortController();
 		const url = `http://localhost:8000/api/posts/${postId}`;
 
-		fetch(url, { signal: abortController.signal })
-			.then(res => {
-				if (!res.ok) {
-					return res.json();
-				}
-				return res.json();
-			})
-			.then(data => {
-				setPost(data);
-				setFetchLoading(false);
-				setFetchError(null);
-			})
-			.catch(err => {
-				if (err.name === 'AbortError') {
-					console.log(`Fetch has been aborted (${err})`);
-					return;
-				}
-				console.log(`ERROR: ${err}`);
-				setFetchLoading(false);
-				setFetchError(err.message);
-			});
-
-		return () => abortController.abort();
-	}, [postId]);
+		doFetch(url);
+	}, [postId, doFetch]);
 
 	function deletePost() {
 		const url = `http://localhost:8000/api/posts/${postId}`;
@@ -44,19 +20,9 @@ const Post = () => {
 			method: 'DELETE'
 		};
 
-		fetch(url, options)
-			.then(res => {
-				if (!res.ok) {
-					throw Error(`Couldn't fetch data from${url}`);
-				}
-				return res.json();
-			})
-			.then(() => {
-				history.push('/');
-			})
-			.catch(err => {
-				setFetchError(err.message);
-			});
+		doFetch(url, options, () => {
+			history.push('/');
+		});
 	}
 
 	return (
