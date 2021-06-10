@@ -1,5 +1,5 @@
 import { LoginDataContext } from './LoginDataContext';
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import useFetch from './useFetch';
@@ -12,9 +12,15 @@ const CreatePost = () => {
     const history = useHistory();
 
     const [doFetch] = useFetch();
-    const [, setPosts] = useState(null);
     const [fetchLoading, setFetchLoading] = useState(false);
     const [fetchError, setFetchError] = useState(null);
+    const abortController = useMemo(() => {
+        return (new AbortController());
+    }, []);
+
+    useEffect(() => {
+        return (() => abortController.abort());
+    }, [abortController]);
 
     function submitPost(e) {
         e.preventDefault();
@@ -31,7 +37,8 @@ const CreatePost = () => {
             body: JSON.stringify({
                 title: postTitle,
                 content: postContent
-            })
+            }),
+            signal: abortController.signal
         };
 
         fetch(url, options)
@@ -41,26 +48,27 @@ const CreatePost = () => {
                 }
                 return res.json();
             })
-            .then(posts => {
-                setPosts(posts);
+            .then(res => {
                 setFetchError(null);
                 setFetchLoading(false);
                 return (history.go(-1));
             })
             .catch(err => {
                 if (err.name === 'AbortError') {
-                    setFetchLoading(false);
+                    return console.log(`Fetch has been aborted (${err})`);
                 }
+                setFetchLoading(false);
+                setFetchError(err.message);
             });
     }
 
     return (
         <>
+            {fetchError && <p className="error">An error occurred: {fetchError}</p>}
             {loginData.logged
                 ? <form onSubmit={submitPost}>
 
                     <h1>Create post</h1>
-                    {fetchError && <p className="error">An error occurred: {fetchError}</p>}
 
                     <label htmlFor="post-title">Post title</label>
                     <input name="post-title" required maxLength="99"

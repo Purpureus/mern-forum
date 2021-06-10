@@ -2,10 +2,14 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
+function log(err) {
+    console.log(`Error: ${err}`);
+}
+
 function getNextPostId(returnFn) {
     fs.readFile('db/info.json', (err, data) => {
         if (err) {
-            console.log(`Error in getNextPostId - fs.readFile`);
+            log(err);
             returnFn(-1);
             return;
         }
@@ -19,7 +23,7 @@ function getNextPostId(returnFn) {
 function setNextPostId() {
     fs.readFile('db/info.json', (err, data) => {
         if (err) {
-            console.log(`Error in setNextPostId - readFile`);
+            log(err);
             nextId = -1;
             return;
         }
@@ -32,45 +36,46 @@ function setNextPostId() {
             JSON.stringify(jsonData),
             (err) => {
                 if (!err) return;
-                console.log(`Error on setNextPostId - fs.writeFile`);
+                log(err);
             }
         );
     });
 }
 
-router.get('/', (req, res) => {
-    fs.readFile('db/posts.json', (err, data) => {
+function readFile(url, then) {
+    fs.readFile(url, (err, data) => {
         if (err) {
-            console.log(`Error on router.get - fs.readFile`);
+            log(err);
             return;
         }
 
+        then(data);
+    });
+}
+
+router.get('/', (req, res) => {
+    readFile('db/posts.json', (data) => {
         return (res.json(JSON.parse(data)));
     });
 });
 
 router.get('/:id', (req, res) => {
-    fs.readFile('db/posts.json', (err, data) => {
-        if (err) {
-            console.log(`Error on router.get - fs.readFile`)
+    readFile('db/posts.json', (data) => {
+        const requestedPost = JSON.parse(data).find(post =>
+            post.postId == req.params.id
+        );
+        if (!requestedPost) {
+            res.status(404).send({
+                message: `Error: post does not exist.`
+            });
             return;
         }
-
-        return (
-            res.json(JSON.parse(data).find(
-                post => post.postId == req.params.id
-            ))
-        );
+        return (res.json(requestedPost));
     });
 });
 
 router.post('/', (req, res) => {
-    fs.readFile('db/posts.json', (err, data) => {
-        if (err) {
-            console.log(`Error on router.post - fs.readFile`)
-            return;
-        }
-
+    readFile('db/posts.json', (data) => {
         if (!req.body.title || !req.body.content) {
             return (res.send('Error: please include post title and content'));
         }
@@ -97,7 +102,7 @@ router.post('/', (req, res) => {
                 (err) => {
                     if (!err) return;
                     writeSuccess = false;
-                    console.log(`Error in router.post - fs.writeFile: ${err}`)
+                    log(err);
                     return;
                 }
             );
@@ -107,34 +112,29 @@ router.post('/', (req, res) => {
             }
         });
 
-        return (res.json(JSON.parse(data)));
+        return (res.status(201).json({ message: `Post created successfully` }));
     });
 });
 
 router.delete('/:id', (req, res) => {
-    fs.readFile('db/posts.json', (err, data) => {
-        if (err) {
-            console.log(`Error in router.delete - fs.readFile`)
-            return;
-        }
+    readFile('db/posts.json', (data) => {
 
-        const posts = JSON.parse(data);
-        const newPosts = posts.filter(post => post.postId != req.params.id);
+        const posts = JSON.parse(data).filter(post => post.postId != req.params.id);
         let writeSuccess = true;
 
         fs.writeFile(
             'db/posts.json',
-            JSON.stringify(newPosts),
+            JSON.stringify(posts),
             (err) => {
                 if (!err) return;
                 writeSuccess = false;
-                console.log(`Error on router.delete - fs.writeFile`)
+                log(err);
                 return;
             }
         );
 
         if (writeSuccess) {
-            return (res.json(newPosts));
+            return (res.json(posts));
         }
     });
 });

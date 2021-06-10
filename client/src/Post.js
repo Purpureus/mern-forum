@@ -16,7 +16,7 @@ const Post = () => {
 		fetch(url, { signal: abortController.signal })
 			.then(res => {
 				if (!res.ok) {
-					throw Error(`Couldn't fetch data from ${url}`);
+					return res.json();
 				}
 				return res.json();
 			})
@@ -30,6 +30,7 @@ const Post = () => {
 					console.log(`Fetch has been aborted (${err})`);
 					return;
 				}
+				console.log(`ERROR: ${err}`);
 				setFetchLoading(false);
 				setFetchError(err.message);
 			});
