@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const authenticateToken = require('./middleware/authenticateToken');
 require('dotenv').config();
 
 app.use(express.json());
@@ -9,7 +8,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 // Server
-app.use('/api/posts', authenticateToken, require('./routes/api/posts'));
+app.use('/api/posts', require('./routes/posts'));
+app.use('/login', require('./routes/login'));
 
 app.get('/', (req, res) => {
     res.send('<p>API is working</p>');

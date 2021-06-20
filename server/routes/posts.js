@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const readFile = require('../functions/readFile');
 
 function log(err) {
     console.log(`Error: ${err}`);
@@ -39,17 +40,6 @@ function setNextPostId() {
                 log(err);
             }
         );
-    });
-}
-
-function readFile(url, then) {
-    fs.readFile(url, (err, data) => {
-        if (err) {
-            log(err);
-            return;
-        }
-
-        then(data);
     });
 }
 

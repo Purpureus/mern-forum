@@ -2,5 +2,9 @@
 	{
 		"name":"pepe",
 		"pass":"pepe123"
+	},
+	{
+		"name":"pedro",
+		"pass":"pedro123"
 	}
 ]
