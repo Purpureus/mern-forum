@@ -1,17 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
 const readFile = require('../functions/readFile');
+const authToken = require('../middleware/authToken.js');
 
 function log(err) {
     console.log(`Error: ${err}`);
 }
 
-function getNextPostId(returnFn) {
+function getNextPostId(callback) {
     fs.readFile('db/info.json', (err, data) => {
         if (err) {
             log(err);
-            returnFn(-1);
+            callback(-1);
             return;
         }
 
@@ -49,7 +51,12 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', authToken, (req, res) => {
+    if (!req.user.roles.find(role => role == 'admin')) {
+        res.send(401, { error: `Unauthorised` });
+        return;
+    }
+
     readFile('db/posts.json', (data) => {
         const requestedPost = JSON.parse(data).find(post =>
             post.postId == req.params.id

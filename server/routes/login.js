@@ -12,13 +12,19 @@ router.post('/', (req, res) => {
 	readFile('db/users.json', data => {
 		const user = JSON.parse(data).find(user => user.name === reqName);
 		if (!user) {
-			return res.send(401, { error: `The specified user does not exists.` });
+			return res.status(401).send({ error: `The specified user does not exists.` });
 		}
 		if (user.pass != reqPass) {
-			return res.send(401, { error: `The password is incorrect.` });
+			return res.status(401).send({ error: `The password is incorrect.` });
 		}
 
-		const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
+		const roles = user.roles || null;
+
+		const accessToken = jwt.sign(
+			{ user, roles },
+			process.env.ACCESS_TOKEN_SECRET,
+			{ expiresIn: '30m' }
+		);
 		res.json({ accessToken: accessToken });
 	});
 });
