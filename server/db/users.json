@@ -1,14 +1,17 @@
 [
 	{
+		"id":0,
 		"name":"admin",
 		"pass":"admin123",
 		"roles": ["admin"]
 	},
 	{
+		"id":1,
 		"name":"johndoe",
 		"pass":"johndoe123"
 	},
 	{
+		"id":2,
 		"name":"user",
 		"pass":"user123"
 	}

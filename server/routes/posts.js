@@ -19,7 +19,7 @@ function getNextPostId(callback) {
 
         const jsonData = JSON.parse(data);
         const nextId = jsonData.nextId;
-        returnFn(nextId);
+        callback(nextId);
     });
 }
 
@@ -71,24 +71,29 @@ router.get('/:id', authToken, (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
-    readFile('db/posts.json', (data) => {
-        if (!req.body.title || !req.body.content) {
-            return (res.send('Error: please include post title and content'));
-        }
+router.post('/', authToken, (req, res) => {
+    // TODO: Limit char count
+    if (!req.body.title || !req.body.content) {
+        return (res.send('Error: please include post title and content'));
+    }
 
+    readFile('db/posts.json', (data) => {
         const posts = JSON.parse(data);
+
         getNextPostId((nextId) => {
             if (nextId < 0) {
                 const error = `Couldn't get nextPostId`;
                 console.log(error);
                 return (res.send(error));
             }
+
+            console.log(req.jwtData.user);
+
             posts.push({
                 postId: nextId,
                 title: req.body.title,
                 content: req.body.content,
-                author: "Guest"
+                authorId: req.jwtData.user.id,
             });
 
             let writeSuccess = true;
@@ -96,7 +101,7 @@ router.post('/', (req, res) => {
             fs.writeFile(
                 'db/posts.json',
                 JSON.stringify(posts),
-                (err) => {
+                err => {
                     if (!err) return;
                     writeSuccess = false;
                     log(err);
@@ -104,9 +109,7 @@ router.post('/', (req, res) => {
                 }
             );
 
-            if (writeSuccess) {
-                setNextPostId();
-            }
+            if (writeSuccess) setNextPostId();
         });
 
         return (res.status(201).json({ message: `Post created successfully` }));
