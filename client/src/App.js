@@ -7,92 +7,64 @@ import Login from './Login';
 import Signup from './Signup';
 
 import { LoginDataContext } from './LoginDataContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
 
-    // let storage = window.localStorage;
-    const [loginData, setLoginData] = useState({
-        logged: true,
-        username: "Admin"
-    });
-
-    // useEffect(() => {
-    //     const userDatabase = [
-    //         {
-    //             username: "Admin",
-    //             password: "admin123",
-    //             biography: "admin123",
-    //             userId: 0
-    //         },
-    //     ];
-
-    //     storage.setItem('user-database', JSON.stringify(userDatabase));
-    //     const postList = [
-    //         {
-    //             id: 0,
-    //             author: "asdf",
-    //             title: "Post number 1",
-    //             content: "Some content.",
-    //         },
-    //         {
-    //             id: 1,
-    //             author: "asdf",
-    //             title:
-    //                 "Post number 2 with a really really long title which should overflow the page if it's not well made so let's see what happens",
-    //             content: "Some content.",
-    //         },
-    //     ];
-
-    //     storage.setItem('post-storage', JSON.stringify(postList));
-    //     storage.setItem('login-data', JSON.stringify(loginData));
-
-    // }, [storage, loginData]);
+    useEffect(() => {
+        const storage = window.localStorage;
+        let loginData = storage.getItem('login-data') || JSON.stringify({
+            logged: false,
+            username: null,
+            accessToken: null
+        });
+        storage.setItem('login-data', loginData);
+    }, []);
 
     return (
         <Router>
             <div className="App">
 
                 <div className="content">
-                    <LoginDataContext.Provider value={[loginData, setLoginData]}>
-                        <Header></Header>
+                    {/* <LoginDataContext.Provider value={[loginData, setLoginData]}> */}
+                    <Header></Header>
 
-                        <Switch>
+                    <Switch>
 
-                            <Route exact path="/">
-                                <Home />
+                        <Route exact path="/">
+                            <Home />
+                        </Route>
+
+                        <Route exact path="/createpost">
+                            <CreatePost />
+                        </Route>
+
+                        <Route path="/post/:postId">
+                            <Post />
+                        </Route>
+
+                        <Route path="/user/:requestedUsername">
+                            <UserDetails />
+                        </Route>
+
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+
+                        <Route path="/signup">
+                            <Signup></Signup>
+                        </Route>
+
+                        <Route path="/404">
+                            404: Not found
                             </Route>
 
-                            <Route exact path="/createpost">
-                                <CreatePost />
-                            </Route>
+                        <Route>Page not found!</Route>
 
-                            <Route path="/post/:postId">
-                                <Post />
-                            </Route>
+                    </Switch>
 
-                            <Route path="/user/:requestedUsername">
-                                <UserDetails />
-                            </Route>
-
-                            <Route path="/login">
-                                <Login />
-                            </Route>
-
-                            <Route path="/signup">
-                                <Signup></Signup>
-                            </Route>
-
-                            <Route path="/404">
-                                404: Not found
-                            </Route>
-
-                            <Route>Page not found!</Route>
-
-                        </Switch>
-
-                    </LoginDataContext.Provider>
+                    {/* </LoginDataContext.Provider> */}
                 </div>
 
             </div>

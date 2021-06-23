@@ -1,18 +1,22 @@
-import { LoginDataContext } from './LoginDataContext';
+import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useContext } from 'react';
 
 const Navbar = () => {
 
     const history = useHistory();
+    const storage = window.localStorage;
 
-    const [loginData, setLoginData] = useContext(LoginDataContext);
+    const [loginData, setLoginData] = useState(
+        JSON.parse(storage.getItem('login-data') || "[{}]")
+    );
 
     function logOut() {
-        setLoginData({
-            username: "",
-            logged: false
-        });
+        storage.setItem('login-data', JSON.stringify({
+            logged: false,
+            username: null,
+            accessToken: null
+        }));
+
         history.go(-1);
     }
 

@@ -28,14 +28,12 @@ const CreatePost = () => {
             })
         };
 
-        doFetch(url, options, () => {
-            history.go(-1);
-        });
+        doFetch(url, options, () => history.go(-1));
     }
 
     return (
         <>
-            {fetchError && <p className="error">An error occurred: {fetchError}</p>}
+            {fetchError && <p className="error">An error occurred while creating the post: {fetchError}</p>}
             {loginData.logged
                 ? <form onSubmit={submitPost}>
 

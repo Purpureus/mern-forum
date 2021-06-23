@@ -17,7 +17,7 @@ function useFetch() {
 		fetch(url, options)
 			.then(res => {
 				if (!res.ok) {
-					throw Error(`Couldn't fetch data from ${url}`);
+					return res.json().then(response => { throw Error(response.error) });
 				}
 				return res.json();
 			})
@@ -33,6 +33,7 @@ function useFetch() {
 				}
 				setFetchLoading(false);
 				setFetchError(err.message);
+				then(null, err.message);
 			});
 	}, [abortController.signal]);
 

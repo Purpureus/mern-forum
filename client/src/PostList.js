@@ -1,13 +1,13 @@
-import { LoginDataContext } from './LoginDataContext';
 import { Link } from 'react-router-dom';
-import { useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import useFetch from './useFetch';
 
 const PostList = () => {
 
-    const [loginData] = useContext(LoginDataContext);
-
     const [doFetch, fetchLoading, fetchError, posts] = useFetch();
+    const storage = window.localStorage;
+
+    const [loginData, setLoginData] = useState(JSON.parse(storage.getItem('login-data')));
 
     useEffect(() => {
         const url = `http://localhost:8000/api/posts`;

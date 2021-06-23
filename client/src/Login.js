@@ -1,74 +1,66 @@
-import { LoginDataContext } from './LoginDataContext';
 import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import useFetch from './useFetch';
 
 const Login = () => {
 
     const history = useHistory();
-    const [, setLoginData] = useContext(LoginDataContext);
 
     const [nameField, setNameField] = useState('');
     const [passwordField, setPasswordField] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
 
     const storage = window.localStorage;
-    const userDatabase = JSON.parse(storage.getItem('user-database'));
+
+    const [doFetch, fetchLoading, fetchError] = useFetch();
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        let doesUserExist = false;
-        let user = null;
-
-        for (let userIndex = 0; userIndex < userDatabase.length; userIndex++) {
-            let currentUser = userDatabase[userIndex];
-            if (nameField.toLowerCase() === currentUser.username.toLowerCase()) {
-                doesUserExist = true;
-                user = currentUser;
-            }
-        }
-
-        if (doesUserExist) {
-            const isPasswordCorrect = (passwordField === user.password);
-
-            if (isPasswordCorrect) {
-                setLoginData({
-                    username: user.username,
-                    logged: true
-                });
-                history.go(-1);
-                return;
-            }
-
-            setErrorMessage("Incorrect password.");
-            return;
-        }
-
-        setErrorMessage("Could not find any user with that name.");
-        return;
+        const url = `http://localhost:8000/login`;
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: nameField,
+                password: passwordField
+            })
+        };
+        doFetch(url, options, (data, error = null) => {
+            if (error) return;
+            let loginData = JSON.parse(storage.getItem('login-data') || "{}");
+            loginData.accessToken = data.accessToken;
+            storage.setItem('login-data', JSON.stringify(loginData));
+            history.go(-1);
+        });
     }
 
     return (
-        <form id="login-form" onSubmit={(e) => handleSubmit(e)}>
+        <>
+            <form id="login-form" onSubmit={(e) => handleSubmit(e)}>
 
-            <label htmlFor="username-field">Username</label>
-            <input name="username-field" type="text"
-                placeholder="Username" required
-                value={nameField}
-                onChange={(e) => setNameField(e.target.value)} />
+                <label htmlFor="username-field">Username</label>
+                <input name="username-field" type="text"
+                    placeholder="Username" required
+                    value={nameField}
+                    onChange={(e) => setNameField(e.target.value)} />
 
-            <label htmlFor="pswd-field">Password</label>
-            <input name="pswd-field" type="text"
-                placeholder="Password" required
-                autoComplete="off"
-                value={passwordField}
-                onChange={(e) => setPasswordField(e.target.value)} />
+                <label htmlFor="pswd-field">Password</label>
+                <input name="pswd-field" type="text"
+                    placeholder="Password" required
+                    autoComplete="off"
+                    value={passwordField}
+                    onChange={(e) => setPasswordField(e.target.value)} />
 
-            <p id="form-error-message">{errorMessage}</p>
+                <p id="form-error-message">{fetchError}</p>
 
-            <input type="submit" readOnly value="Submit" />
+                <input type="submit" readOnly value={
+                    fetchLoading ? "Loading..." : "Submit"
+                } />
 
-        </form>
+            </form>
+        </>
     );
 };
 
