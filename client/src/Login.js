@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import useFetch from './useFetch';
+import { LoginDataContext } from './LoginDataContext';
 
 const Login = () => {
 
@@ -9,9 +10,8 @@ const Login = () => {
     const [nameField, setNameField] = useState('');
     const [passwordField, setPasswordField] = useState('');
 
-    const storage = window.localStorage;
-
     const [doFetch, fetchLoading, fetchError] = useFetch();
+    const [, setLoginData] = useContext(LoginDataContext);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -27,11 +27,16 @@ const Login = () => {
                 password: passwordField
             })
         };
+
         doFetch(url, options, (data, error = null) => {
             if (error) return;
-            let loginData = JSON.parse(storage.getItem('login-data') || "{}");
-            loginData.accessToken = data.accessToken;
-            storage.setItem('login-data', JSON.stringify(loginData));
+            const newLoginData = {
+                logged: true,
+                username: data.username,
+                accessToken: data.accessToken
+            };
+            setLoginData(newLoginData);
+
             history.go(-1);
         });
     }

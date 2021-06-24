@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import useFetch from './useFetch';
+import { LoginDataContext } from './LoginDataContext';
 
 const PostList = () => {
 
     const [doFetch, fetchLoading, fetchError, posts] = useFetch();
-    const storage = window.localStorage;
+    const [loginData] = useContext(LoginDataContext);
 
-    const [loginData, setLoginData] = useState(JSON.parse(storage.getItem('login-data')));
+    useEffect(() => {
+        console.log(`PostList.js: Login data updated: ${loginData}`);
+    }, [loginData]);
 
     useEffect(() => {
         const url = `http://localhost:8000/api/posts`;
@@ -23,9 +26,7 @@ const PostList = () => {
 
                 <div className="item post-list-controls">
                     <div>Post title</div>
-
                     <div className="flex-separator"></div>
-
                     {loginData.logged && <Link to="/createpost" className="link">Create post</Link>}
                 </div>
 

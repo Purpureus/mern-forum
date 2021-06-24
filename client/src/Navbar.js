@@ -1,21 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { LoginDataContext } from './LoginDataContext';
 
 const Navbar = () => {
 
     const history = useHistory();
-    const storage = window.localStorage;
+    const [loginData, setLoginData] = useContext(LoginDataContext);;
 
-    const [loginData, setLoginData] = useState(
-        JSON.parse(storage.getItem('login-data') || "[{}]")
-    );
+    useEffect(() => {
+        console.log(`Navbar.js: Login data updated: ${loginData}`);
+    }, [loginData]);
 
     function logOut() {
-        storage.setItem('login-data', JSON.stringify({
+        setLoginData({
             logged: false,
             username: null,
             accessToken: null
-        }));
+        });
 
         history.go(-1);
     }

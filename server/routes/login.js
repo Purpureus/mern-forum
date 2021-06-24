@@ -25,7 +25,10 @@ router.post('/', (req, res) => {
 			process.env.ACCESS_TOKEN_SECRET,
 			{ expiresIn: '30m' }
 		);
-		res.json({ accessToken: accessToken });
+		res.json({
+			username: user.name,
+			accessToken: accessToken
+		});
 	});
 });
 
