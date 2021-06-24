@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { LoginDataContext } from './LoginDataContext';
 
@@ -6,10 +6,6 @@ const Navbar = () => {
 
     const history = useHistory();
     const [loginData, setLoginData] = useContext(LoginDataContext);;
-
-    useEffect(() => {
-        console.log(`Navbar.js: Login data updated: ${loginData}`);
-    }, [loginData]);
 
     function logOut() {
         setLoginData({

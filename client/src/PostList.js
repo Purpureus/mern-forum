@@ -9,10 +9,6 @@ const PostList = () => {
     const [loginData] = useContext(LoginDataContext);
 
     useEffect(() => {
-        console.log(`PostList.js: Login data updated: ${loginData}`);
-    }, [loginData]);
-
-    useEffect(() => {
         const url = `http://localhost:8000/api/posts`;
         doFetch(url);
     }, [doFetch]);
@@ -37,8 +33,7 @@ const PostList = () => {
 
                         <div className="flex-separator"></div>
 
-                        <p>By</p>
-                        <Link to={`/user/${post.author}`} className="post-author">{post.author}</Link>
+                        <p>By</p><Link to={`/user/${post.author}`} className="post-author">{post.author}</Link>
 
                     </div>
                 ))}

@@ -1,17 +1,17 @@
-import { LoginDataContext } from './LoginDataContext';
 import { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
+
 import useFetch from './useFetch';
+import { LoginDataContext } from './LoginDataContext';
 
 const CreatePost = () => {
 
     const [postTitle, setPostTitle] = useState("");
     const [postContent, setPostContent] = useState("");
-    const [loginData] = useContext(LoginDataContext);
     const history = useHistory();
 
     const [doFetch, fetchLoading, fetchError] = useFetch();
+    const [loginData] = useContext(LoginDataContext);
 
     function submitPost(e) {
         e.preventDefault();
@@ -20,7 +20,8 @@ const CreatePost = () => {
         const options = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer: ${loginData.accessToken}`
             },
             body: JSON.stringify({
                 title: postTitle,
@@ -28,7 +29,10 @@ const CreatePost = () => {
             })
         };
 
-        doFetch(url, options, () => history.go(-1));
+        doFetch(url, options, (data, error) => {
+            if (error) return console.log(`Error submitting the post.`);
+            history.go(-1)
+        });
     }
 
     return (
@@ -48,7 +52,7 @@ const CreatePost = () => {
                         onChange={(e) => setPostTitle(e.target.value)} />
 
                     <label htmlFor="post-content">Post content</label>
-                    <textarea rows="10" cols="30" required max="999"
+                    <textarea rows="10" cols="30" required maxLength="999"
                         id="post-content"
                         placeholder="Content"
                         value={postContent}

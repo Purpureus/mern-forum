@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useParams, Link, useHistory } from 'react-router-dom';
 import useFetch from './useFetch';
+
+import { LoginDataContext } from './LoginDataContext';
 
 const Post = () => {
 
@@ -8,19 +10,24 @@ const Post = () => {
 	const { postId } = useParams();
 	const [doFetch, fetchLoading, fetchError, post] = useFetch();
 
+	const [loginData] = useContext(LoginDataContext);
+
 	useEffect(() => {
 		const url = `http://localhost:8000/api/posts/${postId}`;
-
 		doFetch(url);
 	}, [postId, doFetch]);
 
 	function deletePost() {
 		const url = `http://localhost:8000/api/posts/${postId}`;
 		const options = {
-			method: 'DELETE'
+			method: 'DELETE',
+			headers: {
+				'Authorization': `Bearer: ${loginData.accessToken}`
+			}
 		};
 
-		doFetch(url, options, () => {
+		doFetch(url, options, (data, error) => {
+			if (error) return;
 			history.push('/');
 		});
 	}
@@ -44,10 +51,13 @@ const Post = () => {
 						{post.content}
 					</p>
 
-					<button className="button" id="delete-post"
-						onClick={() => deletePost()}>
-						Delete post
-						</button>
+					{loginData && loginData.logged &&
+						<button className="button"
+							id="delete-post"
+							onClick={() => deletePost()}>
+							Delete post
+					</button>
+					}
 				</div>
 			}
 		</>

@@ -18,10 +18,8 @@ router.post('/', (req, res) => {
 			return res.status(401).send({ error: `The password is incorrect.` });
 		}
 
-		const roles = user.roles || null;
-
 		const accessToken = jwt.sign(
-			{ user, roles },
+			{ user },
 			process.env.ACCESS_TOKEN_SECRET,
 			{ expiresIn: '30m' }
 		);

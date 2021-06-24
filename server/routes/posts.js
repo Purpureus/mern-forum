@@ -47,16 +47,18 @@ function setNextPostId() {
 
 router.get('/', (req, res) => {
     readFile('db/posts.json', (data) => {
-        return (res.json(JSON.parse(data)));
+        const postList = JSON.parse(data).map(post => {
+            return {
+                postId: post.postId,
+                title: post.title,
+                author: `Some author`
+            };
+        });
+        return res.json(postList);
     });
 });
 
-router.get('/:id', authToken, (req, res) => {
-    if (!req.user.roles.find(role => role == 'admin')) {
-        res.send(401, { error: `Unauthorised` });
-        return;
-    }
-
+router.get('/:id', (req, res) => {
     readFile('db/posts.json', (data) => {
         const requestedPost = JSON.parse(data).find(post =>
             post.postId == req.params.id
@@ -72,9 +74,21 @@ router.get('/:id', authToken, (req, res) => {
 });
 
 router.post('/', authToken, (req, res) => {
-    // TODO: Limit char count
+    const contentMaxCharCount = 999;
+    const titleMaxCharCount = 99;
+
     if (!req.body.title || !req.body.content) {
-        return (res.send('Error: please include post title and content'));
+        return (res.status(400)
+            .json({ error: `Please include post title and content` }));
+    }
+
+    if (req.body.title.length > 99) {
+        return (res.status(400)
+            .json({ error: `Post title cannot exceed ${titleMaxCharCount}.` }));
+    }
+    if (req.body.content.length > 999) {
+        return (res.status(400)
+            .json({ error: `Post content cannot exceed ${contentMaxCharCount}.` }));
     }
 
     readFile('db/posts.json', (data) => {
@@ -116,9 +130,13 @@ router.post('/', authToken, (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
-    readFile('db/posts.json', (data) => {
+router.delete('/:id', authToken, (req, res) => {
+    if (!req.jwtData.user.roles || !req.jwtData.user.roles.find(role => role == 'admin')) {
+        return res.status(401)
+            .json({ error: `You are not authorized to delete this post.` });
+    }
 
+    readFile('db/posts.json', (data) => {
         const posts = JSON.parse(data).filter(post => post.postId != req.params.id);
         let writeSuccess = true;
 

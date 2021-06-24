@@ -1,3 +1,6 @@
+// NOTE: error responses are sent in JSON format as follows:
+// res.send({ error: `error message` });
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
