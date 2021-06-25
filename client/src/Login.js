@@ -14,6 +14,8 @@ const Login = () => {
     const [doFetch, fetchLoading, fetchError] = useFetch();
     const [, setLoginData] = useContext(LoginDataContext);
 
+    const [showPassword, setShowPassword] = useState(false);
+
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -54,11 +56,18 @@ const Login = () => {
                     onChange={(e) => setNameField(e.target.value)} />
 
                 <label htmlFor="pswd-field">Password</label>
-                <input name="pswd-field" type="text"
+                <input name="pswd-field"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password" required
                     autoComplete="off"
                     value={passwordField}
                     onChange={(e) => setPasswordField(e.target.value)} />
+
+                <div id="toggle-view-pswd-container">
+                    <input name="toggle-view-pswd" type="checkbox"
+                        onChange={(e) => setShowPassword(e.target.checked)} />
+                    <label htmlFor="toggle-view-pswd">Show password</label>
+                </div>
 
                 <p id="form-error-message">{fetchError}</p>
 

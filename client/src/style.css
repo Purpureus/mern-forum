@@ -245,8 +245,17 @@ form textarea {
 }
 
 form input[type="text"],
+form input[type="password"],
 form textarea {
   padding: 10px;
+}
+
+form #toggle-view-pswd-container {
+  margin: 10px 0;
+}
+
+form #toggle-view-pswd-container input {
+  margin-right: 10px;
 }
 
 form input[type="submit"] {
@@ -254,7 +263,6 @@ form input[type="submit"] {
   background: #048;
   color: #fff;
   padding: 10px;
-  margin-top: 20px;
 }
 
 form input[type="submit"]:hover, form input[type="submit"]:focus {

@@ -50,7 +50,7 @@ const Signup = () => {
 				onChange={(e) => setNameField(e.target.value)} />
 
 			<label htmlFor="pswd-field">Password</label>
-			<input name="pswd-field" type="text" placeholder="Password" autoComplete="off"
+			<input name="pswd-field" type="password" placeholder="Password" autoComplete="off"
 				required value={passwordField}
 				onChange={(e) => setPasswordField(e.target.value)} />
 
