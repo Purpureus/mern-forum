@@ -1,4 +1,4 @@
-// Expected JSON response format is as follows:
+// Expected JSON response format for errors is as follows:
 // { error: `error message` }
 
 import { useState, useEffect, useMemo, useCallback } from 'react';

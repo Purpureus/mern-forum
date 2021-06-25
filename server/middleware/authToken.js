@@ -8,11 +8,12 @@ function authToken(req, res, next) {
 		return res.status(401).send({ error: `No authentication token sent.` });
 	}
 
-	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, jwtData) => {
 		if (err) return res.status(403).send({ error: `Authentication token invalid.` });
-		req.jwtData = user;
-		next();
+		req.jwtData = jwtData;
 	});
+
+	next();
 }
 
 module.exports = authToken;

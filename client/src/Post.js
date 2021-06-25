@@ -8,14 +8,19 @@ const Post = () => {
 
 	const history = useHistory();
 	const { postId } = useParams();
-	const [doFetch, fetchLoading, fetchError, post] = useFetch();
+	const [doFetch, fetchLoading, fetchError, fetchData] = useFetch();
 
 	const [loginData] = useContext(LoginDataContext);
 
 	useEffect(() => {
 		const url = `http://localhost:8000/api/posts/${postId}`;
-		doFetch(url);
-	}, [postId, doFetch]);
+		const options = {
+			headers: {
+				'Authorization': `Bearer: ${loginData.accessToken}`
+			}
+		};
+		doFetch(url, options);
+	}, [postId, doFetch, loginData]);
 
 	function deletePost() {
 		const url = `http://localhost:8000/api/posts/${postId}`;
@@ -37,21 +42,21 @@ const Post = () => {
 			{ fetchError && <p className="error">An error occurred: {fetchError}</p>}
 			{ fetchLoading && <p>Loading posts...</p>}
 
-			{post &&
+			{fetchData && fetchData.post &&
 				<div className="post">
 					<h1 className="post-title">
-						{post.title}
+						{fetchData.post.title}
 					</h1>
 
-					<Link className="post-author" to={`/ user / ${post.author} `}>
-						By {post.author}
+					<Link className="post-author" to={`/ user / ${fetchData.post.author} `}>
+						By {fetchData.post.author}
 					</Link>
 
 					<p className="post-content">
-						{post.content}
+						{fetchData.post.content}
 					</p>
 
-					{loginData && loginData.logged &&
+					{fetchData.canDelete &&
 						<button className="button"
 							id="delete-post"
 							onClick={() => deletePost()}>

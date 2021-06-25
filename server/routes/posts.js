@@ -4,6 +4,7 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const readFile = require('../functions/readFile');
 const authToken = require('../middleware/authToken.js');
+const getTokenData = require('../middleware/getTokenData.js');
 
 function log(err) {
     console.log(`Error: ${err}`);
@@ -51,25 +52,26 @@ router.get('/', (req, res) => {
             return {
                 postId: post.postId,
                 title: post.title,
-                author: `Some author`
+                author: post.author
             };
         });
         return res.json(postList);
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', getTokenData, (req, res) => {
     readFile('db/posts.json', (data) => {
         const requestedPost = JSON.parse(data).find(post =>
             post.postId == req.params.id
         );
         if (!requestedPost) {
-            res.status(404).send({
-                message: `Error: post does not exist.`
-            });
+            res.status(404).send({ message: `Error: post does not exist.` });
             return;
         }
-        return (res.json(requestedPost));
+        const canDelete =
+            req.jwtData &&
+            req.jwtData.user.id == requestedPost.authorId;
+        return (res.json({ post: requestedPost, canDelete: canDelete }));
     });
 });
 
@@ -78,17 +80,17 @@ router.post('/', authToken, (req, res) => {
     const titleMaxCharCount = 99;
 
     if (!req.body.title || !req.body.content) {
-        return (res.status(400)
-            .json({ error: `Please include post title and content` }));
+        res.status(400).json({ error: `Please include post title and content` });
+        return;
     }
 
     if (req.body.title.length > 99) {
-        return (res.status(400)
-            .json({ error: `Post title cannot exceed ${titleMaxCharCount}.` }));
+        res.status(400).json({ error: `Post title cannot exceed ${titleMaxCharCount}.` });
+        return;
     }
     if (req.body.content.length > 999) {
-        return (res.status(400)
-            .json({ error: `Post content cannot exceed ${contentMaxCharCount}.` }));
+        res.status(400).json({ error: `Post content cannot exceed ${contentMaxCharCount}.` });
+        return;
     }
 
     readFile('db/posts.json', (data) => {
@@ -101,13 +103,12 @@ router.post('/', authToken, (req, res) => {
                 return (res.send(error));
             }
 
-            console.log(req.jwtData.user);
-
             posts.push({
                 postId: nextId,
                 title: req.body.title,
                 content: req.body.content,
                 authorId: req.jwtData.user.id,
+                author: req.jwtData.user.name
             });
 
             let writeSuccess = true;
@@ -131,15 +132,26 @@ router.post('/', authToken, (req, res) => {
 });
 
 router.delete('/:id', authToken, (req, res) => {
-    if (!req.jwtData.user.roles || !req.jwtData.user.roles.find(role => role == 'admin')) {
-        return res.status(401)
-            .json({ error: `You are not authorized to delete this post.` });
-    }
-
     readFile('db/posts.json', (data) => {
-        const posts = JSON.parse(data).filter(post => post.postId != req.params.id);
-        let writeSuccess = true;
+        // const posts = JSON.parse(data).filter(post => post.postId != req.params.id);
+        const posts = [];
+        let postToDelete = null;
+        JSON.parse(data).forEach(post => {
+            if (post.postId == req.params.id) return postToDelete = post;
+            posts.push(post);
+        });
 
+        const isAuthor = req.jwtData.user.id == postToDelete.authorId;
+        const isAdmin = (!isAuthor) &&
+            req.jwtData.user.roles &&
+            req.jwtData.user.roles.find(role => role == 'admin');
+
+        if (!isAuthor && !isAdmin) {
+            res.status(401).json({ error: `You are not authorized to delete this post.` });
+            return;
+        }
+
+        let writeSuccess = true;
         fs.writeFile(
             'db/posts.json',
             JSON.stringify(posts),
@@ -152,7 +164,7 @@ router.delete('/:id', authToken, (req, res) => {
         );
 
         if (writeSuccess) {
-            return (res.json(posts));
+            return res.json(posts);
         }
     });
 });
