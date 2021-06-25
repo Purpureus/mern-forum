@@ -12,5 +12,15 @@ export default function useLoginData() {
 		setLoginDataMemory(data);
 	}, []);
 
-	return [loginDataMemory, setLoginData];
+	const logOut = useCallback(() => {
+		const defaultData = {
+			logged: false,
+			username: null,
+			accessToken: null
+		};
+		window.localStorage.setItem('login-data', JSON.stringify(defaultData));
+		setLoginDataMemory(defaultData);
+	}, []);
+
+	return [loginDataMemory, setLoginData, logOut];
 };

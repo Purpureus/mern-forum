@@ -10,7 +10,7 @@ const Post = () => {
 	const { postId } = useParams();
 	const [doFetch, fetchLoading, fetchError, fetchData] = useFetch();
 
-	const [loginData] = useContext(LoginDataContext);
+	const [loginData, , logOut] = useContext(LoginDataContext);
 
 	useEffect(() => {
 		const url = `http://localhost:8000/api/posts/${postId}`;
@@ -32,14 +32,19 @@ const Post = () => {
 		};
 
 		doFetch(url, options, (data, error) => {
-			if (error) return;
+			if (error) {
+				if (error.accessTokenExpired) {
+					logOut();
+				}
+				return;
+			}
 			history.push('/');
 		});
 	}
 
 	return (
 		<>
-			{ fetchError && <p className="error">An error occurred: {fetchError}</p>}
+			{ fetchError && <p className="error">An error occurred: {fetchError.error}</p>}
 			{ fetchLoading && <p>Loading posts...</p>}
 
 			{fetchData && fetchData.post &&

@@ -20,7 +20,7 @@ function useFetch() {
 		fetch(url, options)
 			.then(res => {
 				if (!res.ok) {
-					return res.json().then(response => { throw Error(response.error) });
+					return res.json().then(response => { throw Error(JSON.stringify(response)) });
 				}
 				return res.json();
 			})
@@ -35,8 +35,8 @@ function useFetch() {
 					return console.log(`Fetch has been aborted (${err})`);
 				}
 				setFetchLoading(false);
-				setFetchError(err.message);
-				then(null, err.message);
+				setFetchError(JSON.parse(err.message));
+				then(null, JSON.parse(err.message));
 			});
 	}, [abortController.signal]);
 

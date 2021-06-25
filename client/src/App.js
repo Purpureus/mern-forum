@@ -12,14 +12,14 @@ import useLoginData from './useLoginData';
 
 function App() {
 
-    const [loginData, setLoginData] = useLoginData();
+    const [loginData, setLoginData, logOut] = useLoginData();
 
     return (
         <Router>
             <div className="App">
 
                 <div className="content">
-                    <LoginDataContext.Provider value={[loginData, setLoginData]}>
+                    <LoginDataContext.Provider value={[loginData, setLoginData, logOut]}>
                         <Header></Header>
 
                         <Switch>

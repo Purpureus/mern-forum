@@ -9,11 +9,16 @@ function authToken(req, res, next) {
 	}
 
 	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, jwtData) => {
-		if (err) return res.status(403).send({ error: `Authentication token invalid.` });
+		if (err) {
+			res.status(403).send({
+				error: `Authentication token invalid.`,
+				accessTokenExpired: true
+			});
+			return;
+		}
 		req.jwtData = jwtData;
+		next();
 	});
-
-	next();
 }
 
 module.exports = authToken;
