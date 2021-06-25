@@ -68,9 +68,17 @@ router.get('/:id', getTokenData, (req, res) => {
             res.status(404).send({ message: `Error: post does not exist.` });
             return;
         }
-        const canDelete =
-            req.jwtData &&
-            req.jwtData.user.id == requestedPost.authorId;
+
+        let canDelete = false;
+        if (req.jwtData) {
+            const isAuthor = req.jwtData.user.id == requestedPost.authorId;
+            const isAdmin = (!isAuthor) &&
+                req.jwtData.user.roles &&
+                req.jwtData.user.roles.find(role => role == 'admin');
+
+            if (isAuthor || isAdmin) canDelete = true;
+        }
+
         return (res.json({ post: requestedPost, canDelete: canDelete }));
     });
 });
@@ -133,7 +141,6 @@ router.post('/', authToken, (req, res) => {
 
 router.delete('/:id', authToken, (req, res) => {
     readFile('db/posts.json', (data) => {
-        // const posts = JSON.parse(data).filter(post => post.postId != req.params.id);
         const posts = [];
         let postToDelete = null;
         JSON.parse(data).forEach(post => {

@@ -11,11 +11,8 @@ router.post('/', (req, res) => {
 
 	readFile('db/users.json', data => {
 		const user = JSON.parse(data).find(user => user.name === reqName);
-		if (!user) {
-			return res.status(401).send({ error: `The specified user does not exists.` });
-		}
-		if (user.pass != reqPass) {
-			return res.status(401).send({ error: `The password is incorrect.` });
+		if (!user || user.pass != reqPass) {
+			return res.status(401).send({ error: `Wrong username or password.` });
 		}
 
 		const accessToken = jwt.sign(

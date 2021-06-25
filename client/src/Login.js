@@ -50,21 +50,23 @@ const Login = () => {
             <form id="login-form" onSubmit={(e) => handleSubmit(e)}>
 
                 <label htmlFor="username-field">Username</label>
-                <input name="username-field" type="text"
-                    placeholder="Username" required
+                <input required type="text"
+                    name="username-field" id="username-field"
+                    placeholder="Username"
                     value={nameField}
                     onChange={(e) => setNameField(e.target.value)} />
 
                 <label htmlFor="pswd-field">Password</label>
-                <input name="pswd-field"
+                <input required
                     type={showPassword ? "text" : "password"}
-                    placeholder="Password" required
+                    name="pswd-field" id="pswd-field"
+                    placeholder="Password"
                     autoComplete="off"
                     value={passwordField}
                     onChange={(e) => setPasswordField(e.target.value)} />
 
                 <div id="toggle-view-pswd-container">
-                    <input name="toggle-view-pswd" type="checkbox"
+                    <input name="toggle-view-pswd" type="checkbox" id="toggle-view-pswd"
                         onChange={(e) => setShowPassword(e.target.checked)} />
                     <label htmlFor="toggle-view-pswd">Show password</label>
                 </div>
