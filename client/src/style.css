@@ -16,6 +16,31 @@ a:hover, .link:hover, .header-section nav .nav-button:hover {
           flex-direction: row;
 }
 
+.center-vert {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.confirm-delete {
+  background-color: #eec;
+  border: 1px solid #aa0;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.confirm-delete .confirm {
+  color: #a00;
+  text-decoration: underline;
+  padding: 5px;
+}
+
+.confirm-delete .cancel {
+  color: #26a;
+  text-decoration: underline;
+  padding: 5px;
+}
+
 * {
   margin: 0;
   -webkit-box-sizing: border-box;
@@ -32,6 +57,52 @@ button {
   background: none;
   color: inherit;
   padding: 0;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.rounded-button {
+  color: white;
+  padding: 7px;
+  border-radius: 5px;
+}
+
+.rounded-button.default {
+  background: #26a;
+}
+
+.rounded-button.default:hover {
+  background: #48c;
+}
+
+.rounded-button.default:active {
+  background: #048;
+}
+
+.rounded-button.red {
+  background: #a00;
+}
+
+.rounded-button.red:hover {
+  background: #c00;
+}
+
+.rounded-button.red:active {
+  background: #800;
+}
+
+.rounded-button.blue {
+  background: #26a;
+}
+
+.rounded-button.blue:hover {
+  background: #48c;
+}
+
+.rounded-button.blue:active {
+  background: #048;
 }
 
 .error,
@@ -192,21 +263,6 @@ body {
   margin-top: 10px;
   padding: 20px 0;
   opacity: .8;
-}
-
-.post #delete-post {
-  background: #a00;
-  color: white;
-  padding: 7px;
-  border-radius: 5px;
-}
-
-.post #delete-post:hover {
-  background: #c00;
-}
-
-.post #delete-post:active {
-  background: #800;
 }
 
 .user-details {

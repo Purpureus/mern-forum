@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, Link, useHistory } from 'react-router-dom';
 import useFetch from './useFetch';
 
@@ -8,8 +8,8 @@ const Post = () => {
 
 	const history = useHistory();
 	const { postId } = useParams();
+	const [clickDelete, setClickDelete] = useState(false);
 	const [doFetch, fetchLoading, fetchError, fetchData] = useFetch();
-
 	const [loginData, , logOut] = useContext(LoginDataContext);
 
 	useEffect(() => {
@@ -53,7 +53,9 @@ const Post = () => {
 						{fetchData.post.title}
 					</h1>
 
-					<Link className="post-author" to={`/ user / ${fetchData.post.author} `}>
+					<Link
+						className="post-author"
+						to={`/ user / ${fetchData.post.author} `}>
 						By {fetchData.post.author}
 					</Link>
 
@@ -61,13 +63,31 @@ const Post = () => {
 						{fetchData.post.content}
 					</p>
 
-					{fetchData.canDelete &&
-						<button className="button"
-							id="delete-post"
-							onClick={() => deletePost()}>
-							Delete post
-					</button>
-					}
+					{fetchData.canDelete && <>
+						{clickDelete ||
+							<button id="delete-post"
+								className="button rounded-button red"
+								onClick={() => setClickDelete(true)}>
+								Delete post
+							</button>
+						}
+
+						{clickDelete && <>
+							<div className="confirm-delete flex row center-vert">
+								<p>This action cannot be undone.</p>
+								<button id="delete-post-cancel"
+									className="button cancel"
+									onClick={() => setClickDelete(false)}>
+									Don't delete
+								</button>
+								<button id="delete-post-confirm"
+									className="button confirm"
+									onClick={() => deletePost()}>
+									Delete anyways
+								</button>
+							</div>
+						</>}
+					</>}
 				</div>
 			}
 		</>
