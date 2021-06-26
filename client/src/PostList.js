@@ -13,6 +13,14 @@ const PostList = () => {
         doFetch(url);
     }, [doFetch]);
 
+    if (posts) {
+        posts && posts.sort((postA, postB) => {
+            const dateA = new Date(`${postA.date[2]}-${postA.date[0]}-${postA.date[1]}`);
+            const dateB = new Date(`${postB.date[2]}-${postB.date[0]}-${postB.date[1]}`);
+            return dateB - dateA;
+        });
+    }
+
     return (
         <>
             { fetchError && <p className="error">An error occurred: {fetchError}</p>}
@@ -21,19 +29,34 @@ const PostList = () => {
             <div className="post-list">
 
                 <div className="item post-list-controls">
-                    <div>Post title</div>
-                    <div className="flex-separator"></div>
-                    {loginData.logged && <Link to="/createpost" className="link">Create post</Link>}
+                    <div>Sort by date</div>
+                    <div>Sort by title</div>
+                    {loginData.logged &&
+                        <Link to="/createpost" className="link">Create post</Link>
+                    }
                 </div>
 
-                {posts && posts.map((post, postIndex) => (
+                {posts && posts.sort().map((post, postIndex) => (
                     <div className="post item" key={postIndex}>
 
-                        <Link to={`/post/${post.postId}`} className="post-title">{post.title}</Link>
+                        <div className="date">
+                            {post.date &&
+                                <p>
+                                    {post.date[0]}/{post.date[1]}/{post.date[2]}
+                                </p>
+                            }
+                        </div>
 
-                        <div className="flex-separator"></div>
+                        <Link className="post-title" to={`/post/${post.postId}`}>
+                            {post.title}
+                        </Link>
 
-                        <p>By</p><Link to={`/user/${post.author}`} className="post-author">{post.author}</Link>
+                        <div>
+                            <p>By</p>
+                            <Link className="post-author" to={`/user/${post.author}`}>
+                                {post.author}
+                            </Link>
+                        </div>
 
                     </div>
                 ))}

@@ -52,7 +52,8 @@ router.get('/', (req, res) => {
             return {
                 postId: post.postId,
                 title: post.title,
-                author: post.author
+                author: post.author,
+                date: post.date
             };
         });
         return res.json(postList);
@@ -111,12 +112,18 @@ router.post('/', authToken, (req, res) => {
                 return (res.send(error));
             }
 
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDay();
+
             posts.push({
                 postId: nextId,
                 title: req.body.title,
                 content: req.body.content,
                 authorId: req.jwtData.user.id,
-                author: req.jwtData.user.name
+                author: req.jwtData.user.name,
+                date: [month, day, year]
             });
 
             let writeSuccess = true;
@@ -125,10 +132,11 @@ router.post('/', authToken, (req, res) => {
                 'db/posts.json',
                 JSON.stringify(posts),
                 err => {
-                    if (!err) return;
-                    writeSuccess = false;
-                    log(err);
-                    return;
+                    if (err) {
+                        writeSuccess = false;
+                        log(err);
+                        return;
+                    }
                 }
             );
 

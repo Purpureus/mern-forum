@@ -219,6 +219,19 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 120px auto 120px;
+      grid-template-columns: 120px auto 120px;
+}
+
+.post-list .item > *:last-child {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
 }
 
 .post-list .item:nth-child(even) {
