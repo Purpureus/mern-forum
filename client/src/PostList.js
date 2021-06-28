@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import useFetch from './useFetch';
 import { LoginDataContext } from './LoginDataContext';
 
@@ -13,11 +13,33 @@ const PostList = () => {
         doFetch(url);
     }, [doFetch]);
 
-    if (posts) {
-        posts && posts.sort((postA, postB) => {
+    const [postOrder, setPostOrder] = useState('date');
+    function orderByDate() {
+        if (postOrder === 'date') {
+            setPostOrder('date-reversed');
+        }
+        else {
+            setPostOrder('date');
+        }
+        posts.sort((postA, postB) => {
             const dateA = new Date(`${postA.date[2]}-${postA.date[0]}-${postA.date[1]}`);
             const dateB = new Date(`${postB.date[2]}-${postB.date[0]}-${postB.date[1]}`);
-            return dateB - dateA;
+            return (postOrder === 'date')
+                ? (dateB - dateA)
+                : (dateA - dateB);
+        });
+    }
+    function orderByTitle() {
+        if (postOrder === 'title') {
+            setPostOrder('title-reversed');
+        }
+        else {
+            setPostOrder('title');
+        }
+        posts.sort((postA, postB) => {
+            return (postOrder === 'title')
+                ? postA.title.toLowerCase() < postB.title.toLowerCase()
+                : postA.title.toLowerCase() > postB.title.toLowerCase();
         });
     }
 
@@ -29,8 +51,8 @@ const PostList = () => {
             <div className="post-list">
 
                 <div className="item post-list-controls">
-                    <div>Sort by date</div>
-                    <div>Sort by title</div>
+                    <p className="link" onClick={() => orderByDate()}>Sort by date</p>
+                    <p className="link" onClick={() => orderByTitle()}>Sort by title</p>
                     {loginData.logged &&
                         <Link to="/createpost" className="link">Create post</Link>
                     }

@@ -37,7 +37,9 @@ const CreatePost = () => {
 
     return (
         <>
-            {fetchError && <p className="error">An error occurred while creating the post: {fetchError}</p>}
+            {fetchError &&
+                <p className="error">An error occurred while creating the post: {fetchError}</p>
+            }
             {loginData.logged
                 ? <form onSubmit={submitPost}>
 
@@ -64,7 +66,9 @@ const CreatePost = () => {
 
                 </form>
                 : <div className="error">
-                    You're not logged in. Please <Link to="/login" className="link painted">log in </Link> to continue.
+                    You're not logged in. Please
+                    <Link to="/login" className="link painted">log in </Link>
+                    to continue.
                </div>}
         </>
     );

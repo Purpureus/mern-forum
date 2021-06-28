@@ -92,7 +92,6 @@ router.post('/', authToken, (req, res) => {
         res.status(400).json({ error: `Please include post title and content` });
         return;
     }
-
     if (req.body.title.length > 99) {
         res.status(400).json({ error: `Post title cannot exceed ${titleMaxCharCount}.` });
         return;
@@ -114,8 +113,8 @@ router.post('/', authToken, (req, res) => {
 
             const date = new Date();
             const year = date.getFullYear();
-            const month = date.getMonth();
-            const day = date.getDay();
+            const month = date.getMonth().toString().padStart(2, '0');
+            const day = date.getDay().toString().padStart(2, '0');
 
             posts.push({
                 postId: nextId,
