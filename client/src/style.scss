@@ -172,9 +172,12 @@ body {
         display: grid;
         grid-template-columns: 120px auto 120px;
 
+        & > * {
+            width: max-content;
+        }
         & > *:last-child {
             display: flex;
-            justify-content: flex-end;
+            justify-self: flex-end;
         }
     }
 
@@ -245,6 +248,9 @@ form {
     flex-direction: column;
     padding: 20px;
 
+    label {
+        user-select: none;
+    }
     label:not(:first-child) {
         margin-top: 20px;
     }

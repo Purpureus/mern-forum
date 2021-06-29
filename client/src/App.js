@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Home from './Home';
@@ -9,10 +10,24 @@ import Login from './Login';
 import Signup from './Signup';
 import { LoginDataContext } from './LoginDataContext';
 import useLoginData from './useLoginData';
+import useFetch from './useFetch';
 
 function App() {
 
     const [loginData, setLoginData, logOut] = useLoginData();
+    const [doFetch, , ,] = useFetch();
+
+    useEffect(() => {
+        const url = `http://localhost:8000/verifyToken`;
+        const options = {
+            headers: {
+                'Authorization': `Bearer: ${loginData.accessToken}`
+            }
+        };
+        doFetch(url, options, data => {
+            if (!data.accessTokenValid) logOut();
+        });
+    }, [doFetch]);
 
     return (
         <Router>

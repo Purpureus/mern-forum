@@ -13,6 +13,7 @@ app.use(cors());
 // Server
 app.use('/api/posts', require('./routes/posts'));
 app.use('/login', require('./routes/login'));
+app.use('/verifyToken', require('./routes/verifyToken'));
 
 app.get('/', (req, res) => {
     res.send('<p>API is working</p>');

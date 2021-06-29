@@ -32,19 +32,30 @@ const Post = () => {
 		};
 
 		doFetch(url, options, (data, error) => {
-			if (error) {
-				if (error.accessTokenExpired) {
-					logOut();
-				}
-				return;
-			}
+			if (error) return;
 			history.push('/');
 		});
 	}
 
+	let errorDisplayMessage = null;
+	if (fetchError) {
+		const sessionExpiredMessage = <>
+			Your session has expired. Please
+			<Link to="/login" className="link painted"> log in </Link> again.
+		</>;
+		const errorMessage = <>An error occurred: {fetchError.error}</>;
+
+		errorDisplayMessage = fetchError.accessTokenExpired
+			? sessionExpiredMessage
+			: errorMessage;
+	}
+
+	errorDisplayMessage = errorDisplayMessage &&
+		<div className="error">{errorDisplayMessage}</div>;
+
 	return (
 		<>
-			{ fetchError && <p className="error">An error occurred: {fetchError.error}</p>}
+			{errorDisplayMessage}
 			{ fetchLoading && <p>Loading posts...</p>}
 
 			{fetchData && fetchData.post &&

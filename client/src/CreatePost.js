@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 import useFetch from './useFetch';
@@ -11,7 +11,12 @@ const CreatePost = () => {
     const history = useHistory();
 
     const [doFetch, fetchLoading, fetchError] = useFetch();
-    const [loginData] = useContext(LoginDataContext);
+    const [loginData, , logOut] = useContext(LoginDataContext);
+
+    useEffect(() => {
+        if (!fetchError || !fetchError.accessTokenExpired) return;
+        logOut();
+    }, [fetchError, logOut]);
 
     function submitPost(e) {
         e.preventDefault();
@@ -35,41 +40,44 @@ const CreatePost = () => {
         });
     }
 
+    let errorDisplayMessage = null;
+    if (fetchError) {
+        errorDisplayMessage = fetchError.accessTokenExpired
+            ? <>Your session has expired. Please <Link to="/login" className="link painted">
+                log in </Link> again.</>
+            : <>An error occurred while creating the post: fetchError.error</>
+    }
+
     return (
         <>
-            {fetchError &&
-                <p className="error">An error occurred while creating the post: {fetchError}</p>
+            {errorDisplayMessage &&
+                <div className="error">{errorDisplayMessage}</div>
             }
-            {loginData.logged
-                ? <form onSubmit={submitPost}>
 
-                    <h1>Create post</h1>
+            <form onSubmit={submitPost}>
 
-                    <label htmlFor="post-title">Post title</label>
-                    <input name="post-title" required maxLength="99"
-                        placeholder="Title"
-                        autoComplete="off"
-                        type="text"
-                        value={postTitle}
-                        onChange={(e) => setPostTitle(e.target.value)} />
+                <h1>Create post</h1>
 
-                    <label htmlFor="post-content">Post content</label>
-                    <textarea rows="10" cols="30" required maxLength="999"
-                        id="post-content"
-                        placeholder="Content"
-                        value={postContent}
-                        onChange={(e) => setPostContent(e.target.value)}
-                        name="post-content"></textarea>
+                <label htmlFor="post-title">Post title</label>
+                <input name="post-title" required maxLength="99"
+                    placeholder="Title"
+                    autoComplete="off"
+                    type="text"
+                    value={postTitle}
+                    onChange={(e) => setPostTitle(e.target.value)} />
 
-                    <input name="post-submit" type="submit"
-                        value={fetchLoading ? "Submitting..." : "Submit post"} />
+                <label htmlFor="post-content">Post content</label>
+                <textarea rows="10" cols="30" required maxLength="999"
+                    id="post-content"
+                    placeholder="Content"
+                    value={postContent}
+                    onChange={(e) => setPostContent(e.target.value)}
+                    name="post-content"></textarea>
 
-                </form>
-                : <div className="error">
-                    You're not logged in. Please
-                    <Link to="/login" className="link painted">log in </Link>
-                    to continue.
-               </div>}
+                <input name="post-submit" type="submit"
+                    value={fetchLoading ? "Submitting..." : "Submit post"} />
+
+            </form>
         </>
     );
 };

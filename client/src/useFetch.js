@@ -17,6 +17,7 @@ function useFetch() {
 	const doFetch = useCallback((url, options = {}, then = () => { }) => {
 		options.signal = abortController.signal;
 
+		console.log('Fetching');
 		fetch(url, options)
 			.then(res => {
 				if (!res.ok) {

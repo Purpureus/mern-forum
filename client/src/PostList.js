@@ -53,8 +53,9 @@ const PostList = () => {
                 <div className="item post-list-controls">
                     <p className="link" onClick={() => orderByDate()}>Sort by date</p>
                     <p className="link" onClick={() => orderByTitle()}>Sort by title</p>
-                    {loginData.logged &&
-                        <Link to="/createpost" className="link">Create post</Link>
+                    {loginData.logged
+                        ? <Link to="/createpost" className="link">Create post</Link>
+                        : <div></div>
                     }
                 </div>
 
@@ -63,9 +64,7 @@ const PostList = () => {
 
                         <div className="date">
                             {post.date &&
-                                <p>
-                                    {post.date[0]}/{post.date[1]}/{post.date[2]}
-                                </p>
+                                <p> {post.date[0]}/{post.date[1]}/{post.date[2]} </p>
                             }
                         </div>
 

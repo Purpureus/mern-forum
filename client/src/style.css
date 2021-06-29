@@ -225,13 +225,17 @@ body {
       grid-template-columns: 120px auto 120px;
 }
 
+.post-list .item > * {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
 .post-list .item > *:last-child {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-self: flex-end;
 }
 
 .post-list .item:nth-child(even) {
@@ -303,6 +307,13 @@ form {
       -ms-flex-direction: column;
           flex-direction: column;
   padding: 20px;
+}
+
+form label {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 form label:not(:first-child) {

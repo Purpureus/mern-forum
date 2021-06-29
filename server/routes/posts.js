@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
-const jwt = require('jsonwebtoken');
 const readFile = require('../functions/readFile');
 const authToken = require('../middleware/authToken.js');
 const getTokenData = require('../middleware/getTokenData.js');

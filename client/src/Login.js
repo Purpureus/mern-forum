@@ -71,7 +71,9 @@ const Login = () => {
                     <label htmlFor="toggle-view-pswd">Show password</label>
                 </div>
 
-                <p id="form-error-message">{fetchError}</p>
+                {fetchError &&
+                    <p id="form-error-message">{fetchError.error}</p>
+                }
 
                 <input type="submit" readOnly value={
                     fetchLoading ? "Loading..." : "Submit"
