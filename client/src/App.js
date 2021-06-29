@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Home from './Home';
@@ -9,6 +9,7 @@ import CreatePost from './CreatePost';
 import Login from './Login';
 import Signup from './Signup';
 import { LoginDataContext } from './LoginDataContext';
+import PostPersistContext from './PostPersistContext';
 import useLoginData from './useLoginData';
 import useFetch from './useFetch';
 
@@ -16,6 +17,10 @@ function App() {
 
     const [loginData, setLoginData, logOut] = useLoginData();
     const [doFetch, , ,] = useFetch();
+
+    const [persistedPost, setPersistedPost] = useState({
+        title: '', content: ''
+    });
 
     useEffect(() => {
         const url = `http://localhost:8000/verifyToken`;
@@ -25,9 +30,9 @@ function App() {
             }
         };
         doFetch(url, options, data => {
-            if (!data.accessTokenValid) logOut();
+            data.accessTokenValid || logOut();
         });
-    }, [doFetch]);
+    }, [doFetch, logOut]);
 
     return (
         <Router>
@@ -43,7 +48,9 @@ function App() {
                             </Route>
 
                             <Route exact path="/createpost">
-                                <CreatePost />
+                                <PostPersistContext.Provider value={[persistedPost, setPersistedPost]}>
+                                    <CreatePost />
+                                </PostPersistContext.Provider>
                             </Route>
 
                             <Route path="/post/:postId">
@@ -72,7 +79,7 @@ function App() {
                 </div>
 
             </div>
-        </Router>
+        </Router >
     );
 }
 

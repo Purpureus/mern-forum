@@ -10,7 +10,7 @@ const Post = () => {
 	const { postId } = useParams();
 	const [clickDelete, setClickDelete] = useState(false);
 	const [doFetch, fetchLoading, fetchError, fetchData] = useFetch();
-	const [loginData, , logOut] = useContext(LoginDataContext);
+	const [loginData, ,] = useContext(LoginDataContext);
 
 	useEffect(() => {
 		const url = `http://localhost:8000/api/posts/${postId}`;
