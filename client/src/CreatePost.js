@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 import useFetch from './useFetch';
@@ -9,14 +9,29 @@ const CreatePost = () => {
 
     const history = useHistory();
 
+    const [postTitle, setPostTitle] = useState("");
+    const [postContent, setPostContent] = useState("");
     const [doFetch, fetchLoading, fetchError] = useFetch();
     const [loginData, , logOut] = useContext(LoginDataContext);
     const [persistedPost, setPersistedPost] = useContext(PostPersistContext);
+    const [saveDraftTimeout, setSaveDraftTimeout] = useState(null);
 
     useEffect(() => {
-        if (!fetchError || !fetchError.accessTokenExpired) return;
-        logOut();
+        if (fetchError && fetchError.accessTokenExpired) logOut();
     }, [fetchError, logOut]);
+
+    const saveDraft = useCallback(() => {
+        window.sessionStorage.setItem('post-draft', JSON.stringify({
+            title: postTitle,
+            content: postContent
+        }));
+    }, [postTitle, postContent]);
+
+    useEffect(() => {
+        if (saveDraftTimeout) clearTimeout(saveDraftTimeout);
+        setSaveDraftTimeout(setTimeout(saveDraft, 1500));
+        return clearTimeout(saveDraftTimeout);
+    }, [postTitle, postContent, saveDraft]);
 
     function submitPost(e) {
         e.preventDefault();
@@ -64,21 +79,15 @@ const CreatePost = () => {
                     placeholder="Title"
                     autoComplete="off"
                     type="text"
-                    value={persistedPost.title}
-                    onChange={(e) => setPersistedPost({
-                        title: e.target.value,
-                        content: persistedPost.content
-                    })} />
+                    value={postTitle}
+                    onChange={(e) => setPostTitle(e.target.value)} />
 
                 <label htmlFor="post-content">Post content</label>
                 <textarea rows="10" cols="30" required maxLength="999"
                     id="post-content"
                     placeholder="Content"
-                    value={persistedPost.content}
-                    onChange={(e) => setPersistedPost({
-                        title: persistedPost.title,
-                        content: e.target.value
-                    })}
+                    value={postContent}
+                    onChange={(e) => setPostContent(e.target.value)}
                     name="post-content"></textarea>
 
                 <input name="post-submit" type="submit"

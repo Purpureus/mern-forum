@@ -23,6 +23,7 @@ function App() {
     });
 
     useEffect(() => {
+        if (!loginData.accessToken) return;
         const url = `http://localhost:8000/verifyToken`;
         const options = {
             headers: {
@@ -32,7 +33,7 @@ function App() {
         doFetch(url, options, data => {
             data.accessTokenValid || logOut();
         });
-    }, [doFetch, logOut]);
+    }, [doFetch, loginData.accessToken, logOut]);
 
     return (
         <Router>
