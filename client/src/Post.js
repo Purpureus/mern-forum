@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, Link, useHistory } from 'react-router-dom';
 import useFetch from './useFetch';
 
-import { LoginDataContext } from './LoginDataContext';
+import LoginDataContext from './LoginDataContext';
 
 const Post = () => {
 

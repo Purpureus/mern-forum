@@ -1,14 +1,12 @@
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 import useFetch from './useFetch';
-import { LoginDataContext } from './LoginDataContext';
+import LoginDataContext from './LoginDataContext';
 import PostPersistContext from './PostPersistContext';
 
 const CreatePost = () => {
 
-    // const [postTitle, setPostTitle] = useState("");
-    // const [postContent, setPostContent] = useState("");
     const history = useHistory();
 
     const [doFetch, fetchLoading, fetchError] = useFetch();
@@ -38,6 +36,7 @@ const CreatePost = () => {
 
         doFetch(url, options, (data, error) => {
             if (error) return console.log(`Error submitting the post.`);
+            setPersistedPost({ title: "", content: "" });
             history.push('/');
         });
     }

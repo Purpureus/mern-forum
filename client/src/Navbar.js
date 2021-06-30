@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { LoginDataContext } from './LoginDataContext';
+import LoginDataContext from './LoginDataContext';
 
 const Navbar = () => {
 

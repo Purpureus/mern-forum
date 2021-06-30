@@ -1,4 +1,4 @@
-import { LoginDataContext } from './LoginDataContext'
+import LoginDataContext from './LoginDataContext'
 import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 

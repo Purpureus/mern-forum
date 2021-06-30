@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import useFetch from './useFetch';
 
-import { LoginDataContext } from './LoginDataContext';
+import LoginDataContext from './LoginDataContext';
 
 const Login = () => {
 

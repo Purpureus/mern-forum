@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import useFetch from './useFetch';
-import { LoginDataContext } from './LoginDataContext';
+import LoginDataContext from './LoginDataContext';
 
 const PostList = () => {
 

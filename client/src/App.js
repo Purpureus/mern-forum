@@ -8,7 +8,7 @@ import UserDetails from './UserDetails';
 import CreatePost from './CreatePost';
 import Login from './Login';
 import Signup from './Signup';
-import { LoginDataContext } from './LoginDataContext';
+import LoginDataContext from './LoginDataContext';
 import PostPersistContext from './PostPersistContext';
 import useLoginData from './useLoginData';
 import useFetch from './useFetch';
