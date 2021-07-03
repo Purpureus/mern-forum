@@ -7,12 +7,14 @@ router.post('/', (req, res) => {
 	const reqName = req.body.username;
 	const reqPass = req.body.password;
 
-	if (!reqName || !reqPass) return res.sendStatus(401);
+	if (!reqName || !reqPass) {
+		return res.send(403).send({ error: `You must provide a name and password` });
+	}
 
 	readFile('db/users.json', data => {
 		const user = JSON.parse(data).find(user => user.name === reqName);
 		if (!user || user.pass != reqPass) {
-			return res.status(401).send({ error: `Wrong username or password.` });
+			return res.status(400).send({ error: `Wrong username or password.` });
 		}
 
 		const accessToken = jwt.sign(

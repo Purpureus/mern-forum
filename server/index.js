@@ -14,6 +14,7 @@ app.use(cors());
 app.use('/api/posts', require('./routes/posts'));
 app.use('/verifyToken', require('./routes/verifyToken'));
 app.use('/login', require('./routes/login'));
+app.use('/signup', require('./routes/signup'));
 
 app.get('/', (req, res) => {
     res.send('<p>API is working</p>');

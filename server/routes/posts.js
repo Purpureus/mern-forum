@@ -27,7 +27,6 @@ function setNextPostId() {
     fs.readFile('db/info.json', (err, data) => {
         if (err) {
             log(err);
-            nextId = -1;
             return;
         }
 
@@ -126,18 +125,16 @@ router.post('/', authToken, (req, res) => {
 
             let writeSuccess = true;
 
-            fs.writeFile(
-                'db/posts.json',
+            fs.writeFile('db/posts.json',
                 JSON.stringify(posts),
                 err => {
                     if (err) {
                         writeSuccess = false;
-                        log(err);
+                        console.log(`Error: ${error}`);
                         return;
                     }
                 }
             );
-
             if (writeSuccess) setNextPostId();
         });
 
