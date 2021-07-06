@@ -246,6 +246,10 @@ body {
 .post-list .post-list-controls {
   background: #26a;
   color: #fff;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .post-list .post .post-title {
@@ -324,8 +328,8 @@ form textarea {
   resize: none;
 }
 
-form input[type="text"],
-form input[type="password"],
+form input[type=text],
+form input[type=password],
 form textarea {
   padding: 10px;
 }
@@ -338,18 +342,19 @@ form #toggle-view-pswd-container input {
   margin-right: 10px;
 }
 
-form input[type="submit"] {
+form input[type=submit] {
   border: none;
   background: #048;
   color: #fff;
+  margin-top: 20px;
   padding: 10px;
 }
 
-form input[type="submit"]:hover, form input[type="submit"]:focus {
+form input[type=submit]:hover, form input[type=submit]:focus {
   background: #26a;
 }
 
-form input[type="submit"]:active {
+form input[type=submit]:active {
   background: #48c;
 }
 

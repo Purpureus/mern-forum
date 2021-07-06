@@ -1,7 +1,6 @@
 import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import useFetch from './useFetch';
-
 import LoginDataContext from './LoginDataContext';
 
 const Login = () => {
@@ -10,6 +9,7 @@ const Login = () => {
 
     const [nameField, setNameField] = useState('');
     const [passwordField, setPasswordField] = useState('');
+    const [loginDurationField, setLoginDurationField] = useState(30);
 
     const [doFetch, fetchLoading, fetchError] = useFetch();
     const [, setLoginData] = useContext(LoginDataContext);
@@ -26,6 +26,7 @@ const Login = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                loginDuration: loginDurationField,
                 username: nameField,
                 password: passwordField
             })
@@ -69,6 +70,17 @@ const Login = () => {
                     <input name="toggle-view-pswd" type="checkbox" id="toggle-view-pswd"
                         onChange={(e) => setShowPassword(e.target.checked)} />
                     <label htmlFor="toggle-view-pswd">Show password</label>
+                </div>
+
+                <div className="flex row">
+                    <p>Keep me logged for&nbsp;</p>
+                    <select id="login-duration-field">
+                        <option value="10m">10 minutes</option>
+                        <option value="30m">30 minutes</option>
+                        <option value="1h">1 hour</option>
+                        <option value="2h">2 hours</option>
+                        <option value="1d">1 day</option>
+                    </select>
                 </div>
 
                 {fetchError &&

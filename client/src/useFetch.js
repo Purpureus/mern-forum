@@ -33,7 +33,8 @@ function useFetch() {
 			})
 			.catch(err => {
 				if (err.name === 'AbortError') {
-					return console.log(`Fetch has been aborted (${err})`);
+					console.log(`Fetch has been aborted (${err})`);
+					return;
 				}
 				setFetchLoading(false);
 				setFetchError(JSON.parse(err.message));

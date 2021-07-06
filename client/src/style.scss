@@ -189,6 +189,7 @@ body {
     .post-list-controls {
         background: $accent-bg-light;
         color: $accent-fg;
+        user-select: none;
     }
 
     .post {
@@ -259,8 +260,8 @@ form {
         resize: none;
     }
 
-    input[type="text"],
-    input[type="password"],
+    input[type=text],
+    input[type=password],
     textarea {
         padding: 10px;
     }
@@ -272,17 +273,17 @@ form {
         }
     }
     
-    input[type="submit"] {
+    input[type=submit] {
         border: none;
         background: $accent-bg;
         color: $accent-fg;
+        margin-top: 20px;
         padding: 10px;
 
         &:hover,
         &:focus {
             background: $accent-bg-light;
         }
-        
         &:active {
             background: $accent-bg-lighter;
         }

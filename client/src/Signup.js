@@ -1,44 +1,40 @@
-import LoginDataContext from './LoginDataContext'
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import useFetch from './useFetch';
 
 const Signup = () => {
 
-	const storage = window.localStorage;
-	const [, setLoginData] = useContext(LoginDataContext);
 	const history = useHistory();
 
 	const [nameField, setNameField] = useState('');
 	const [passwordField, setPasswordField] = useState('');
 	const [repeatPasswordField, setRepeatPasswordField] = useState('');
 	const [errorMessage, setErrorMessage] = useState('');
+	const [doFetch, fetchLoading, fetchError] = useFetch();
 
 	function handleSubmit(e) {
 		e.preventDefault();
 
-		if (passwordField === repeatPasswordField) {
-			let newUserDatabase = JSON.parse(storage.getItem('user-database'));
-
-			newUserDatabase.push({
+		if (passwordField !== repeatPasswordField) {
+			setErrorMessage("Passwords do not match.");
+			return;
+		}
+		const url = `http://localhost:8000/signup`;
+		const options = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
 				username: nameField,
-				password: passwordField,
-				userId: newUserDatabase.length,
-				biography: "jaja"
-			});
-
-			storage.setItem('user-database', JSON.stringify(newUserDatabase));
-			console.log(storage.getItem('user-database'));
-
-			setLoginData({
-				username: nameField,
-				logged: true
-			});
+				password: passwordField
+			})
+		};
+		doFetch(url, options, (data, error = null) => {
+			if (error) return;
 
 			history.push("/");
-		}
-
-		setErrorMessage("Passwords do not match.");
-		return;
+		});
 	}
 
 	return (
@@ -55,13 +51,14 @@ const Signup = () => {
 				onChange={(e) => setPasswordField(e.target.value)} />
 
 			<label htmlFor="repeat-pswd-field">Repeat password</label>
-			<input name="repeat-pswd-field" type="text" placeholder="Repeat password" autoComplete="off"
+			<input name="repeat-pswd-field" type="password" placeholder="Repeat password" autoComplete="off"
 				required value={repeatPasswordField}
 				onChange={(e) => setRepeatPasswordField(e.target.value)} />
 
-			<p id="form-error-message">{errorMessage}</p>
+			<p id="form-error-message">{errorMessage} {fetchError && fetchError.error}</p>
 
-			<input type="submit" readOnly value="Submit" />
+			<input type="submit" readOnly
+				value={fetchLoading ? "Submitting..." : "Submit"} />
 
 		</form>
 	);

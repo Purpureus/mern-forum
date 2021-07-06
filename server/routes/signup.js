@@ -42,13 +42,15 @@ router.post('/', (req, res) => {
 	const password = req.body.password;
 
 	if (!username || !password) {
-		return res.send(403).send({ error: `You must provide a username and password` });
+		res.status(403).json({ error: `You must provide a username and password` });
+		return;
 	}
 
 	readFile('db/users.json', data => {
 		const users = JSON.parse(data);
 		if (users.find(user => user.name == username)) {
-			return res.status(401).send({ error: `That username already exists.` });
+			res.status(400).json({ error: `That username already exists.` });
+			return;
 		}
 		getNextUserId((userId) => {
 			users.push({
@@ -69,9 +71,8 @@ router.post('/', (req, res) => {
 				}
 			);
 			if (writeSuccess) setNextUserId();
-			res.send(`User created!!`);
+			res.status(201).json({ message: `User created!!` });
 		});
-
 	});
 });
 

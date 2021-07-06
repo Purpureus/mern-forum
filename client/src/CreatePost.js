@@ -16,16 +16,23 @@ const CreatePost = () => {
     const [persistedPost, setPersistedPost] = useContext(PostPersistContext);
     const [saveDraftTimeout, setSaveDraftTimeout] = useState(null);
 
-    useEffect(() => {
-        if (fetchError && fetchError.accessTokenExpired) logOut();
-    }, [fetchError, logOut]);
-
     const saveDraft = useCallback(() => {
+        console.log('Saving draft...');
         window.sessionStorage.setItem('post-draft', JSON.stringify({
             title: postTitle,
             content: postContent
         }));
     }, [postTitle, postContent]);
+
+    useEffect(() => {
+        const savedDraft = JSON.parse(window.sessionStorage.getItem('post-draft'));
+        setPostTitle(savedDraft.title);
+        setPostContent(savedDraft.content);
+    }, []);
+
+    useEffect(() => {
+        if (fetchError && fetchError.accessTokenExpired) logOut();
+    }, [fetchError, logOut]);
 
     useEffect(() => {
         if (saveDraftTimeout) clearTimeout(saveDraftTimeout);
@@ -61,7 +68,7 @@ const CreatePost = () => {
         errorDisplayMessage = fetchError.accessTokenExpired
             ? <>Your session has expired. Please <Link to="/login" className="link painted">
                 log in </Link> again.</>
-            : <>An error occurred while creating the post: fetchError.error</>
+            : <>An error occurred while creating the post: {fetchError.error}</>
     }
 
     return (

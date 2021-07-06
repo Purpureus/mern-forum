@@ -64,7 +64,7 @@ router.get('/:id', getTokenData, (req, res) => {
             post.postId == req.params.id
         );
         if (!requestedPost) {
-            res.status(404).send({ message: `Error: post does not exist.` });
+            res.status(404).json({ message: `Error: post does not exist.` });
             return;
         }
 
