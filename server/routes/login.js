@@ -17,10 +17,20 @@ router.post('/', (req, res) => {
 			return res.status(400).json({ error: `Wrong username or password.` });
 		}
 
+		let loginDuration = '10m';
+		switch (req.body.loginDuration) {
+			case '10m': loginDuration = '10m'; break;
+			case '30m': loginDuration = '30m'; break;
+			case '1h': loginDuration = '1h'; break;
+			case '2h': loginDuration = '2h'; break;
+			case '1d': loginDuration = '1d'; break;
+			default: loginDuration = '10m';
+		}
+
 		const accessToken = jwt.sign(
 			{ user },
 			process.env.ACCESS_TOKEN_SECRET,
-			{ expiresIn: '10s' }
+			{ expiresIn: loginDuration }
 		);
 		res.json({
 			username: user.name,

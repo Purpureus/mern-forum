@@ -9,7 +9,7 @@ const Login = () => {
 
     const [nameField, setNameField] = useState('');
     const [passwordField, setPasswordField] = useState('');
-    const [loginDurationField, setLoginDurationField] = useState(30);
+    const [loginDurationField, setLoginDurationField] = useState('10m');
 
     const [doFetch, fetchLoading, fetchError] = useFetch();
     const [, setLoginData] = useContext(LoginDataContext);
@@ -74,7 +74,9 @@ const Login = () => {
 
                 <div className="flex row">
                     <p>Keep me logged for&nbsp;</p>
-                    <select id="login-duration-field">
+                    <select id="login-duration-field"
+                        value={loginDurationField}
+                        onChange={e => setLoginDurationField(e.target.value)}>
                         <option value="10m">10 minutes</option>
                         <option value="30m">30 minutes</option>
                         <option value="1h">1 hour</option>
