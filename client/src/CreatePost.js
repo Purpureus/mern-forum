@@ -3,7 +3,6 @@ import { useHistory, Link } from 'react-router-dom';
 
 import useFetch from './useFetch';
 import LoginDataContext from './LoginDataContext';
-import PostPersistContext from './PostPersistContext';
 
 const CreatePost = () => {
 
@@ -13,7 +12,6 @@ const CreatePost = () => {
     const [postContent, setPostContent] = useState("");
     const [doFetch, fetchLoading, fetchError] = useFetch();
     const [loginData, , logOut] = useContext(LoginDataContext);
-    const [persistedPost, setPersistedPost] = useContext(PostPersistContext);
     const [saveDraftTimeout, setSaveDraftTimeout] = useState(null);
 
     const saveDraft = useCallback(() => {
@@ -25,7 +23,8 @@ const CreatePost = () => {
     }, [postTitle, postContent]);
 
     useEffect(() => {
-        const savedDraft = JSON.parse(window.sessionStorage.getItem('post-draft'));
+        const savedDraft = JSON.parse(window.sessionStorage.getItem('post-draft'))
+            || { title: "", content: "" };
         setPostTitle(savedDraft.title);
         setPostContent(savedDraft.content);
     }, []);
@@ -51,14 +50,17 @@ const CreatePost = () => {
                 'Authorization': `Bearer: ${loginData.accessToken}`
             },
             body: JSON.stringify({
-                title: persistedPost.title,
-                content: persistedPost.content
+                title: postTitle,
+                content: postContent
             })
         };
 
         doFetch(url, options, (data, error) => {
             if (error) return console.log(`Error submitting the post.`);
-            setPersistedPost({ title: "", content: "" });
+            window.sessionStorage.setItem('post-draft', JSON.stringify({
+                title: "",
+                content: ""
+            }));
             history.push('/');
         });
     }

@@ -41,12 +41,15 @@ const Signup = () => {
 		<form id="signup-form" onSubmit={(e) => handleSubmit(e)}>
 
 			<label htmlFor="username-field">Username</label>
-			<input name="username-field" type="text" placeholder="Username"
+			<input name="username-field" id="username-field" type="text"
+				placeholder="Username"
 				required value={nameField}
 				onChange={(e) => setNameField(e.target.value)} />
+			<p class="field-char-count"
+				value={nameField}></p>
 
 			<label htmlFor="pswd-field">Password</label>
-			<input name="pswd-field" type="password" placeholder="Password" autoComplete="off"
+			<input name="pswd-field" id="pswd-field" type="password" placeholder="Password" autoComplete="off"
 				required value={passwordField}
 				onChange={(e) => setPasswordField(e.target.value)} />
 

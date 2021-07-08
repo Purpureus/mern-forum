@@ -33,7 +33,10 @@ const Navbar = () => {
                 ? <Link className="nav-button" to="/" onClick={logOut}>Log out</Link>
                 : <Link className="nav-button" to="/login">Log in</Link>
             }
-            <Link className="nav-button" to="/signup">Sign up</Link>
+
+            { loginData && loginData.logged ||
+                <Link className="nav-button" to="/signup">Sign up</Link>
+            }
 
         </nav>
     );

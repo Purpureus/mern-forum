@@ -342,6 +342,16 @@ form #toggle-view-pswd-container input {
   margin-right: 10px;
 }
 
+form .field-char-count {
+  opacity: .6;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
 form input[type=submit] {
   border: none;
   background: #048;

@@ -9,7 +9,6 @@ import CreatePost from './CreatePost';
 import Login from './Login';
 import Signup from './Signup';
 import LoginDataContext from './LoginDataContext';
-import PostPersistContext from './PostPersistContext';
 import useLoginData from './useLoginData';
 import useFetch from './useFetch';
 
@@ -17,10 +16,6 @@ function App() {
 
     const [loginData, setLoginData, logOut] = useLoginData();
     const [doFetch, , ,] = useFetch();
-
-    const [persistedPost, setPersistedPost] = useState({
-        title: '', content: ''
-    });
 
     useEffect(() => {
         if (!loginData.accessToken) return;
@@ -49,9 +44,7 @@ function App() {
                             </Route>
 
                             <Route exact path="/createpost">
-                                <PostPersistContext.Provider value={[persistedPost, setPersistedPost]}>
-                                    <CreatePost />
-                                </PostPersistContext.Provider>
+                                <CreatePost />
                             </Route>
 
                             <Route path="/post/:postId">

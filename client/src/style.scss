@@ -272,6 +272,12 @@ form {
             margin-right: 10px;
         }
     }
+
+    .field-char-count {
+        opacity: .6;
+        display: flex;
+        justify-content: flex-end;
+    }
     
     input[type=submit] {
         border: none;
