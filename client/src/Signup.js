@@ -17,7 +17,6 @@ const Signup = () => {
 	const [doFetch, fetchLoading, fetchError] = useFetch();
 
 	useEffect(() => {
-		console.log('buebo');
 		if (!nameField || !passwordField) {
 			setErrorMessage(`Please enter username and password`);
 			setSubmitEnabled(false);
@@ -68,7 +67,7 @@ const Signup = () => {
 		};
 		doFetch(url, options, (data, error = null) => {
 			if (error) return;
-			history.push("/");
+			history.push('/');
 		});
 	}
 
@@ -77,7 +76,7 @@ const Signup = () => {
 
 			<label htmlFor="username-field">
 				Username
-				<div class="field-char-count">{nameField.length}/{maxUsernameLen}</div>
+				<div className="field-char-count">{nameField.length}/{maxUsernameLen}</div>
 			</label>
 			<input name="username-field" id="username-field" type="text"
 				placeholder="Username" maxLength={maxUsernameLen}
@@ -86,7 +85,7 @@ const Signup = () => {
 
 			<label htmlFor="pswd-field">
 				Password
-				<div class="field-char-count">{passwordField.length}/{maxPasswordLen}</div>
+				<div className="field-char-count">{passwordField.length}/{maxPasswordLen}</div>
 			</label>
 			<input name="pswd-field" id="pswd-field"
 				type="password"
