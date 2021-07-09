@@ -34,7 +34,7 @@ const Navbar = () => {
                 : <Link className="nav-button" to="/login">Log in</Link>
             }
 
-            { loginData && loginData.logged ||
+            { (loginData && loginData.logged) ||
                 <Link className="nav-button" to="/signup">Sign up</Link>
             }
 

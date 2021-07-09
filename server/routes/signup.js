@@ -45,6 +45,14 @@ router.post('/', (req, res) => {
 		res.status(403).json({ error: `You must provide a username and password` });
 		return;
 	}
+	if (username.length < 8) {
+		res.status(403).json({ error: `Username is too short` });
+		return;
+	}
+	if (password.length < 8) {
+		res.status(403).json({ error: `Password is too short` });
+		return;
+	}
 	if (username.length > 99) {
 		res.status(403).json({ error: `Username is too long` });
 		return;

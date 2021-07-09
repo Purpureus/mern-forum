@@ -251,6 +251,8 @@ form {
 
     label {
         user-select: none;
+        display: flex;
+        justify-content: space-between;
     }
     label:not(:first-child) {
         margin-top: 20px;
@@ -267,9 +269,15 @@ form {
     }
 
     #toggle-view-pswd-container {
+        display: flex;
+        align-items: center;
         margin: 10px 0;
         input {
+            margin: 0;
             margin-right: 10px;
+        }
+        label {
+            margin: 0;
         }
     }
 
@@ -292,6 +300,11 @@ form {
         }
         &:active {
             background: $accent-bg-lighter;
+        }
+
+        &.disabled {
+            background: #888;
+            cursor: auto;
         }
     }
 

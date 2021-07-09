@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import useFetch from './useFetch';
 
 const Signup = () => {
+
+	const maxUsernameLen = 50;
+	const maxPasswordLen = 50;
 
 	const history = useHistory();
 
@@ -10,15 +13,48 @@ const Signup = () => {
 	const [passwordField, setPasswordField] = useState('');
 	const [repeatPasswordField, setRepeatPasswordField] = useState('');
 	const [errorMessage, setErrorMessage] = useState('');
+	const [submitEnabled, setSubmitEnabled] = useState(false);
 	const [doFetch, fetchLoading, fetchError] = useFetch();
+
+	useEffect(() => {
+		console.log('buebo');
+		if (!nameField || !passwordField) {
+			setErrorMessage(`Please enter username and password`);
+			setSubmitEnabled(false);
+			return;
+		}
+
+		if (nameField) {
+			if (nameField.length < 8) {
+				setErrorMessage(`Name is too short`);
+				setSubmitEnabled(false);
+				return;
+			}
+		}
+		if (passwordField) {
+			if (passwordField.length < 8) {
+				setErrorMessage(`Password is too short`);
+				setSubmitEnabled(false);
+				return;
+			}
+			if (passwordField !== repeatPasswordField) {
+				setErrorMessage(`Passwords do not match`);
+				setSubmitEnabled(false);
+				return;
+			}
+		}
+
+		setErrorMessage(null);
+		setSubmitEnabled(true);
+	}, [nameField, passwordField, repeatPasswordField]);
 
 	function handleSubmit(e) {
 		e.preventDefault();
 
-		if (passwordField !== repeatPasswordField) {
-			setErrorMessage("Passwords do not match.");
+		if (!submitEnabled) {
 			return;
 		}
+
 		const url = `http://localhost:8000/signup`;
 		const options = {
 			method: 'POST',
@@ -32,7 +68,6 @@ const Signup = () => {
 		};
 		doFetch(url, options, (data, error = null) => {
 			if (error) return;
-
 			history.push("/");
 		});
 	}
@@ -40,28 +75,39 @@ const Signup = () => {
 	return (
 		<form id="signup-form" onSubmit={(e) => handleSubmit(e)}>
 
-			<label htmlFor="username-field">Username</label>
+			<label htmlFor="username-field">
+				Username
+				<div class="field-char-count">{nameField.length}/{maxUsernameLen}</div>
+			</label>
 			<input name="username-field" id="username-field" type="text"
-				placeholder="Username"
+				placeholder="Username" maxLength={maxUsernameLen}
 				required value={nameField}
 				onChange={(e) => setNameField(e.target.value)} />
-			<p class="field-char-count"
-				value={nameField}></p>
 
-			<label htmlFor="pswd-field">Password</label>
-			<input name="pswd-field" id="pswd-field" type="password" placeholder="Password" autoComplete="off"
+			<label htmlFor="pswd-field">
+				Password
+				<div class="field-char-count">{passwordField.length}/{maxPasswordLen}</div>
+			</label>
+			<input name="pswd-field" id="pswd-field"
+				type="password"
+				placeholder="Password"
+				autoComplete="off" maxLength={maxPasswordLen}
 				required value={passwordField}
 				onChange={(e) => setPasswordField(e.target.value)} />
 
 			<label htmlFor="repeat-pswd-field">Repeat password</label>
-			<input name="repeat-pswd-field" type="password" placeholder="Repeat password" autoComplete="off"
+			<input name="repeat-pswd-field"
+				type="password"
+				placeholder="Repeat password"
+				autoComplete="off"
 				required value={repeatPasswordField}
 				onChange={(e) => setRepeatPasswordField(e.target.value)} />
 
 			<p id="form-error-message">{errorMessage} {fetchError && fetchError.error}</p>
 
 			<input type="submit" readOnly
-				value={fetchLoading ? "Submitting..." : "Submit"} />
+				value={fetchLoading ? "Submitting..." : "Submit"}
+				className={`${submitEnabled ? '' : 'disabled'}`} />
 
 		</form>
 	);

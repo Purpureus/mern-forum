@@ -318,6 +318,12 @@ form label {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 form label:not(:first-child) {
@@ -335,11 +341,22 @@ form textarea {
 }
 
 form #toggle-view-pswd-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin: 10px 0;
 }
 
 form #toggle-view-pswd-container input {
+  margin: 0;
   margin-right: 10px;
+}
+
+form #toggle-view-pswd-container label {
+  margin: 0;
 }
 
 form .field-char-count {
@@ -366,6 +383,11 @@ form input[type=submit]:hover, form input[type=submit]:focus {
 
 form input[type=submit]:active {
   background: #48c;
+}
+
+form input[type=submit].disabled {
+  background: #888;
+  cursor: auto;
 }
 
 form #form-error-message {
