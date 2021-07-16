@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import useFetch from './useFetch';
 import LoginDataContext from './LoginDataContext';
@@ -7,6 +7,7 @@ const PostList = () => {
 
     const [doFetch, fetchLoading, fetchError, posts] = useFetch();
     const [loginData] = useContext(LoginDataContext);
+    const history = useHistory();
 
     useEffect(() => {
         const url = `http://localhost:8000/api/posts`;
@@ -18,8 +19,6 @@ const PostList = () => {
 
     useEffect(() => {
         if (!posts) return;
-
-        console.log(`${postOrder} ${postOrderDirection}`);
 
         switch (postOrder) {
             case 'date':
@@ -69,21 +68,26 @@ const PostList = () => {
                 </div>
 
                 {posts && posts.sort().map((post, postIndex) => (
-                    <div className="post item" key={postIndex}>
+                    <div className="post item" key={postIndex}
+                        onClick={(e) => history.push(`/post/${post.postId}`)}
+                    >
 
-                        <div className="date">
+                        <div className="post-date">
                             {post.date &&
                                 <p> {post.date[0]}/{post.date[1]}/{post.date[2]} </p>
                             }
                         </div>
 
-                        <Link className="post-title" to={`/post/${post.postId}`}>
+                        <p className="post-title">
                             {post.title}
-                        </Link>
+                        </p>
 
-                        <div>
+                        <div className="post-author">
                             <p>By</p>
-                            <Link className="post-author" to={`/user/${post.author}`}>
+                            <Link className="" to={`/user/${post.author}`}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                }}>
                                 {post.author}
                             </Link>
                         </div>
