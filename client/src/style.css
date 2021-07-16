@@ -213,29 +213,14 @@ body {
   background: #ececec;
   padding: 10px;
   width: 100%;
+  max-width: 100%;
+  height: 60px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 120px auto 120px;
-      grid-template-columns: 120px auto 120px;
-}
-
-.post-list .item > * {
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-}
-
-.post-list .item > *:last-child {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  justify-self: flex-end;
 }
 
 .post-list .item:nth-child(even) {
@@ -252,18 +237,64 @@ body {
           user-select: none;
 }
 
+.post-list .post {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.post-list .post:hover {
+  text-decoration: none;
+  background: #ccc;
+}
+
+.post-list .post .post-date {
+  min-width: 100px;
+}
+
 .post-list .post .post-title {
   font-size: 1rem;
-  color: #fff;
   color: #048;
   word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .post-list .post .post-author {
   font-size: 1rem;
-  color: #26a;
   opacity: .9;
-  padding-left: 5px;
+  min-width: 120px;
+  max-width: 120px;
+  margin-left: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.post-list .post .post-author p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-list .post .post-author a {
+  color: #26a;
+  padding-left: 4px;
 }
 
 .post {
@@ -400,5 +431,68 @@ form #form-error-message {
   max-width: 500px;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .content {
+    margin: 0;
+  }
+  .header-section header {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .header-section nav {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .header-section nav .flex-separator {
+    display: none;
+  }
+  .post-list {
+    max-width: 100%;
+  }
+  .post-list .item {
+    height: 100px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .post-list .item .post-date {
+    -webkit-box-ordinal-group: 4;
+        -ms-flex-order: 3;
+            order: 3;
+  }
+  .post-list .item .post-title {
+    -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+            order: 1;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .post-list .item .post-author {
+    -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+            order: 2;
+    margin: 0;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+  }
 }
 /*# sourceMappingURL=style.css.map */
