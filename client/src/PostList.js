@@ -20,24 +20,37 @@ const PostList = () => {
     useEffect(() => {
         if (!posts) return;
 
-        switch (postOrder) {
-            case 'date':
+        if (postOrder === 'date') {
+            if (postOrderDirection === 'ascending') {
                 posts.sort((postA, postB) => {
                     const dateA = new Date(`${postA.date[2]}-${postA.date[0]}-${postA.date[1]}`);
                     const dateB = new Date(`${postB.date[2]}-${postB.date[0]}-${postB.date[1]}`);
-                    return (postOrderDirection === 'ascending')
-                        ? (dateB - dateA)
-                        : (dateA - dateB);
+                    return dateB - dateA;
                 });
-                break;
-
-            case 'title':
+                console.log(posts);
+            }
+            else if (postOrderDirection === 'descending') {
                 posts.sort((postA, postB) => {
-                    return (postOrderDirection === 'ascending')
-                        ? postA.title.toLowerCase() < postB.title.toLowerCase()
-                        : postA.title.toLowerCase() > postB.title.toLowerCase();
+                    const dateA = new Date(`${postA.date[2]}-${postA.date[0]}-${postA.date[1]}`);
+                    const dateB = new Date(`${postB.date[2]}-${postB.date[0]}-${postB.date[1]}`);
+                    return dateA - dateB;
                 });
-                break;
+                console.log(posts);
+            }
+        }
+        else if (postOrder === 'title') {
+            if (postOrderDirection === 'ascending') {
+                posts.sort((postA, postB) => {
+                    return postA.title.toLowerCase() < postB.title.toLowerCase();
+                });
+                console.log(posts);
+            }
+            else if (postOrderDirection === 'descending') {
+                posts.sort((postA, postB) => {
+                    return postA.title.toLowerCase() > postB.title.toLowerCase();
+                });
+                console.log(posts);
+            }
         }
     }, [posts, postOrder, postOrderDirection]);
 
@@ -48,22 +61,25 @@ const PostList = () => {
 
             <div className="post-list">
 
-                <div className="item post-list-controls">
-                    <select id="sort-by"
-                        onChange={(e) => setPostOrder(e.target.value)}>
-                        <option value="date">Sort by date</option>
-                        <option value="title">Sort by title</option>
-                    </select>
+                <div className="item post-list-options">
+
+                    <div className="group">
+                        <p>Sort by</p>
+                        <select id="sort-by"
+                            onChange={(e) => setPostOrder(e.target.value)}>
+                            <option value="date">date</option>
+                            <option value="title">title</option>
+                        </select>
+                    </div>
 
                     <select id="sort-direction"
                         onChange={(e) => setPostOrderDirection(e.target.value)}>
-                        <option value="ascending">Ascending</option>
-                        <option value="descending">Descending</option>
+                        <option value="ascending">ascending</option>
+                        <option value="descending">descending</option>
                     </select>
 
-                    {loginData.logged
-                        ? <Link to="/createpost" className="link">Create post</Link>
-                        : <div></div>
+                    {loginData.logged &&
+                        <Link to="/createpost" className="link" id="create-post">Create post</Link>
                     }
                 </div>
 

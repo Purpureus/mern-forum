@@ -228,13 +228,46 @@ body {
   background: #e0e0e0;
 }
 
-.post-list .post-list-controls {
+.post-list .post-list-options {
   background: #26a;
   color: #fff;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+}
+
+.post-list .post-list-options > * {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.post-list .post-list-options select {
+  margin-left: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  text-align: center;
+  border-bottom: 1px solid white;
+  cursor: pointer;
+}
+
+.post-list .post-list-options select:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.post-list .post-list-options select option {
+  background: white;
+  color: black;
+}
+
+.post-list .post-list-options #create-post {
+  margin-left: auto;
 }
 
 .post-list .post {
@@ -248,11 +281,16 @@ body {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+  cursor: pointer;
 }
 
 .post-list .post:hover {
   text-decoration: none;
   background: #ccc;
+}
+
+.post-list .post:hover .post-title {
+  text-decoration: underline;
 }
 
 .post-list .post .post-date {
@@ -493,6 +531,24 @@ form #form-error-message {
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: flex-start;
+  }
+  .post-list .post-list-options {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .post-list .post-list-options #create-post {
+    -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
   }
 }
 /*# sourceMappingURL=style.css.map */
