@@ -174,7 +174,6 @@ body {
     }
 
     .item:nth-child(even) {
-        background: transparentize($accent-bg, 0.1);
         background: $even-bg;
     }
 
@@ -182,6 +181,7 @@ body {
         background: $accent-bg-light;
         color: $accent-fg;
         user-select: none;
+        height: max-content;
 
         & > * {
             display: flex;
@@ -206,7 +206,7 @@ body {
             }
         }
 
-        #create-post {
+        .create-post {
             margin-left: auto;
         }
     }
@@ -421,7 +421,8 @@ form {
             justify-content: flex-start;
             align-items: center;
             flex-wrap: wrap;
-            #create-post {
+            height: max-content;
+            .create-post {
                 flex-basis: 100%;
             }
         }

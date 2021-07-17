@@ -224,7 +224,6 @@ body {
 }
 
 .post-list .item:nth-child(even) {
-  background: rgba(0, 68, 136, 0.9);
   background: #e0e0e0;
 }
 
@@ -235,6 +234,9 @@ body {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
 }
 
 .post-list .post-list-options > * {
@@ -266,7 +268,7 @@ body {
   color: black;
 }
 
-.post-list .post-list-options #create-post {
+.post-list .post-list-options .create-post {
   margin-left: auto;
 }
 
@@ -545,8 +547,11 @@ form #form-error-message {
             align-items: center;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
+    height: -webkit-max-content;
+    height: -moz-max-content;
+    height: max-content;
   }
-  .post-list .post-list-options #create-post {
+  .post-list .post-list-options .create-post {
     -ms-flex-preferred-size: 100%;
         flex-basis: 100%;
   }
