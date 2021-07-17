@@ -13,6 +13,9 @@ const PostList = () => {
     const [postOrder, setPostOrder] = useState('date');
     const [postOrderDirection, setPostOrderDirection] = useState('ascending');
 
+    // NOTE: we define a trigger to sort the posts in order to solve reference equality issues.
+    const [sortPostsQueued, setSortPostsQueued] = useState(false);
+
     useEffect(() => {
         const url = `http://localhost:8000/api/posts`;
         doFetch(url, {}, (data, error) => {
@@ -21,13 +24,11 @@ const PostList = () => {
         });
     }, [doFetch]);
 
-    useEffect(() => {
-        if (!posts || posts.length <= 0) return;
-
+    const sortPosts = () => {
         const order = `${postOrder} ${postOrderDirection}`;
         const sortedPosts = [...posts];
 
-        console.log(order);
+        console.log(`Sorting...`);
 
         switch (order) {
             case 'date ascending':
@@ -58,8 +59,16 @@ const PostList = () => {
         }
 
         setPosts(sortedPosts);
+    };
 
-    }, [setPosts, postOrder, postOrderDirection]);
+    useEffect(() => {
+        setSortPostsQueued(true);
+    }, [postOrder, postOrderDirection, setSortPostsQueued]);
+
+    if (posts && posts.length > 0 && sortPostsQueued) {
+        sortPosts();
+        setSortPostsQueued(false);
+    }
 
 
     const postListOptions = (
