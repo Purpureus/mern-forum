@@ -515,6 +515,17 @@ form #form-error-message {
     -webkit-box-ordinal-group: 4;
         -ms-flex-order: 3;
             order: 3;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    opacity: .6;
+  }
+  .post-list .item .post-date > * {
+    margin-right: 7px;
   }
   .post-list .item .post-title {
     -webkit-box-ordinal-group: 2;

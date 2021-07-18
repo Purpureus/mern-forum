@@ -32,19 +32,11 @@ const PostList = () => {
 
         switch (order) {
             case 'date ascending':
-                sortedPosts.sort((postA, postB) => {
-                    const dateA = new Date(`${postA.date[2]}-${postA.date[0]}-${postA.date[1]}`);
-                    const dateB = new Date(`${postB.date[2]}-${postB.date[0]}-${postB.date[1]}`);
-                    return dateA - dateB;
-                });
+                sortedPosts.sort((postA, postB) => new Date(postA.date - postB.date));
                 break;
 
             case 'date descending':
-                sortedPosts.sort((postA, postB) => {
-                    const dateA = new Date(`${postA.date[2]}-${postA.date[0]}-${postA.date[1]}`);
-                    const dateB = new Date(`${postB.date[2]}-${postB.date[0]}-${postB.date[1]}`);
-                    return dateB - dateA;
-                });
+                sortedPosts.sort((postA, postB) => new Date(postB.date - postA.date));
                 break;
 
             case 'title ascending':
@@ -69,7 +61,6 @@ const PostList = () => {
         sortPosts();
         setSortPostsQueued(false);
     }
-
 
     const postListOptions = (
         <div className="item post-list-options">
@@ -105,13 +96,26 @@ const PostList = () => {
 
                 {postListOptions}
 
+                {(posts && posts.length > 0) ||
+                    <div className="item">No posts to be displayed</div>
+                }
+
                 {posts && posts.sort().map((post, postIndex) => (
                     <div className="post item" key={postIndex}
                         onClick={() => history.push(`/post/${post.postId}`)}>
 
                         <div className="post-date">
                             {post.date &&
-                                <p> {post.date[0]}/{post.date[1]}/{post.date[2]} </p>
+                                <>
+                                    <p>
+                                        {post.date.slice(0, 4)}/
+                                        {post.date.slice(5, 7)}/
+                                        {post.date.slice(8, 10)}
+                                    </p>
+                                    <p>
+                                        at {post.date.slice(11, 19)}
+                                    </p>
+                                </>
                             }
                         </div>
 

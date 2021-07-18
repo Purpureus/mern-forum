@@ -109,18 +109,13 @@ router.post('/', authToken, (req, res) => {
                 return (res.send(error));
             }
 
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = date.getMonth().toString().padStart(2, '0');
-            const day = date.getDay().toString().padStart(2, '0');
-
             posts.push({
                 postId: nextId,
                 title: req.body.title,
                 content: req.body.content,
                 authorId: req.jwtData.user.id,
                 author: req.jwtData.user.name,
-                date: [month, day, year]
+                date: new Date()
             });
 
             let writeSuccess = true;

@@ -37,8 +37,10 @@ function useFetch() {
 					return;
 				}
 				setFetchLoading(false);
-				setFetchError(JSON.parse(err.message));
-				then(null, JSON.parse(err.message));
+				console.log(err.message);
+				const errorMessage = JSON.parse(err.message || "{}");
+				setFetchError(errorMessage);
+				then(null, errorMessage);
 			});
 	}, [abortController.signal]);
 
