@@ -61,6 +61,7 @@ const CreatePost = () => {
                 title: "",
                 content: ""
             }));
+            clearTimeout(saveDraftTimeout);
             history.push('/');
         });
     }
