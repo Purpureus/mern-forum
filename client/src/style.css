@@ -223,10 +223,6 @@ body {
           align-items: center;
 }
 
-.post-list .item:nth-child(even) {
-  background: #e0e0e0;
-}
-
 .post-list .post-list-options {
   background: #26a;
   color: #fff;
@@ -293,6 +289,10 @@ body {
 
 .post-list .post:hover .post-title {
   text-decoration: underline;
+}
+
+.post-list .post:nth-child(even) {
+  background: #e0e0e0;
 }
 
 .post-list .post .post-date {

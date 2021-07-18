@@ -173,10 +173,6 @@ body {
         align-items: center;
     }
 
-    .item:nth-child(even) {
-        background: $even-bg;
-    }
-
     .post-list-options {
         background: $accent-bg-light;
         color: $accent-fg;
@@ -223,6 +219,9 @@ body {
             .post-title {
                 text-decoration: underline;
             }
+        }
+        &:nth-child(even) {
+            background: $even-bg;
         }
 
         .post-date {

@@ -2,7 +2,6 @@
 
 <h2>TODO</h2>
 <ul>
-	<li>Make it mobile-friendly</li>
 	<li>Request only n posts in each page</li>
 	<li>Store post creation hour along with date</li>
 	<li>Missing dependency on useEffect in App.js (fetch is done on app mount so dependencies </li>shouldn't be added?)
