@@ -14,7 +14,7 @@ const PostList = () => {
     const [postOrderDirection, setPostOrderDirection] = useState('ascending');
     const [page, setPage] = useState(1);
     const [numberOfPages, setNumberOfPages] = useState(1);
-    const postsPerPage = 1;
+    const postsPerPage = 4;
 
     // NOTE: we define a trigger to sort the posts in order to solve reference equality issues.
     const [sortPostsQueued, setSortPostsQueued] = useState(false);
@@ -33,8 +33,6 @@ const PostList = () => {
     const sortPosts = () => {
         const order = `${postOrder} ${postOrderDirection}`;
         const sortedPosts = [...posts];
-
-        console.log(`Sorting...`);
 
         switch (order) {
             case 'date ascending':
@@ -94,8 +92,10 @@ const PostList = () => {
     );
 
     const pageButtons = [];
-    for (let i = 0; i < numberOfPages; i++) {
-        pageButtons.push('');
+    const minCap = Math.min(Math.max(0, page - 3), Math.max(0, numberOfPages - 5));
+    const maxCap = Math.max(Math.min(numberOfPages, page + 2), Math.min(5, numberOfPages));
+    for (let i = minCap; i < maxCap; i++) {
+        pageButtons.push(i + 1);
     }
 
     const pageOptions = (
@@ -108,8 +108,8 @@ const PostList = () => {
 
             {pageButtons && pageButtons.map((button, buttonIndex) => (
                 <button key={buttonIndex}
-                    className={`page-button ${buttonIndex + 1 === page && 'current'}`}
-                    onClick={(e) => setPage(buttonIndex + 1)}>{buttonIndex + 1}</button>
+                    className={`page-button ${button === page && 'current'}`}
+                    onClick={(e) => setPage(button)}>{button}</button>
             ))
             }
 

@@ -64,11 +64,9 @@ const Post = () => {
 						{fetchData.post.title}
 					</h1>
 
-					<Link
-						className="post-author"
-						to={`/ user / ${fetchData.post.author} `}>
+					<p className="post-author">
 						By {fetchData.post.author}
-					</Link>
+					</p>
 
 					<p className="post-content">
 						{fetchData.post.content}
