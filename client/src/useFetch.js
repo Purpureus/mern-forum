@@ -17,7 +17,6 @@ function useFetch() {
 	const doFetch = useCallback((url, options = {}, then = () => { }) => {
 		options.signal = abortController.signal;
 
-		console.log('Fetching');
 		fetch(url, options)
 			.then(res => {
 				if (!res.ok) {
@@ -38,7 +37,12 @@ function useFetch() {
 				}
 				setFetchLoading(false);
 				console.log(err.message);
-				const errorMessage = JSON.parse(err.message || "{}");
+				let errorMessage = "";
+				try {
+					errorMessage = JSON.parse(err.message);
+				} catch (error) {
+					errorMessage = `JSON.parse error: ${error}. JSON data: ${err.message}`;
+				}
 				setFetchError(errorMessage);
 				then(null, errorMessage);
 			});

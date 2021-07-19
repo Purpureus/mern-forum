@@ -12,17 +12,23 @@ const PostList = () => {
     const [posts, setPosts] = useState(null);
     const [postOrder, setPostOrder] = useState('date');
     const [postOrderDirection, setPostOrderDirection] = useState('ascending');
+    const [page, setPage] = useState(1);
+    const [numberOfPages, setNumberOfPages] = useState(1);
+    const postsPerPage = 1;
 
     // NOTE: we define a trigger to sort the posts in order to solve reference equality issues.
     const [sortPostsQueued, setSortPostsQueued] = useState(false);
 
     useEffect(() => {
-        const url = `http://localhost:8000/api/posts`;
+        const from = postsPerPage * (page - 1);
+        const to = postsPerPage * page;
+        const url = `http://localhost:8000/api/posts?from=${from}&to=${to}`;
         doFetch(url, {}, (data, error) => {
             if (error || !data) return;
-            setPosts(data);
+            setPosts(data.posts);
+            setNumberOfPages(data.numberOfPages);
         });
-    }, [doFetch]);
+    }, [doFetch, page]);
 
     const sortPosts = () => {
         const order = `${postOrder} ${postOrderDirection}`;
@@ -32,11 +38,11 @@ const PostList = () => {
 
         switch (order) {
             case 'date ascending':
-                sortedPosts.sort((postA, postB) => new Date(postA.date - postB.date));
+                sortedPosts.sort((postA, postB) => new Date(postA.date) - new Date(postB.date));
                 break;
 
             case 'date descending':
-                sortedPosts.sort((postA, postB) => new Date(postB.date - postA.date));
+                sortedPosts.sort((postA, postB) => new Date(postB.date) - new Date(postA.date));
                 break;
 
             case 'title ascending':
@@ -87,6 +93,31 @@ const PostList = () => {
         </div>
     );
 
+    const pageButtons = [];
+    for (let i = 0; i < numberOfPages; i++) {
+        pageButtons.push('');
+    }
+
+    const pageOptions = (
+        <div className="item page-controls">
+            <p>Page</p>
+            <button className={`page-button ${page <= 1 && 'disabled'}`}
+                onClick={() => (page > 1) && setPage(page - 1)}>
+                &larr;
+            </button>
+
+            {pageButtons && pageButtons.map((button, buttonIndex) => (
+                <button key={buttonIndex}
+                    className={`page-button ${buttonIndex + 1 === page && 'current'}`}
+                    onClick={(e) => setPage(buttonIndex + 1)}>{buttonIndex + 1}</button>
+            ))
+            }
+
+            <button className={`page-button ${page >= numberOfPages && 'disabled'}`}
+                onClick={() => setPage(page + 1)}>&rarr;</button>
+        </div >
+    );
+
     return (
         <>
             { fetchError && <p className="error">An error occurred: {fetchError}</p>}
@@ -95,12 +126,13 @@ const PostList = () => {
             <div className="post-list">
 
                 {postListOptions}
+                {pageOptions}
 
                 {(posts && posts.length > 0) ||
                     <div className="item">No posts to be displayed</div>
                 }
 
-                {posts && posts.sort().map((post, postIndex) => (
+                {posts && Array.isArray(posts) && posts.map((post, postIndex) => (
                     <div className="post item" key={postIndex}
                         onClick={() => history.push(`/post/${post.postId}`)}>
 
@@ -124,11 +156,7 @@ const PostList = () => {
                         </p>
 
                         <div className="post-author">
-                            <p>By</p>
-                            <Link className="" to={`/user/${post.author}`}
-                                onClick={(e) => e.stopPropagation()}>
-                                {post.author}
-                            </Link>
+                            By {post.author}
                         </div>
 
                     </div>

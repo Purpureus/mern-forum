@@ -46,7 +46,17 @@ function setNextPostId() {
 
 router.get('/', (req, res) => {
     readFile('db/posts.json', (data) => {
-        const postList = JSON.parse(data).map(post => {
+        let postsFileData = ``;
+        try {
+            postsFileData = JSON.parse(data);
+        } catch (error) {
+            console.log(`Error parsing JSON from posts.json: ${error}`);
+        }
+        const from = req.query.from || 0;
+        const to = req.query.to || 20;
+        const maxPages = Math.ceil(postsFileData.length / (to - from));
+
+        const postList = postsFileData.slice(from, to).map(post => {
             return {
                 postId: post.postId,
                 title: post.title,
@@ -54,7 +64,11 @@ router.get('/', (req, res) => {
                 date: post.date
             };
         });
-        return res.json(postList);
+
+        return res.json({
+            posts: postList,
+            numberOfPages: maxPages
+        });
     });
 });
 

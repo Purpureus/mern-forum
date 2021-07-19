@@ -209,7 +209,6 @@ body {
 }
 
 .post-list .item {
-  background: rgba(0, 68, 136, 0.7);
   background: #ececec;
   padding: 10px;
   width: 100%;
@@ -223,6 +222,7 @@ body {
           align-items: center;
 }
 
+.post-list .page-controls,
 .post-list .post-list-options {
   background: #26a;
   color: #fff;
@@ -233,6 +233,45 @@ body {
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
+}
+
+.post-list .page-controls {
+  width: 100%;
+}
+
+.post-list .page-controls p {
+  margin-right: 5px;
+}
+
+.post-list .page-controls .page-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  height: 25px;
+  width: 25px;
+  margin-right: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.post-list .page-controls .page-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.post-list .page-controls .page-button.disabled {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.post-list .page-controls .page-button.current {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .post-list .post-list-options > * {
@@ -249,9 +288,9 @@ body {
   margin-left: 8px;
   background: rgba(255, 255, 255, 0.1);
   border: none;
+  border-bottom: 1px solid white;
   color: white;
   text-align: center;
-  border-bottom: 1px solid white;
   cursor: pointer;
 }
 
@@ -282,6 +321,10 @@ body {
   cursor: pointer;
 }
 
+.post-list .post:nth-child(even) {
+  background: #e0e0e0;
+}
+
 .post-list .post:hover {
   text-decoration: none;
   background: #ccc;
@@ -291,12 +334,10 @@ body {
   text-decoration: underline;
 }
 
-.post-list .post:nth-child(even) {
-  background: #e0e0e0;
-}
-
 .post-list .post .post-date {
   min-width: 100px;
+  opacity: .6;
+  font-size: .7rem;
 }
 
 .post-list .post .post-title {
@@ -522,7 +563,6 @@ form #form-error-message {
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
             flex-direction: row;
-    opacity: .6;
   }
   .post-list .item .post-date > * {
     margin-right: 7px;

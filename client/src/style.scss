@@ -163,7 +163,6 @@ body {
     $even-bg: #e0e0e0;
 
     .item {
-        background: transparentize($accent-bg, 0.3);
         background: $odd-bg;
         padding: 10px;
         width: 100%;
@@ -173,12 +172,46 @@ body {
         align-items: center;
     }
 
+    .page-controls,
     .post-list-options {
         background: $accent-bg-light;
         color: $accent-fg;
         user-select: none;
         height: max-content;
+    }
 
+    .page-controls {
+        width: 100%;
+        
+        p {
+            margin-right: 5px;
+        }
+
+        .page-button {
+            background: transparentize(white, 0.9);
+            color: white;
+            height: 25px;
+            width: 25px;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+                background: transparentize(white, 0.8);
+            }
+            &.disabled {
+                cursor: default;
+                pointer-events: none;
+                opacity: 0;
+            }
+            &.current {
+                background: transparentize(white, 0.7);
+            }
+        }
+    }
+
+    .post-list-options {
         & > * {
             display: flex;
             flex-direction: row;
@@ -188,9 +221,9 @@ body {
             margin-left: 8px;
             background: transparentize(white, 0.9);
             border: none;
+            border-bottom: 1px solid white;
             color: white;
             text-align: center;
-            border-bottom: 1px solid white;
             cursor: pointer;
             &:hover {
                 background: transparentize(white, 0.8);
@@ -213,6 +246,9 @@ body {
         justify-content: flex-start;
         cursor: pointer;
 
+        &:nth-child(even) {
+            background: $even-bg;
+        }
         &:hover {
             text-decoration: none;
             background: #ccc;
@@ -220,12 +256,11 @@ body {
                 text-decoration: underline;
             }
         }
-        &:nth-child(even) {
-            background: $even-bg;
-        }
 
         .post-date {
             min-width: 100px;
+            opacity: .6;
+            font-size: .7rem;
         }
         .post-title {
             font-size: 1rem;
@@ -402,7 +437,6 @@ form {
                 order: 3;
                 display: flex;
                 flex-direction: row;
-                opacity: .6;
                 & > * {
                     margin-right: 7px;
                 }
