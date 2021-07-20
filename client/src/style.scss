@@ -455,12 +455,16 @@ form {
             }
         }
 
+        .page-controls,
         .post-list-options {
             flex-direction: row;
             justify-content: flex-start;
+            height: max-content;
+        }
+
+        .post-list-options {
             align-items: center;
             flex-wrap: wrap;
-            height: max-content;
             .create-post {
                 flex-basis: 100%;
             }
