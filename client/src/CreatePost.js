@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback } from 'react';
+import { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 import useFetch from './useFetch';
@@ -12,7 +12,7 @@ const CreatePost = () => {
     const [postContent, setPostContent] = useState("");
     const [doFetch, fetchLoading, fetchError] = useFetch();
     const [loginData, , logOut] = useContext(LoginDataContext);
-    const [saveDraftTimeout, setSaveDraftTimeout] = useState(null);
+    const saveDraftTimeout = useRef(null);
 
     const saveDraft = useCallback(() => {
         console.log('Saving draft...');
@@ -34,9 +34,10 @@ const CreatePost = () => {
     }, [fetchError, logOut]);
 
     useEffect(() => {
-        if (saveDraftTimeout) clearTimeout(saveDraftTimeout);
-        setSaveDraftTimeout(setTimeout(saveDraft, 1500));
-        return clearTimeout(saveDraftTimeout);
+        if (saveDraftTimeout.current) {
+            clearTimeout(saveDraftTimeout.current);
+        }
+        saveDraftTimeout.current = setTimeout(saveDraft, 1500);
     }, [postTitle, postContent, saveDraft]);
 
     function submitPost(e) {
@@ -61,7 +62,7 @@ const CreatePost = () => {
                 title: "",
                 content: ""
             }));
-            clearTimeout(saveDraftTimeout);
+            clearTimeout(saveDraftTimeout.current);
             history.push('/');
         });
     }
