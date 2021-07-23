@@ -25,7 +25,7 @@ const Navbar = () => {
             <div className="flex-separator"></div>
 
             { loginData && loginData.logged
-                ? <p>Logged as <Link to={`/user/${loginData.username}`}>{loginData.username}</Link></p>
+                ? <p>Logged as {loginData.username}</p>
                 : <p>[Not logged in]</p>
             }
 

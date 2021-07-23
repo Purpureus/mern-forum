@@ -6,6 +6,7 @@ import Header from './Header';
 import Post from './Post';
 import UserDetails from './UserDetails';
 import CreatePost from './CreatePost';
+import EditPost from './EditPost';
 import Login from './Login';
 import Signup from './Signup';
 import LoginDataContext from './LoginDataContext';
@@ -47,6 +48,10 @@ function App() {
                                 <CreatePost />
                             </Route>
 
+                            <Route path="/post/:postId/edit">
+                                <EditPost />
+                            </Route>
+
                             <Route path="/post/:postId">
                                 <Post />
                             </Route>
@@ -60,7 +65,7 @@ function App() {
                             </Route>
 
                             <Route path="/signup">
-                                <Signup></Signup>
+                                <Signup />
                             </Route>
 
                             <Route path="/404">

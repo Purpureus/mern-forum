@@ -28,7 +28,7 @@ function useFetch() {
 				setFetchLoading(false);
 				setFetchError(null);
 				setFetchData(data);
-				then(data);
+				then(data, null);
 			})
 			.catch(err => {
 				if (err.name === 'AbortError') {

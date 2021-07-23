@@ -37,6 +37,25 @@ const Post = () => {
 		});
 	}
 
+	function pinPost(value) {
+		const url = `http://localhost:8000/api/posts/${postId}`;
+		const options = {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer: ${loginData.accessToken}`
+			},
+			body: JSON.stringify({
+				pinned: value
+			})
+		};
+
+		doFetch(url, options, (data, error) => {
+			if (error) return;
+			history.push('/');
+		});
+	}
+
 	let errorDisplayMessage = null;
 	if (fetchError) {
 		const sessionExpiredMessage = <>
@@ -68,11 +87,15 @@ const Post = () => {
 						By {fetchData.post.author}
 					</p>
 
+					{(fetchData.isAdmin || fetchData.isAuthor) &&
+						<Link to={`${postId}/edit`}>Edit post</Link>
+					}
+
 					<p className="post-content">
 						{fetchData.post.content}
 					</p>
 
-					{fetchData.canDelete && <>
+					{(fetchData.isAdmin || fetchData.isAuthor) && <>
 						{clickDelete ||
 							<button id="delete-post"
 								className="button rounded-button red"
@@ -96,6 +119,19 @@ const Post = () => {
 								</button>
 							</div>
 						</>}
+					</>}
+
+					{fetchData.isAdmin && <><br />
+						{fetchData.post.pinned ?
+							<button id="pin-post" className="button rounded-button blue"
+								onClick={() => pinPost(false)}>
+								Unpin post
+							</button> :
+							<button id="pin-post" className="button rounded-button blue"
+								onClick={() => pinPost(true)}>
+								Pin post
+							</button>
+						}
 					</>}
 				</div>
 			}

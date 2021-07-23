@@ -2,9 +2,12 @@
 
 <h2>TODO</h2>
 <ul>
-	<li>Request only n posts in each page</li>
-	<li>Store post creation hour along with date</li>
-	<li>Missing dependency on useEffect in App.js (fetch is done on app mount so dependencies </li>shouldn't be added?)
 	<li>Post search</li>
 	<li>Encrypt passwords</li>
+</ul>
+
+<h2>Done</h2>
+<ul>
+	<li>Implement pages</li>
+	<li>Store post creation hour along with date</li>
 </ul>

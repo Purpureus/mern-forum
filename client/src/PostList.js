@@ -10,14 +10,14 @@ const PostList = () => {
     const history = useHistory();
 
     const [posts, setPosts] = useState(null);
-    const [postOrder, setPostOrder] = useState('date');
-    const [postOrderDirection, setPostOrderDirection] = useState('ascending');
+    // const [postOrder, setPostOrder] = useState('date');
+    // const [postOrderDirection, setPostOrderDirection] = useState('ascending');
     const [page, setPage] = useState(1);
     const [numberOfPages, setNumberOfPages] = useState(1);
-    const postsPerPage = 4;
+    const postsPerPage = 10;
 
     // NOTE: we define a trigger to sort the posts in order to solve reference equality issues.
-    const [sortPostsQueued, setSortPostsQueued] = useState(false);
+    // const [sortPostsQueued, setSortPostsQueued] = useState(false);
 
     useEffect(() => {
         const from = postsPerPage * (page - 1);
@@ -30,66 +30,62 @@ const PostList = () => {
         });
     }, [doFetch, page]);
 
-    const sortPosts = () => {
-        const order = `${postOrder} ${postOrderDirection}`;
-        const sortedPosts = [...posts];
+    // const sortPosts = () => {
+    //     const order = `${postOrder} ${postOrderDirection}`;
+    //     const sortedPosts = [...posts];
 
-        switch (order) {
-            case 'date ascending':
-                sortedPosts.sort((postA, postB) => new Date(postA.date) - new Date(postB.date));
-                break;
+    //     switch (order) {
+    //         case 'date ascending':
+    //             sortedPosts.sort((postA, postB) => new Date(postA.date) - new Date(postB.date));
+    //             break;
 
-            case 'date descending':
-                sortedPosts.sort((postA, postB) => new Date(postB.date) - new Date(postA.date));
-                break;
+    //         case 'date descending':
+    //             sortedPosts.sort((postA, postB) => new Date(postB.date) - new Date(postA.date));
+    //             break;
 
-            case 'title ascending':
-                sortedPosts.sort((postA, postB) => postA.title.localeCompare(postB.title));
-                break;
+    //         case 'title ascending':
+    //             sortedPosts.sort((postA, postB) => postA.title.localeCompare(postB.title));
+    //             break;
 
-            case 'title descending':
-                sortedPosts.sort((postA, postB) => postB.title.localeCompare(postA.title));
-                break;
+    //         case 'title descending':
+    //             sortedPosts.sort((postA, postB) => postB.title.localeCompare(postA.title));
+    //             break;
 
-            default:
-        }
+    //         default:
+    //     }
 
-        setPosts(sortedPosts);
-    };
+    //     setPosts(sortedPosts);
+    // };
 
-    useEffect(() => {
-        setSortPostsQueued(true);
-    }, [postOrder, postOrderDirection, setSortPostsQueued]);
+    // useEffect(() => {
+    //     setSortPostsQueued(true);
+    // }, [postOrder, postOrderDirection, setSortPostsQueued]);
 
-    if (posts && posts.length > 0 && sortPostsQueued) {
-        sortPosts();
-        setSortPostsQueued(false);
-    }
+    // if (posts && posts.length > 0 && sortPostsQueued) {
+    //     sortPosts();
+    //     setSortPostsQueued(false);
+    // }
 
-    const postListOptions = (
-        <div className="item post-list-options">
-            <div className="group">
-                <p>Sort by</p>
-                <select id="sort-by"
-                    value={postOrder}
-                    onChange={(e) => setPostOrder(e.target.value)}>
-                    <option value='date'>date</option>
-                    <option value='title'>title</option>
-                </select>
-            </div>
+    // const postListOptions = (
+    //     <div className="item post-list-options">
+    //         <div className="group">
+    //             <p>Sort by</p>
+    //             <select id="sort-by"
+    //                 value={postOrder}
+    //                 onChange={(e) => setPostOrder(e.target.value)}>
+    //                 <option value='date'>date</option>
+    //                 <option value='title'>title</option>
+    //             </select>
+    //         </div>
 
-            <select id="sort-direction"
-                value={postOrderDirection}
-                onChange={(e) => setPostOrderDirection(e.target.value)}>
-                <option value='ascending'>ascending</option>
-                <option value='descending'>descending</option>
-            </select>
-
-            {loginData.logged &&
-                <Link to="/createpost" className="link create-post">Create post</Link>
-            }
-        </div>
-    );
+    //         <select id="sort-direction"
+    //             value={postOrderDirection}
+    //             onChange={(e) => setPostOrderDirection(e.target.value)}>
+    //             <option value='ascending'>ascending</option>
+    //             <option value='descending'>descending</option>
+    //         </select>
+    //     </div>
+    // );
 
     const pageButtons = [];
     const minCap = Math.min(Math.max(0, page - 3), Math.max(0, numberOfPages - 5));
@@ -115,6 +111,10 @@ const PostList = () => {
 
             <button className={`page-button ${page >= numberOfPages && 'disabled'}`}
                 onClick={() => setPage(page + 1)}>&rarr;</button>
+
+            {loginData.logged &&
+                <Link to="/createpost" className="link create-post">Create post</Link>
+            }
         </div >
     );
 
@@ -125,7 +125,7 @@ const PostList = () => {
 
             <div className="post-list">
 
-                {postListOptions}
+                {/* {postListOptions} */}
                 {pageOptions}
 
                 {(posts && posts.length > 0) ||
@@ -133,7 +133,7 @@ const PostList = () => {
                 }
 
                 {posts && Array.isArray(posts) && posts.map((post, postIndex) => (
-                    <div className="post item" key={postIndex}
+                    <div className={`post item ${post.pinned ? 'pinned' : ''}`} key={postIndex}
                         onClick={() => history.push(`/post/${post.postId}`)}>
 
                         <div className="post-date">
@@ -151,6 +151,9 @@ const PostList = () => {
                             }
                         </div>
 
+                        {post.pinned &&
+                            <p className="pinned-post-tag"><i>{`PINNED`}</i></p>
+                        }
                         <p className="post-title">
                             {post.title}
                         </p>
@@ -162,7 +165,8 @@ const PostList = () => {
                     </div>
                 ))}
 
-                {postListOptions}
+                {pageOptions}
+                {/* {postListOptions} */}
 
             </div>
         </>

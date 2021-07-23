@@ -235,8 +235,24 @@ body {
   height: max-content;
 }
 
+.post-list .create-post {
+  margin-left: auto;
+}
+
 .post-list .page-controls {
   width: 100%;
+}
+
+.post-list .page-controls:first-child {
+  -webkit-box-ordinal-group: -1;
+      -ms-flex-order: -2;
+          order: -2;
+}
+
+.post-list .page-controls:last-child {
+  -webkit-box-ordinal-group: 11;
+      -ms-flex-order: 10;
+          order: 10;
 }
 
 .post-list .page-controls p {
@@ -303,10 +319,6 @@ body {
   color: black;
 }
 
-.post-list .post-list-options .create-post {
-  margin-left: auto;
-}
-
 .post-list .post {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -319,6 +331,7 @@ body {
       -ms-flex-pack: start;
           justify-content: flex-start;
   cursor: pointer;
+  position: relative;
 }
 
 .post-list .post:nth-child(even) {
@@ -332,6 +345,20 @@ body {
 
 .post-list .post:hover .post-title {
   text-decoration: underline;
+}
+
+.post-list .post.pinned {
+  -webkit-box-ordinal-group: 0;
+      -ms-flex-order: -1;
+          order: -1;
+}
+
+.post-list .post .pinned-post-tag {
+  background: #48c;
+  color: white;
+  padding: 1px 5px;
+  border-radius: 5px;
+  margin-right: 5px;
 }
 
 .post-list .post .post-date {
