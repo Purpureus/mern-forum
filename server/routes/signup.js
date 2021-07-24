@@ -42,30 +42,30 @@ router.post('/', (req, res) => {
 	const password = req.body.password;
 
 	if (!username || !password) {
-		res.status(403).json({ error: `You must provide a username and password` });
+		res.status(403).json({ message: `You must provide a username and password` });
 		return;
 	}
 	if (username.length < 8) {
-		res.status(403).json({ error: `Username is too short` });
+		res.status(403).json({ message: `Username is too short` });
 		return;
 	}
 	if (password.length < 8) {
-		res.status(403).json({ error: `Password is too short` });
+		res.status(403).json({ message: `Password is too short` });
 		return;
 	}
 	if (username.length > 99) {
-		res.status(403).json({ error: `Username is too long` });
+		res.status(403).json({ message: `Username is too long` });
 		return;
 	}
 	if (password.length > 99) {
-		res.status(403).json({ error: `Password is too long` });
+		res.status(403).json({ message: `Password is too long` });
 		return;
 	}
 
 	readFile('db/users.json', data => {
 		const users = JSON.parse(data);
 		if (users.find(user => user.name == username)) {
-			res.status(400).json({ error: `That username already exists.` });
+			res.status(400).json({ message: `That username already exists.` });
 			return;
 		}
 		getNextUserId((userId) => {

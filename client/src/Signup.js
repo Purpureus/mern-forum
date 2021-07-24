@@ -14,7 +14,10 @@ const Signup = () => {
 	const [repeatPasswordField, setRepeatPasswordField] = useState('');
 	const [errorMessage, setErrorMessage] = useState('');
 	const [submitEnabled, setSubmitEnabled] = useState(false);
-	const [doFetch, fetchLoading, fetchError] = useFetch();
+
+	const [doFetch] = useFetch();
+	const [signupFetchLoading, setSignupFetchLoading] = useState(false);
+	const [signupFetchError, setSignupFetchError] = useState(null);
 
 	useEffect(() => {
 		if (!nameField || !passwordField) {
@@ -65,7 +68,11 @@ const Signup = () => {
 				password: passwordField
 			})
 		};
-		doFetch(url, options, (data, error = null) => {
+
+		setSignupFetchLoading(true);
+		doFetch(url, options, (data, error) => {
+			setSignupFetchError(error);
+			setSignupFetchLoading(false);
 			if (error) return;
 			history.push('/');
 		});
@@ -102,10 +109,10 @@ const Signup = () => {
 				required value={repeatPasswordField}
 				onChange={(e) => setRepeatPasswordField(e.target.value)} />
 
-			<p id="form-error-message">{errorMessage} {fetchError && fetchError.error}</p>
+			<p id="form-error-message">{errorMessage} {signupFetchError && signupFetchError.message}</p>
 
 			<input type="submit" readOnly
-				value={fetchLoading ? "Submitting..." : "Submit"}
+				value={signupFetchLoading ? "Submitting..." : "Submit"}
 				className={`${submitEnabled ? '' : 'disabled'}`} />
 
 		</form>

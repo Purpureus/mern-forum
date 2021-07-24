@@ -11,7 +11,9 @@ const Login = (props) => {
     const [passwordField, setPasswordField] = useState('');
     const [loginDurationField, setLoginDurationField] = useState('10m');
 
-    const [doFetch, fetchLoading, fetchError] = useFetch();
+    const [doFetch] = useFetch();
+    const [loginFetchError, setLoginFetchError] = useState(null);
+    const [loginFetchLoading, setLoginFetchLoading] = useState(false);
     const [, setLoginData] = useContext(LoginDataContext);
 
     const [showPassword, setShowPassword] = useState(false);
@@ -32,7 +34,10 @@ const Login = (props) => {
             })
         };
 
-        doFetch(url, options, (data, error = null) => {
+        setLoginFetchLoading(true);
+        doFetch(url, options, (data, error) => {
+            setLoginFetchLoading(false);
+            setLoginFetchError(error);
             if (error) return;
 
             const newLoginData = {
@@ -90,12 +95,12 @@ const Login = (props) => {
                     </select>
                 </div>
 
-                {fetchError &&
-                    <p id="form-error-message">{fetchError.error}</p>
+                {loginFetchError &&
+                    <p id="form-error-message">{loginFetchError.message}</p>
                 }
 
                 <input type="submit" readOnly value={
-                    fetchLoading ? "Loading..." : "Submit"
+                    loginFetchLoading ? "Loading..." : "Submit"
                 } />
 
             </form>
