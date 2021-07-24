@@ -58,6 +58,8 @@ router.get('/', (req, res) => {
         const maxPages = Math.ceil(postsFileData.length / (to - from));
 
         const postList = postsFileData.sort((postA, postB) => {
+            if (postA.pinned == true) return -1;
+            if (postB.pinned == true) return 1;
             return new Date(postB.date) - new Date(postA.date);
         }).slice(from, to).map(post => {
             return {
@@ -71,6 +73,56 @@ router.get('/', (req, res) => {
 
         return res.json({
             posts: postList,
+            numberOfPages: maxPages
+        });
+    });
+});
+
+router.get('/search', (req, res) => {
+    readFile('db/posts.json', (data) => {
+        let postsFileData = ``;
+        try {
+            postsFileData = JSON.parse(data);
+        } catch (error) {
+            console.log(`Error parsing JSON from posts.json: ${error}`);
+        }
+
+        const searchQuery = req.query.q;
+        if (!searchQuery || searchQuery === "") {
+            return res.status(400).json({ message: `You must provide a search query` });
+        }
+        const from = req.query.from || 0;
+        const to = req.query.to || 20;
+
+        const postList = postsFileData.filter(post => {
+            return post.title.includes(searchQuery);
+        }).map(post => {
+            return {
+                postId: post.postId,
+                title: post.title,
+                author: post.author,
+                date: post.date
+            };
+        });
+
+        const maxPages = Math.ceil(postList.length / (to - from));
+
+        // const postList = postsFileData.sort((postA, postB) => {
+        //     if (postA.pinned == true) return -1;
+        //     if (postB.pinned == true) return 1;
+        //     return new Date(postB.date) - new Date(postA.date);
+        // }).slice(from, to).map(post => {
+        //     return {
+        //         postId: post.postId,
+        //         title: post.title,
+        //         author: post.author,
+        //         date: post.date,
+        //         pinned: post.pinned || false
+        //     };
+        // });
+
+        return res.status(400).json({
+            posts: postList.slice(from, to),
             numberOfPages: maxPages
         });
     });

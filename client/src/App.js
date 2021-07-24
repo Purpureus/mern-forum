@@ -16,7 +16,7 @@ import useFetch from './useFetch';
 function App() {
 
     const [loginData, setLoginData, logOut] = useLoginData();
-    const [doFetch, , ,] = useFetch();
+    const [doFetch] = useFetch();
 
     useEffect(() => {
         if (!loginData.accessToken) return;

@@ -334,14 +334,6 @@ body {
   position: relative;
 }
 
-.post-list .post:nth-child(even) {
-  background: #e0e0e0;
-}
-
-.post-list .post:nth-child(odd) {
-  background: #ececec;
-}
-
 .post-list .post:hover {
   text-decoration: none;
   background: #ccc;
@@ -351,10 +343,12 @@ body {
   text-decoration: underline;
 }
 
-.post-list .post.pinned {
-  -webkit-box-ordinal-group: 0;
-      -ms-flex-order: -1;
-          order: -1;
+.post-list .post:nth-child(even) {
+  background: #e0e0e0;
+}
+
+.post-list .post:nth-child(odd) {
+  background: #ececec;
 }
 
 .post-list .post .pinned-post-tag {
@@ -450,7 +444,7 @@ body {
   font-style: italic;
 }
 
-form {
+.default-form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -461,7 +455,7 @@ form {
   padding: 20px;
 }
 
-form label {
+.default-form label {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -474,21 +468,21 @@ form label {
           justify-content: space-between;
 }
 
-form label:not(:first-child) {
+.default-form label:not(:first-child) {
   margin-top: 20px;
 }
 
-form textarea {
+.default-form textarea {
   resize: none;
 }
 
-form input[type=text],
-form input[type=password],
-form textarea {
+.default-form input[type=text],
+.default-form input[type=password],
+.default-form textarea {
   padding: 10px;
 }
 
-form #toggle-view-pswd-container {
+.default-form #toggle-view-pswd-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -498,16 +492,16 @@ form #toggle-view-pswd-container {
   margin: 10px 0;
 }
 
-form #toggle-view-pswd-container input {
+.default-form #toggle-view-pswd-container input {
   margin: 0;
   margin-right: 10px;
 }
 
-form #toggle-view-pswd-container label {
+.default-form #toggle-view-pswd-container label {
   margin: 0;
 }
 
-form .field-char-count {
+.default-form .field-char-count {
   opacity: .6;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -517,7 +511,7 @@ form .field-char-count {
           justify-content: flex-end;
 }
 
-form input[type=submit] {
+.default-form input[type=submit] {
   border: none;
   background: #048;
   color: #fff;
@@ -525,23 +519,49 @@ form input[type=submit] {
   padding: 10px;
 }
 
-form input[type=submit]:hover, form input[type=submit]:focus {
+.default-form input[type=submit]:hover, .default-form input[type=submit]:focus {
   background: #26a;
 }
 
-form input[type=submit]:active {
+.default-form input[type=submit]:active {
   background: #48c;
 }
 
-form input[type=submit].disabled {
+.default-form input[type=submit].disabled {
   background: #888;
   cursor: auto;
   pointer-events: none;
 }
 
-form #form-error-message {
+.default-form #form-error-message {
   color: #a00;
   padding-top: 10px;
+}
+
+.post-search-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.post-search-form input[type=text] {
+  background: #fff5;
+  color: white;
+  border: 2px solid transparent;
+}
+
+.post-search-form input[type=submit] {
+  background: #fffa;
+  border: 2px solid transparent;
+}
+
+.post-search-form input:focus {
+  outline: none;
+  border-color: #fffa;
 }
 
 .floating-form {

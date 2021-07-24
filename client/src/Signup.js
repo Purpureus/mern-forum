@@ -72,7 +72,7 @@ const Signup = () => {
 	}
 
 	return (
-		<form id="signup-form" onSubmit={(e) => handleSubmit(e)}>
+		<form className="default-form" id="signup-form" onSubmit={(e) => handleSubmit(e)}>
 
 			<label htmlFor="username-field">
 				Username

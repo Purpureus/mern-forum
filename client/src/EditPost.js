@@ -65,21 +65,17 @@ const EditPost = () => {
 		};
 
 		doFetch(url, options, (data, error) => {
-			if (error) return console.log(`Error when submitting the post`);
+			if (error) {
+				if (error.accessTokenExpired) {
+					setViewLoginForm(true);
+				}
+				return console.log(`Error when submitting the post`);
+			}
 			setOriginalTitle(postTitle);
 			setOriginalContent(postContent);
-			console.log(`Post submitted`);
 			history.push('/');
 		});
 	}
-
-	useEffect(() => {
-		try {
-			if (fetchError.accessTokenExpired) {
-				setViewLoginForm(true);
-			}
-		} catch (err) { }
-	}, [fetchError.accessTokenExpired]);
 
 	let errorDisplayMessage = null;
 	if (fetchError && !fetchError.accessTokenExpired) {
@@ -113,7 +109,7 @@ const EditPost = () => {
 				<div className="error">{errorDisplayMessage}</div>
 			}
 
-			<form onSubmit={(e) => submitPost(e)}>
+			<form className="default-form" onSubmit={(e) => submitPost(e)}>
 
 				<h1>Edit post</h1>
 

@@ -1,13 +1,9 @@
 // NOTE: Expected JSON response format for errors is as follows:
-// { error: `error message` }
+// { message: `error message` }
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 
 function useFetch() {
-	const [fetchLoading, setFetchLoading] = useState(false);
-	const [fetchError, setFetchError] = useState(null);
-	const [fetchData, setFetchData] = useState(null);
-
 	const abortController = useMemo(() => new AbortController(), []);
 
 	useEffect(() => {
@@ -25,9 +21,6 @@ function useFetch() {
 				return res.json();
 			})
 			.then(data => {
-				setFetchLoading(false);
-				setFetchError(null);
-				setFetchData(data);
 				then(data, null);
 			})
 			.catch(err => {
@@ -35,19 +28,17 @@ function useFetch() {
 					console.log(`Fetch has been aborted (${err})`);
 					return;
 				}
-				setFetchLoading(false);
 				let errorMessage = "";
 				try {
 					errorMessage = JSON.parse(err.message);
 				} catch (error) {
 					errorMessage = `JSON.parse error: ${error}. JSON data: ${err.message}`;
 				}
-				setFetchError(errorMessage);
 				then(null, errorMessage);
 			});
 	}, [abortController.signal]);
 
-	return [doFetch, fetchLoading, fetchError, fetchData];
+	return [doFetch];
 }
 
 export default useFetch;

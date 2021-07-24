@@ -254,13 +254,6 @@ body {
         cursor: pointer;
         position: relative;
 
-        &:nth-child(even) {
-            background: $even-bg;
-        }
-        &:nth-child(odd) {
-            background: $odd-bg;
-        }
-        
         &:hover {
             text-decoration: none;
             background: #ccc;
@@ -268,8 +261,12 @@ body {
                 text-decoration: underline;
             }
         }
-        &.pinned {
-            order: -1;
+
+        &:nth-child(even) {
+            background: $even-bg;
+        }
+        &:nth-child(odd) {
+            background: $odd-bg;
         }
         
         .pinned-post-tag {
@@ -358,7 +355,7 @@ body {
     }
 }
 
-form {
+.default-form {
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -426,6 +423,26 @@ form {
     #form-error-message {
         color: #a00;
         padding-top: 10px;
+    }
+}
+
+.post-search-form {
+    display: flex;
+    flex-direction: row;
+
+    input[type=text] {
+        background: #fff5;
+        color: white;
+        border: 2px solid transparent;
+    }
+    input[type=submit] {
+        background: #fffa;
+        border: 2px solid transparent;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #fffa;
     }
 }
 

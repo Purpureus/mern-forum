@@ -9,7 +9,14 @@ const Post = () => {
 	const history = useHistory();
 	const { postId } = useParams();
 	const [clickDelete, setClickDelete] = useState(false);
-	const [doFetch, fetchLoading, fetchError, fetchData] = useFetch();
+
+	const [doFetch] = useFetch();
+	const [post, setPost] = useState(null);
+	const [postFetchLoading, setPostFetchLoading] = useState(false);
+	const [postFetchError, setPostFetchError] = useState(null);
+	const [isAdmin, setIsAdmin] = useState(false);
+	const [isAuthor, setIsAuthor] = useState(false);
+
 	const [loginData, ,] = useContext(LoginDataContext);
 
 	useEffect(() => {
@@ -19,7 +26,15 @@ const Post = () => {
 				'Authorization': `Bearer: ${loginData.accessToken}`
 			}
 		};
-		doFetch(url, options);
+		setPostFetchLoading(true);
+		doFetch(url, options, (data, error) => {
+			setPostFetchLoading(false);
+			setPostFetchError(error);
+			if (error) return;
+			setPost(data.post);
+			setIsAdmin(data.isAdmin);
+			setIsAuthor(data.isAuthor);
+		});
 	}, [postId, doFetch, loginData]);
 
 	function deletePost() {
@@ -32,6 +47,7 @@ const Post = () => {
 		};
 
 		doFetch(url, options, (data, error) => {
+			postFetchError(error);
 			if (error) return;
 			history.push('/');
 		});
@@ -57,14 +73,14 @@ const Post = () => {
 	}
 
 	let errorDisplayMessage = null;
-	if (fetchError) {
+	if (postFetchError) {
 		const sessionExpiredMessage = <>
 			Your session has expired. Please
 			<Link to="/login" className="link painted"> log in </Link> again.
 		</>;
-		const errorMessage = <>An error occurred: {fetchError.error}</>;
+		const errorMessage = <>An error occurred: {postFetchError.error}</>;
 
-		errorDisplayMessage = fetchError.accessTokenExpired
+		errorDisplayMessage = postFetchError.accessTokenExpired
 			? sessionExpiredMessage
 			: errorMessage;
 	}
@@ -75,27 +91,27 @@ const Post = () => {
 	return (
 		<>
 			{errorDisplayMessage}
-			{ fetchLoading && <p>Loading posts...</p>}
+			{ postFetchLoading && <p>Loading posts...</p>}
 
-			{fetchData && fetchData.post &&
+			{post && post &&
 				<div className="post">
 					<h1 id="post-title">
-						{fetchData.post.title}
+						{post.title}
 					</h1>
 
 					<p id="post-author">
-						By {fetchData.post.author}
+						By {post.author}
 					</p>
 
-					{(fetchData.isAdmin || fetchData.isAuthor) &&
+					{(isAdmin || isAuthor) &&
 						<Link id="edit-post" to={`${postId}/edit`}>Edit post</Link>
 					}
 
 					<p id="post-content">
-						{fetchData.post.content}
+						{post.content}
 					</p>
 
-					{(fetchData.isAdmin || fetchData.isAuthor) && <>
+					{(isAdmin || isAuthor) && <>
 						{clickDelete ||
 							<button id="delete-post"
 								className="button rounded-button red"
@@ -121,8 +137,8 @@ const Post = () => {
 						</>}
 					</>}
 
-					{fetchData.isAdmin && <><br />
-						{fetchData.post.pinned ?
+					{isAdmin && <><br />
+						{post.pinned ?
 							<button id="pin-post" className="button rounded-button blue"
 								onClick={() => pinPost(false)}>
 								Unpin post

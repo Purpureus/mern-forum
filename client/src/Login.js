@@ -53,7 +53,7 @@ const Login = (props) => {
 
     return (
         <>
-            <form id="login-form" onSubmit={(e) => handleSubmit(e)}>
+            <form className="default-form" id="login-form" onSubmit={(e) => handleSubmit(e)}>
 
                 <label htmlFor="username-field">Username</label>
                 <input required type="text"

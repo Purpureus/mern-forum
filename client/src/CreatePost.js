@@ -60,7 +60,12 @@ const CreatePost = () => {
         };
 
         doFetch(url, options, (data, error) => {
-            if (error) return console.log(`Error submitting the post.`);
+            if (error) {
+                if (error.accessTokenExpired) {
+                    setViewLoginForm(true);
+                }
+                return console.log(`Error submitting the post.`);
+            }
             window.sessionStorage.setItem('post-draft', JSON.stringify({
                 title: "",
                 content: ""
@@ -69,12 +74,6 @@ const CreatePost = () => {
             history.push('/');
         });
     }
-
-    useEffect(() => {
-        if (fetchError && fetchError.accessTokenExpired) {
-            setViewLoginForm(true);
-        }
-    }, [(fetchError && fetchError.accessTokenExpired)]);
 
     let errorDisplayMessage = null;
     if (fetchError && !fetchError.accessTokenExpired) {
@@ -99,7 +98,7 @@ const CreatePost = () => {
                 </div>
             }
 
-            <form onSubmit={submitPost}>
+            <form className="default-form" onSubmit={submitPost}>
 
                 <h1>Create post</h1>
 

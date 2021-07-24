@@ -5,87 +5,43 @@ import LoginDataContext from './LoginDataContext';
 
 const PostList = () => {
 
-    const [doFetch, fetchLoading, fetchError] = useFetch();
+    const [doFetch] = useFetch();
+    const [postFetchLoading, setPostFetchLoading] = useState(false);
+    const [postFetchError, setPostFetchError] = useState(null);
     const [loginData] = useContext(LoginDataContext);
     const history = useHistory();
 
     const [posts, setPosts] = useState(null);
-    // const [postOrder, setPostOrder] = useState('date');
-    // const [postOrderDirection, setPostOrderDirection] = useState('ascending');
     const [page, setPage] = useState(1);
     const [numberOfPages, setNumberOfPages] = useState(1);
     const postsPerPage = 10;
 
-    // NOTE: we define a trigger to sort the posts in order to solve reference equality issues.
-    // const [sortPostsQueued, setSortPostsQueued] = useState(false);
+    const [searchField, setSearchField] = useState("");
 
     useEffect(() => {
         const from = postsPerPage * (page - 1);
         const to = postsPerPage * page;
         const url = `http://localhost:8000/api/posts?from=${from}&to=${to}`;
         doFetch(url, {}, (data, error) => {
+            setPostFetchError(error);
+            setPostFetchLoading(false);
             if (error || !data) return;
             setPosts(data.posts);
             setNumberOfPages(data.numberOfPages);
         });
     }, [doFetch, page]);
 
-    // const sortPosts = () => {
-    //     const order = `${postOrder} ${postOrderDirection}`;
-    //     const sortedPosts = [...posts];
+    function searchPost(e) {
+        e.preventDefault();
 
-    //     switch (order) {
-    //         case 'date ascending':
-    //             sortedPosts.sort((postA, postB) => new Date(postA.date) - new Date(postB.date));
-    //             break;
-
-    //         case 'date descending':
-    //             sortedPosts.sort((postA, postB) => new Date(postB.date) - new Date(postA.date));
-    //             break;
-
-    //         case 'title ascending':
-    //             sortedPosts.sort((postA, postB) => postA.title.localeCompare(postB.title));
-    //             break;
-
-    //         case 'title descending':
-    //             sortedPosts.sort((postA, postB) => postB.title.localeCompare(postA.title));
-    //             break;
-
-    //         default:
-    //     }
-
-    //     setPosts(sortedPosts);
-    // };
-
-    // useEffect(() => {
-    //     setSortPostsQueued(true);
-    // }, [postOrder, postOrderDirection, setSortPostsQueued]);
-
-    // if (posts && posts.length > 0 && sortPostsQueued) {
-    //     sortPosts();
-    //     setSortPostsQueued(false);
-    // }
-
-    // const postListOptions = (
-    //     <div className="item post-list-options">
-    //         <div className="group">
-    //             <p>Sort by</p>
-    //             <select id="sort-by"
-    //                 value={postOrder}
-    //                 onChange={(e) => setPostOrder(e.target.value)}>
-    //                 <option value='date'>date</option>
-    //                 <option value='title'>title</option>
-    //             </select>
-    //         </div>
-
-    //         <select id="sort-direction"
-    //             value={postOrderDirection}
-    //             onChange={(e) => setPostOrderDirection(e.target.value)}>
-    //             <option value='ascending'>ascending</option>
-    //             <option value='descending'>descending</option>
-    //         </select>
-    //     </div>
-    // );
+        const from = postsPerPage * (page - 1);
+        const to = postsPerPage * page;
+        const url = `http://localhost:8000/api/posts/search?q=${searchField}&from=${from}&to=${to}`;
+        doFetch(url, {}, (data, error) => {
+            if (error) return console.log(error);
+            console.log(data);
+        });
+    }
 
     const pageButtons = [];
     const minCap = Math.min(Math.max(0, page - 3), Math.max(0, numberOfPages - 5));
@@ -96,6 +52,7 @@ const PostList = () => {
 
     const pageOptions = (
         <div className="item page-controls">
+
             <p>Page</p>
             <button className={`page-button ${page <= 1 && 'disabled'}`}
                 onClick={() => (page > 1) && setPage(page - 1)}>
@@ -105,23 +62,30 @@ const PostList = () => {
             {pageButtons && pageButtons.map((button, buttonIndex) => (
                 <button key={buttonIndex}
                     className={`page-button ${button === page && 'current'}`}
-                    onClick={(e) => setPage(button)}>{button}</button>
+                    onClick={() => setPage(button)}>{button}</button>
             ))
             }
 
             <button className={`page-button ${page >= numberOfPages && 'disabled'}`}
                 onClick={() => setPage(page + 1)}>&rarr;</button>
 
+            <form className="post-search-form" onSubmit={(e) => searchPost(e)}>
+                <input type="text" value={searchField}
+                    onChange={(e) => setSearchField(e.target.value)} />
+                <input type="submit" value="Search" />
+            </form>
+
             {loginData.logged &&
                 <Link to="/createpost" className="link create-post">Create post</Link>
             }
-        </div >
+
+        </div>
     );
 
     return (
         <>
-            { fetchError && <p className="error">An error occurred: {fetchError}</p>}
-            { fetchLoading && <p>Loading posts...</p>}
+            { postFetchError && <p className="error">An error occurred: {postFetchError}</p>}
+            { postFetchLoading && <p>Loading posts...</p>}
 
             <div className="post-list">
 
