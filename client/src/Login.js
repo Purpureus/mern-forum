@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import useFetch from './useFetch';
 import LoginDataContext from './LoginDataContext';
 
-const Login = () => {
+const Login = (props) => {
 
     const history = useHistory();
 
@@ -42,7 +42,12 @@ const Login = () => {
             };
             setLoginData(newLoginData);
 
-            history.go(-1);
+            if (props.onSubmit) {
+                props.onSubmit(newLoginData);
+            }
+            else {
+                history.push('/');
+            }
         });
     }
 

@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef, useCallback } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
+import Login from './Login';
 import useFetch from './useFetch';
 import LoginDataContext from './LoginDataContext';
 
@@ -12,6 +13,8 @@ const CreatePost = () => {
     const [postContent, setPostContent] = useState("");
     const [doFetch, fetchLoading, fetchError] = useFetch();
     const [loginData, , logOut] = useContext(LoginDataContext);
+    const [viewLoginForm, setViewLoginForm] = useState(false);
+
     const saveDraftTimeout = useRef(null);
 
     const saveDraft = useCallback(() => {
@@ -67,18 +70,33 @@ const CreatePost = () => {
         });
     }
 
+    useEffect(() => {
+        if (fetchError && fetchError.accessTokenExpired) {
+            setViewLoginForm(true);
+        }
+    }, [(fetchError && fetchError.accessTokenExpired)]);
+
     let errorDisplayMessage = null;
-    if (fetchError) {
-        errorDisplayMessage = fetchError.accessTokenExpired
-            ? <>Your session has expired. Please <Link to="/login" className="link painted">
-                log in </Link> again.</>
-            : <>An error occurred while creating the post: {fetchError.error}</>
+    if (fetchError && !fetchError.accessTokenExpired) {
+        errorDisplayMessage = <>
+            An error occurred while creating the post: {fetchError.error}
+        </>
     }
 
     return (
         <>
             {errorDisplayMessage &&
                 <div className="error">{errorDisplayMessage}</div>
+            }
+
+            {viewLoginForm &&
+                <div className="floating-form">
+                    <div className="container">
+                        <button className="close-container"
+                            onClick={() => { setViewLoginForm(false) }}>&#9587;</button>
+                        <Login floating={true} onSubmit={() => setViewLoginForm(false)} />
+                    </div>
+                </div>
             }
 
             <form onSubmit={submitPost}>

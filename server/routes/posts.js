@@ -100,54 +100,6 @@ router.get('/:id', validateBody, getTokenData, (req, res) => {
     });
 });
 
-router.put('/:id', authToken, (req, res) => {
-    readFile('db/posts.json', (data) => {
-        const posts = JSON.parse(data);
-
-        const requestedPost = posts.find(post =>
-            post.postId == req.params.id
-        );
-        if (!requestedPost) {
-            res.status(404).json({ message: `Error: post does not exist.` });
-            return;
-        }
-
-        if (!req.jwtData ||
-            !req.jwtData.user ||
-            !req.jwtData.user.roles ||
-            !req.jwtData.user.roles.find(role => role == 'admin')) {
-            return res.status(401).json({ error: `Unauthorized` });
-        }
-
-        console.log(req.body);
-        if (req.body.pinned != undefined) {
-            requestedPost.pinned = req.body.pinned;
-        }
-        if (req.body.title != undefined) {
-            requestedPost.title = req.body.title;
-        }
-        if (req.body.content != undefined) {
-            requestedPost.content = req.body.content;
-        }
-
-        let writeSuccess = true;
-        fs.writeFile('db/posts.json',
-            JSON.stringify(posts),
-            err => {
-                if (err) {
-                    writeSuccess = false;
-                    console.log(`Error writing db/posts.json: ${error}`);
-                }
-            }
-        );
-
-        if (writeSuccess) {
-            return (res.status(200).json({ message: `Post updated successfully` }));
-        }
-        return (res.status(400).json({ error: `Error updating database` }));
-    });
-});
-
 router.post('/', validateBody, authToken, (req, res) => {
     const contentMaxCharCount = 999;
     const titleMaxCharCount = 99;
@@ -201,6 +153,56 @@ router.post('/', validateBody, authToken, (req, res) => {
         });
 
         return (res.status(201).json({ message: `Post created successfully` }));
+    });
+});
+
+router.put('/:id', authToken, (req, res) => {
+    readFile('db/posts.json', (data) => {
+        const posts = JSON.parse(data);
+
+        const requestedPost = posts.find(post =>
+            post.postId == req.params.id
+        );
+        if (!requestedPost) {
+            res.status(404).json({ message: `Error: post does not exist.` });
+            return;
+        }
+
+        const isAuthor = req.jwtData.user.id == requestedPost.authorId;
+        const isAdmin = (!isAuthor) &&
+            req.jwtData.user.roles &&
+            req.jwtData.user.roles.find(role => role == 'admin');
+
+        if (!isAuthor && !isAdmin) {
+            res.status(401).json({ error: `You are not authorized to edit this post.` });
+            return;
+        }
+
+        if (req.body.pinned != undefined) {
+            requestedPost.pinned = req.body.pinned;
+        }
+        if (req.body.title != undefined) {
+            requestedPost.title = req.body.title;
+        }
+        if (req.body.content != undefined) {
+            requestedPost.content = req.body.content;
+        }
+
+        let writeSuccess = true;
+        fs.writeFile('db/posts.json',
+            JSON.stringify(posts),
+            err => {
+                if (err) {
+                    writeSuccess = false;
+                    console.log(`Error writing db/posts.json: ${error}`);
+                }
+            }
+        );
+
+        if (writeSuccess) {
+            return (res.status(200).json({ message: `Post updated successfully` }));
+        }
+        return (res.status(400).json({ error: `Error updating database` }));
     });
 });
 

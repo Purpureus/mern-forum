@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import useFetch from './useFetch';
-import { Link, useParams, useHistory, Prompt } from 'react-router-dom';
-import LoginForm from './LoginForm';
+import { useParams, useHistory, Prompt } from 'react-router-dom';
+import Login from './Login';
 
 import LoginDataContext from './LoginDataContext';
 
@@ -13,9 +13,12 @@ const EditPost = () => {
 	const [postContent, setPostContent] = useState("");
 	const [doFetch, fetchLoading, fetchError] = useFetch();
 	const [loginData, ,] = useContext(LoginDataContext);
+	const [viewLoginForm, setViewLoginForm] = useState(false);
 
 	const [originalTitle, setOriginalTitle] = useState("");
 	const [originalContent, setOriginalContent] = useState("");
+
+	const [accessToken] = useState(loginData.accessToken);
 
 	useEffect(() => {
 		// Alert about unsaved changes
@@ -33,7 +36,7 @@ const EditPost = () => {
 		const url = `http://localhost:8000/api/posts/${postId}`;
 		const options = {
 			headers: {
-				'Authorization': `Bearer: ${loginData.accessToken}`
+				'Authorization': `Bearer: ${accessToken}`
 			}
 		};
 		doFetch(url, options, (data, error) => {
@@ -43,10 +46,10 @@ const EditPost = () => {
 			setOriginalTitle(data.post.title);
 			setOriginalContent(data.post.content);
 		});
-	}, [doFetch, loginData.accessToken, postId]);
+	}, [doFetch, accessToken, postId]);
 
-	function submitPost(e) {
-		e.preventDefault();
+	function submitPost(e = null) {
+		if (e) e.preventDefault();
 
 		const url = `http://localhost:8000/api/posts/${postId}`;
 		const options = {
@@ -65,16 +68,24 @@ const EditPost = () => {
 			if (error) return console.log(`Error when submitting the post`);
 			setOriginalTitle(postTitle);
 			setOriginalContent(postContent);
-			history.go(-1);
+			console.log(`Post submitted`);
+			history.push('/');
 		});
 	}
 
+	useEffect(() => {
+		try {
+			if (fetchError.accessTokenExpired) {
+				setViewLoginForm(true);
+			}
+		} catch (err) { }
+	}, [fetchError.accessTokenExpired]);
+
 	let errorDisplayMessage = null;
-	if (fetchError) {
-		errorDisplayMessage = fetchError.accessTokenExpired
-			? <>Your session has expired. Please <Link to="/login" className="link painted">
-				log in </Link> again.</>
-			: <>An error occurred while updating the post: {fetchError.error}</>
+	if (fetchError && !fetchError.accessTokenExpired) {
+		errorDisplayMessage = <>
+			An error occurred while updating the post: {fetchError.error}
+		</>
 	}
 
 	function postHasChanged() {
@@ -83,7 +94,15 @@ const EditPost = () => {
 
 	return (
 		<>
-			{/* <LoginForm></LoginForm> */}
+			{viewLoginForm &&
+				<div className="floating-form">
+					<div className="container">
+						<button className="close-container"
+							onClick={() => { setViewLoginForm(false) }}>&#9587;</button>
+						<Login onSubmit={() => setViewLoginForm(false)} />
+					</div>
+				</div>
+			}
 
 			<Prompt
 				when={postHasChanged()}
@@ -114,11 +133,8 @@ const EditPost = () => {
 					onChange={(e) => setPostContent(e.target.value)}
 					name="post-content"></textarea>
 
-				{/* {fetchError &&
-					<p>{fetchError}</p>
-				} */}
-
 				<input name="post-submit" type="submit"
+					className={`${postHasChanged() ? '' : 'disabled'}`}
 					value={fetchLoading ? `Submitting post...` : `Submit post`} />
 
 			</form>

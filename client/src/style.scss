@@ -257,6 +257,10 @@ body {
         &:nth-child(even) {
             background: $even-bg;
         }
+        &:nth-child(odd) {
+            background: $odd-bg;
+        }
+        
         &:hover {
             text-decoration: none;
             background: #ccc;
@@ -317,20 +321,25 @@ body {
 .post {
     padding: 20px;
 
-    .post-title {
+    #post-title {
         font-size: 1.4rem;
-        word-break: break-all;
+        word-break: break-word;
     }
 
-    .post-author {
+    #edit-post {
+        color: $accent-bg;
+    }
+
+    #post-author {
         opacity: .7;
     }
 
-    .post-content {
+    #post-content {
         border-top: 2px solid #0001;
         margin-top: 10px;
         padding: 20px 0;
         opacity: .8;
+        word-break: break-word;
     }
 }
 
@@ -410,12 +419,46 @@ form {
         &.disabled {
             background: #888;
             cursor: auto;
+            pointer-events: none;
         }
     }
 
     #form-error-message {
         color: #a00;
         padding-top: 10px;
+    }
+}
+
+.floating-form {
+    position: fixed;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+
+    background: #0008;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .container {
+        background: $accent-fg;
+        border: 1px solid $accent-bg-light;
+        border-radius: 5px;
+
+        display: flex;
+        flex-direction: column;
+
+        .close-container {
+            position: relative;
+            top: -20px;
+            right: -20px;
+            align-self: flex-end;
+            width: 40px;
+            height: 40px;
+            background: $accent-bg;
+            color: $accent-fg;
+            border-radius: 50%;
+        }
     }
 }
 

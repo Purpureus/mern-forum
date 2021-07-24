@@ -79,19 +79,19 @@ const Post = () => {
 
 			{fetchData && fetchData.post &&
 				<div className="post">
-					<h1 className="post-title">
+					<h1 id="post-title">
 						{fetchData.post.title}
 					</h1>
 
-					<p className="post-author">
+					<p id="post-author">
 						By {fetchData.post.author}
 					</p>
 
 					{(fetchData.isAdmin || fetchData.isAuthor) &&
-						<Link to={`${postId}/edit`}>Edit post</Link>
+						<Link id="edit-post" to={`${postId}/edit`}>Edit post</Link>
 					}
 
-					<p className="post-content">
+					<p id="post-content">
 						{fetchData.post.content}
 					</p>
 

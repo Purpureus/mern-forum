@@ -338,6 +338,10 @@ body {
   background: #e0e0e0;
 }
 
+.post-list .post:nth-child(odd) {
+  background: #ececec;
+}
+
 .post-list .post:hover {
   text-decoration: none;
   background: #ccc;
@@ -409,20 +413,25 @@ body {
   padding: 20px;
 }
 
-.post .post-title {
+.post #post-title {
   font-size: 1.4rem;
-  word-break: break-all;
+  word-break: break-word;
 }
 
-.post .post-author {
+.post #edit-post {
+  color: #048;
+}
+
+.post #post-author {
   opacity: .7;
 }
 
-.post .post-content {
+.post #post-content {
   border-top: 2px solid #0001;
   margin-top: 10px;
   padding: 20px 0;
   opacity: .8;
+  word-break: break-word;
 }
 
 .user-details {
@@ -527,11 +536,56 @@ form input[type=submit]:active {
 form input[type=submit].disabled {
   background: #888;
   cursor: auto;
+  pointer-events: none;
 }
 
 form #form-error-message {
   color: #a00;
   padding-top: 10px;
+}
+
+.floating-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0008;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.floating-form .container {
+  background: #fff;
+  border: 1px solid #26a;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.floating-form .container .close-container {
+  position: relative;
+  top: -20px;
+  right: -20px;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  width: 40px;
+  height: 40px;
+  background: #048;
+  color: #fff;
+  border-radius: 50%;
 }
 
 #login-form,

@@ -36,7 +36,6 @@ function useFetch() {
 					return;
 				}
 				setFetchLoading(false);
-				console.log(err.message);
 				let errorMessage = "";
 				try {
 					errorMessage = JSON.parse(err.message);
