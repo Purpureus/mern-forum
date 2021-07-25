@@ -14,6 +14,7 @@ const EditPost = () => {
 	const [doFetch, fetchLoading, fetchError] = useFetch();
 	const [loginData, ,] = useContext(LoginDataContext);
 	const [viewLoginForm, setViewLoginForm] = useState(false);
+	const [loggedInMessage, setLoggedInMessage] = useState("");
 
 	const [originalTitle, setOriginalTitle] = useState("");
 	const [originalContent, setOriginalContent] = useState("");
@@ -90,23 +91,30 @@ const EditPost = () => {
 
 	return (
 		<>
-			{viewLoginForm &&
-				<div className="floating-form">
-					<div className="container">
-						<button className="close-container"
-							onClick={() => { setViewLoginForm(false) }}>&#9587;</button>
-						<Login onSubmit={() => setViewLoginForm(false)} />
-					</div>
-				</div>
-			}
-
 			<Prompt
 				when={postHasChanged()}
 				message={() => `If you leave this page, unsaved changes won't be saved.`}
 			/>
 
+			{viewLoginForm &&
+				<div className="floating-form">
+					<div className="container">
+						<button className="close-container"
+							onClick={() => { setViewLoginForm(false) }}>&#9587;</button>
+						<Login onSubmit={() => {
+							setViewLoginForm(false);
+							setLoggedInMessage("You have been logged in successfully.");
+						}} />
+					</div>
+				</div>
+			}
+
 			{errorDisplayMessage &&
 				<div className="error">{errorDisplayMessage}</div>
+			}
+
+			{loggedInMessage &&
+				<div className="success">{loggedInMessage}</div>
 			}
 
 			<form className="default-form" onSubmit={(e) => submitPost(e)}>

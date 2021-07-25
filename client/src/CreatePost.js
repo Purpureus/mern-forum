@@ -14,6 +14,7 @@ const CreatePost = () => {
     const [doFetch, fetchLoading, fetchError] = useFetch();
     const [loginData, , logOut] = useContext(LoginDataContext);
     const [viewLoginForm, setViewLoginForm] = useState(false);
+    const [loggedInMessage, setLoggedInMessage] = useState("");
 
     const saveDraftTimeout = useRef(null);
 
@@ -84,18 +85,25 @@ const CreatePost = () => {
 
     return (
         <>
-            {errorDisplayMessage &&
-                <div className="error">{errorDisplayMessage}</div>
-            }
-
             {viewLoginForm &&
                 <div className="floating-form">
                     <div className="container">
                         <button className="close-container"
                             onClick={() => { setViewLoginForm(false) }}>&#9587;</button>
-                        <Login floating={true} onSubmit={() => setViewLoginForm(false)} />
+                        <Login floating={true} onSubmit={() => {
+                            setViewLoginForm(false);
+                            setLoggedInMessage("You have been logged in successfully.");
+                        }} />
                     </div>
                 </div>
+            }
+
+            {errorDisplayMessage &&
+                <div className="error">{errorDisplayMessage}</div>
+            }
+
+            {loggedInMessage &&
+                <div className="success">{loggedInMessage}</div>
             }
 
             <form className="default-form" onSubmit={submitPost}>

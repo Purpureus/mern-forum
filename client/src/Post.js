@@ -46,8 +46,10 @@ const Post = () => {
 			}
 		};
 
+		setPostFetchLoading(true);
 		doFetch(url, options, (data, error) => {
-			postFetchError(error);
+			setPostFetchLoading(false);
+			setPostFetchError(error);
 			if (error) return;
 			history.push('/');
 		});

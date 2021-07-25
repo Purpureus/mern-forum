@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Home from './Home';
 import Header from './Header';
+import PostList from "./PostList";
+import PostSearch from "./PostSearch";
 import Post from './Post';
-import UserDetails from './UserDetails';
 import CreatePost from './CreatePost';
 import EditPost from './EditPost';
 import Login from './Login';
@@ -41,7 +41,11 @@ function App() {
 
                         <Switch>
                             <Route exact path="/">
-                                <Home />
+                                <PostList />
+                            </Route>
+
+                            <Route path="/search">
+                                <PostSearch />
                             </Route>
 
                             <Route exact path="/createpost">
@@ -54,10 +58,6 @@ function App() {
 
                             <Route path="/post/:postId">
                                 <Post />
-                            </Route>
-
-                            <Route path="/user/:requestedUsername">
-                                <UserDetails />
                             </Route>
 
                             <Route path="/login">

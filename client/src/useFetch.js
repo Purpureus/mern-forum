@@ -34,6 +34,7 @@ function useFetch() {
 				} catch (error) {
 					errorMessage = `JSON.parse error: ${error}. JSON data: ${err.message}`;
 				}
+
 				then(null, errorMessage);
 			});
 	}, [abortController.signal]);

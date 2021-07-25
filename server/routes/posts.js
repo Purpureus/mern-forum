@@ -95,7 +95,7 @@ router.get('/search', (req, res) => {
         const to = req.query.to || 20;
 
         const postList = postsFileData.filter(post => {
-            return post.title.includes(searchQuery);
+            return post.title.toLowerCase().includes(searchQuery.toLowerCase());
         }).map(post => {
             return {
                 postId: post.postId,
@@ -121,7 +121,7 @@ router.get('/search', (req, res) => {
         //     };
         // });
 
-        return res.status(400).json({
+        return res.status(200).json({
             posts: postList.slice(from, to),
             numberOfPages: maxPages
         });

@@ -106,7 +106,8 @@ button:hover {
 }
 
 .error,
-.info {
+.info,
+.success {
   background: #f003;
   border: 1px solid #000;
   border-radius: 10px;
@@ -120,6 +121,11 @@ button:hover {
 
 .info {
   border-color: #00f;
+}
+
+.success {
+  background: #0f03;
+  border-color: #0f0;
 }
 
 a, .link {

@@ -33,14 +33,10 @@ const PostList = () => {
 
     function searchPost(e) {
         e.preventDefault();
-
-        const from = postsPerPage * (page - 1);
-        const to = postsPerPage * page;
-        const url = `http://localhost:8000/api/posts/search?q=${searchField}&from=${from}&to=${to}`;
-        doFetch(url, {}, (data, error) => {
-            if (error) return console.log(error);
-            console.log(data);
-        });
+        if (searchField === "") {
+            return history.push('/');
+        }
+        history.push(`/search?q=${searchField}`);
     }
 
     const pageButtons = [];
@@ -84,7 +80,9 @@ const PostList = () => {
 
     return (
         <>
-            { postFetchError && <p className="error">An error occurred: {postFetchError}</p>}
+            { postFetchError &&
+                <p className="error">An error occurred: {postFetchError.message}</p>
+            }
             { postFetchLoading && <p>Loading posts...</p>}
 
             <div className="post-list">
