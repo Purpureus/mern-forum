@@ -31,12 +31,10 @@ $default-font: apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
 
     .confirm {
         color: #a00;
-        text-decoration: underline;
         padding: 5px;
     }
     .cancel {
         color: #26a;
-        text-decoration: underline;
         padding: 5px;
     }
 }
@@ -51,6 +49,10 @@ h1,h2,h3,h4,h5,h6 {
     font-weight: normal;
 }
 
+*:focus {
+    outline: 1px dashed #fff8;
+}
+
 button {
     border: none;
     background: none;
@@ -63,6 +65,9 @@ button {
     padding: 7px;
     border-radius: 5px;
 
+    &:focus {
+        outline: 2px dashed #000;
+    }
     &.default {
         background: $accent-bg-light;
         &:hover { background: $accent-bg-lighter }
@@ -101,6 +106,8 @@ a, .link {
     @extend %underline-on-hover;
 
     &.painted { color: $accent-bg-light }
+
+    &:focus { text-decoration: underline }
 }
 
 .flex-separator {
@@ -177,19 +184,11 @@ body {
         align-items: center;
     }
 
-    .page-controls,
-    .post-list-options {
+    .post-list-controls {
         background: $accent-bg-light;
         color: $accent-fg;
         user-select: none;
         height: max-content;
-    }
-
-    .create-post {
-        margin-left: auto;
-    }
-
-    .page-controls {
         width: 100%;
 
         &:first-child {
@@ -201,6 +200,19 @@ body {
         
         p {
             margin-right: 5px;
+        }
+
+        .page-controls {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .post-search-form {
+            margin-left: auto;
+        }
+
+        .create-post {
+            margin-left: 10px;
         }
 
         .page-button {
@@ -219,35 +231,10 @@ body {
             &.disabled {
                 cursor: default;
                 pointer-events: none;
-                opacity: 0;
+                opacity: .5;
             }
             &.current {
                 background: transparentize(white, 0.7);
-            }
-        }
-    }
-
-    .post-list-options {
-        & > * {
-            display: flex;
-            flex-direction: row;
-        }
-
-        select {
-            margin-left: 8px;
-            background: transparentize(white, 0.9);
-            border: none;
-            border-bottom: 1px solid white;
-            color: white;
-            text-align: center;
-            cursor: pointer;
-            &:hover {
-                background: transparentize(white, 0.8);
-            }
-
-            option {
-                background: white;
-                color: black;
             }
         }
     }
@@ -259,7 +246,7 @@ body {
         cursor: pointer;
         position: relative;
 
-        &:hover {
+        &:hover, &:focus {
             text-decoration: none;
             background: #ccc;
             .post-title {
@@ -286,6 +273,9 @@ body {
             min-width: 100px;
             opacity: .6;
             font-size: .7rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
         .post-title {
             font-size: 1rem;
@@ -342,6 +332,12 @@ body {
         padding: 20px 0;
         opacity: .8;
         word-break: break-word;
+    }
+
+    button {
+        &:focus {
+            text-decoration: underline;
+        }
     }
 }
 
@@ -517,14 +513,6 @@ body {
             align-items: flex-start;
             justify-content: center;
 
-            .post-date {
-                order: 3;
-                display: flex;
-                flex-direction: row;
-                & > * {
-                    margin-right: 7px;
-                }
-            }
             .post-title {
                 order: 1;
                 max-width: 100%;
@@ -537,20 +525,53 @@ body {
                 margin: 0;
                 justify-content: flex-start;
             }
+            .post-date {
+                order: 3;
+                display: flex;
+                flex-direction: row;
+                & > * {
+                    margin-right: 7px;
+                }
+            }
         }
 
-        .page-controls,
-        .post-list-options {
-            flex-direction: row;
+        .post {
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr;
+            grid-template-columns: auto auto;
             justify-content: flex-start;
-            height: max-content;
+
+            .pinned-post-tag {
+                grid-row: 1;
+                grid-column: 1;
+            }
+            .post-title {
+                grid-row: 1;
+            }
+            .post-author {
+                grid-row: 2;
+                grid-column: span 2;
+            }
+            .post-date {
+                grid-row: 3;
+                grid-column: span 2;
+            }
         }
 
-        .post-list-options {
-            align-items: center;
+        .post-list-controls {
+            height: max-content;
+            flex-direction: row;
             flex-wrap: wrap;
-            .create-post {
-                flex-basis: 100%;
+            justify-content: flex-start;
+            align-items: center;
+
+            & > * {
+                margin-bottom: 10px;
+            }
+
+            .post-search-form {
+                margin-left: 0;
+                width: min-content;
             }
         }
     }

@@ -31,13 +31,11 @@ a:hover, .link:hover, .header-section nav .nav-button:hover {
 
 .confirm-delete .confirm {
   color: #a00;
-  text-decoration: underline;
   padding: 5px;
 }
 
 .confirm-delete .cancel {
   color: #26a;
-  text-decoration: underline;
   padding: 5px;
 }
 
@@ -50,6 +48,10 @@ a:hover, .link:hover, .header-section nav .nav-button:hover {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
+}
+
+*:focus {
+  outline: 1px dashed #fff8;
 }
 
 button {
@@ -67,6 +69,10 @@ button:hover {
   color: white;
   padding: 7px;
   border-radius: 5px;
+}
+
+.rounded-button:focus {
+  outline: 2px dashed #000;
 }
 
 .rounded-button.default {
@@ -135,6 +141,10 @@ a, .link {
 
 a.painted, .link.painted {
   color: #26a;
+}
+
+a:focus, .link:focus {
+  text-decoration: underline;
 }
 
 .flex-separator {
@@ -228,8 +238,7 @@ body {
           align-items: center;
 }
 
-.post-list .page-controls,
-.post-list .post-list-options {
+.post-list .post-list-controls {
   background: #26a;
   color: #fff;
   -webkit-user-select: none;
@@ -239,33 +248,44 @@ body {
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
-}
-
-.post-list .create-post {
-  margin-left: auto;
-}
-
-.post-list .page-controls {
   width: 100%;
 }
 
-.post-list .page-controls:first-child {
+.post-list .post-list-controls:first-child {
   -webkit-box-ordinal-group: -1;
       -ms-flex-order: -2;
           order: -2;
 }
 
-.post-list .page-controls:last-child {
+.post-list .post-list-controls:last-child {
   -webkit-box-ordinal-group: 11;
       -ms-flex-order: 10;
           order: 10;
 }
 
-.post-list .page-controls p {
+.post-list .post-list-controls p {
   margin-right: 5px;
 }
 
-.post-list .page-controls .page-button {
+.post-list .post-list-controls .page-controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.post-list .post-list-controls .post-search-form {
+  margin-left: auto;
+}
+
+.post-list .post-list-controls .create-post {
+  margin-left: 10px;
+}
+
+.post-list .post-list-controls .page-button {
   background: rgba(255, 255, 255, 0.1);
   color: white;
   height: 25px;
@@ -282,47 +302,18 @@ body {
           justify-content: center;
 }
 
-.post-list .page-controls .page-button:hover {
+.post-list .post-list-controls .page-button:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.post-list .page-controls .page-button.disabled {
+.post-list .post-list-controls .page-button.disabled {
   cursor: default;
   pointer-events: none;
-  opacity: 0;
+  opacity: .5;
 }
 
-.post-list .page-controls .page-button.current {
+.post-list .post-list-controls .page-button.current {
   background: rgba(255, 255, 255, 0.3);
-}
-
-.post-list .post-list-options > * {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-}
-
-.post-list .post-list-options select {
-  margin-left: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-bottom: 1px solid white;
-  color: white;
-  text-align: center;
-  cursor: pointer;
-}
-
-.post-list .post-list-options select:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.post-list .post-list-options select option {
-  background: white;
-  color: black;
 }
 
 .post-list .post {
@@ -340,12 +331,12 @@ body {
   position: relative;
 }
 
-.post-list .post:hover {
+.post-list .post:hover, .post-list .post:focus {
   text-decoration: none;
   background: #ccc;
 }
 
-.post-list .post:hover .post-title {
+.post-list .post:hover .post-title, .post-list .post:focus .post-title {
   text-decoration: underline;
 }
 
@@ -369,6 +360,16 @@ body {
   min-width: 100px;
   opacity: .6;
   font-size: .7rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
 
 .post-list .post .post-title {
@@ -432,6 +433,10 @@ body {
   padding: 20px 0;
   opacity: .8;
   word-break: break-word;
+}
+
+.post button:focus {
+  text-decoration: underline;
 }
 
 .user-details {
@@ -659,21 +664,6 @@ body {
         -ms-flex-pack: center;
             justify-content: center;
   }
-  .post-list .item .post-date {
-    -webkit-box-ordinal-group: 4;
-        -ms-flex-order: 3;
-            order: 3;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
-  }
-  .post-list .item .post-date > * {
-    margin-right: 7px;
-  }
   .post-list .item .post-title {
     -webkit-box-ordinal-group: 2;
         -ms-flex-order: 1;
@@ -692,29 +682,77 @@ body {
         -ms-flex-pack: start;
             justify-content: flex-start;
   }
-  .post-list .page-controls,
-  .post-list .post-list-options {
+  .post-list .item .post-date {
+    -webkit-box-ordinal-group: 4;
+        -ms-flex-order: 3;
+            order: 3;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
             flex-direction: row;
+  }
+  .post-list .item .post-date > * {
+    margin-right: 7px;
+  }
+  .post-list .post {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-rows: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+    -ms-grid-columns: auto auto;
+        grid-template-columns: auto auto;
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: flex-start;
+  }
+  .post-list .post .pinned-post-tag {
+    -ms-grid-row: 1;
+    grid-row: 1;
+    -ms-grid-column: 1;
+    grid-column: 1;
+  }
+  .post-list .post .post-title {
+    -ms-grid-row: 1;
+    grid-row: 1;
+  }
+  .post-list .post .post-author {
+    -ms-grid-row: 2;
+    grid-row: 2;
+    grid-column: span 2;
+  }
+  .post-list .post .post-date {
+    -ms-grid-row: 3;
+    grid-row: 3;
+    grid-column: span 2;
+  }
+  .post-list .post-list-controls {
     height: -webkit-max-content;
     height: -moz-max-content;
     height: max-content;
-  }
-  .post-list .post-list-options {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
   }
-  .post-list .post-list-options .create-post {
-    -ms-flex-preferred-size: 100%;
-        flex-basis: 100%;
+  .post-list .post-list-controls > * {
+    margin-bottom: 10px;
+  }
+  .post-list .post-list-controls .post-search-form {
+    margin-left: 0;
+    width: -webkit-min-content;
+    width: -moz-min-content;
+    width: min-content;
   }
 }
 /*# sourceMappingURL=style.css.map */

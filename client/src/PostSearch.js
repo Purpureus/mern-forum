@@ -60,14 +60,16 @@ const PostSearch = () => {
 		pageButtons.push(i + 1);
 	}
 
-	const pageOptions = (
-		<div className="item page-controls">
+	const postListControls = (
+		<div className="item post-list-controls">
 
-			<p>Page</p>
-			<button className={`page-button ${page <= 1 && 'disabled'}`}
-				onClick={() => (page > 1) && setPage(page - 1)}>
-				&larr;
-            </button>
+			<div className="page-controls">
+				<p>Page</p>
+				<button className={`page-button ${page <= 1 && 'disabled'}`}
+					onClick={() => (page > 1) && setPage(page - 1)}>
+					&larr;
+            	</button>
+			</div>
 
 			{pageButtons && pageButtons.map((button, buttonIndex) => (
 				<button key={buttonIndex}
@@ -99,7 +101,7 @@ const PostSearch = () => {
 
 			<div className="post-list">
 
-				{pageOptions}
+				{postListControls}
 
 				{(posts && posts.length > 0) ||
 					<div className="item">No posts found</div>
@@ -138,7 +140,7 @@ const PostSearch = () => {
 					</div>
 				))}
 
-				{pageOptions}
+				{postListControls}
 
 			</div>
 		</>

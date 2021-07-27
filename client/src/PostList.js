@@ -14,7 +14,7 @@ const PostList = () => {
     const [posts, setPosts] = useState(null);
     const [page, setPage] = useState(1);
     const [numberOfPages, setNumberOfPages] = useState(1);
-    const postsPerPage = 10;
+    const postsPerPage = 6;
 
     const [searchField, setSearchField] = useState("");
 
@@ -46,24 +46,29 @@ const PostList = () => {
         pageButtons.push(i + 1);
     }
 
-    const pageOptions = (
-        <div className="item page-controls">
+    const postListControls = (
+        <div className="item post-list-controls">
+            <div className="page-controls">
+                <p>Page</p>
 
-            <p>Page</p>
-            <button className={`page-button ${page <= 1 && 'disabled'}`}
-                onClick={() => (page > 1) && setPage(page - 1)}>
-                &larr;
-            </button>
+                <button className={`page-button ${page <= 1 && 'disabled'}`}
+                    tabIndex={(page > 1) ? 0 : -1}
+                    onClick={() => (page > 1) && setPage(page - 1)}>
+                    &larr;
+                </button>
 
-            {pageButtons && pageButtons.map((button, buttonIndex) => (
-                <button key={buttonIndex}
-                    className={`page-button ${button === page && 'current'}`}
-                    onClick={() => setPage(button)}>{button}</button>
-            ))
-            }
+                {pageButtons && pageButtons.map((button, buttonIndex) => (
+                    <button key={buttonIndex}
+                        className={`page-button ${button === page && 'current'}`}
+                        onClick={() => setPage(button)}>{button}</button>
+                ))}
 
-            <button className={`page-button ${page >= numberOfPages && 'disabled'}`}
-                onClick={() => setPage(page + 1)}>&rarr;</button>
+                <button className={`page-button ${page >= numberOfPages && 'disabled'}`}
+                    tabIndex={(page < numberOfPages) ? 0 : -1}
+                    onClick={() => (page < numberOfPages) && setPage(page + 1)}>
+                    &rarr;
+                </button>
+            </div>
 
             <form className="post-search-form" onSubmit={(e) => searchPost(e)}>
                 <input type="text" value={searchField}
@@ -71,11 +76,11 @@ const PostList = () => {
                 <input type="submit" value="Search" />
             </form>
 
-            {loginData.logged &&
+            {
+                loginData.logged &&
                 <Link to="/createpost" className="link create-post">Create post</Link>
             }
-
-        </div>
+        </div >
     );
 
     return (
@@ -87,15 +92,14 @@ const PostList = () => {
 
             <div className="post-list">
 
-                {/* {postListOptions} */}
-                {pageOptions}
+                {postListControls}
 
                 {(posts && posts.length > 0) ||
                     <div className="item">No posts to be displayed</div>
                 }
 
                 {posts && Array.isArray(posts) && posts.map((post, postIndex) => (
-                    <div className={`post item ${post.pinned ? 'pinned' : ''}`} key={postIndex}
+                    <button className={`post item ${post.pinned ? 'pinned' : ''}`} key={postIndex}
                         onClick={() => history.push(`/post/${post.postId}`)}>
 
                         <div className="post-date">
@@ -124,11 +128,10 @@ const PostList = () => {
                             By {post.author}
                         </div>
 
-                    </div>
+                    </button>
                 ))}
 
-                {pageOptions}
-                {/* {postListOptions} */}
+                {postListControls}
 
             </div>
         </>
