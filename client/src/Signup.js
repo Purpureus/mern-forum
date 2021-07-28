@@ -57,7 +57,7 @@ const Signup = () => {
 			return;
 		}
 
-		const url = `http://localhost:8000/signup`;
+		const url = `${process.env.REACT_APP_SERVER_URL}/signup`;
 		const options = {
 			method: 'POST',
 			headers: {

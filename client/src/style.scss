@@ -282,6 +282,7 @@ body {
             color: $accent-bg;
             word-break: break-all;
 
+            line-clamp: 2;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -540,14 +541,14 @@ body {
             grid-template-rows: 1fr 1fr 1fr;
             grid-template-columns: auto auto;
             justify-content: flex-start;
+            align-items: center;
+            overflow: hidden;
 
-            .pinned-post-tag {
+            & > *:first-child {
                 grid-row: 1;
                 grid-column: 1;
             }
-            .post-title {
-                grid-row: 1;
-            }
+
             .post-author {
                 grid-row: 2;
                 grid-column: span 2;

@@ -21,7 +21,7 @@ const Login = (props) => {
     function handleSubmit(e) {
         e.preventDefault();
 
-        const url = `http://localhost:8000/login`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/login`;
         const options = {
             method: 'POST',
             headers: {

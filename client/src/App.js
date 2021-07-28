@@ -20,7 +20,7 @@ function App() {
 
     useEffect(() => {
         if (!loginData.accessToken) return;
-        const url = `http://localhost:8000/verifyToken`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/verifyToken`;
         const options = {
             headers: {
                 'Authorization': `Bearer: ${loginData.accessToken}`

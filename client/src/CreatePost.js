@@ -47,7 +47,7 @@ const CreatePost = () => {
     function submitPost(e) {
         e.preventDefault();
 
-        const url = `http://localhost:8000/api/posts`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/posts`;
         const options = {
             method: 'POST',
             headers: {

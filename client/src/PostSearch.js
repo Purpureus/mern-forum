@@ -30,9 +30,9 @@ const PostSearch = () => {
 		const from = urlParams.get('from');
 		const to = urlParams.get('to');
 
-		let url = `http://localhost:8000/api/posts/search?q=${q}&from=0&to=${postsPerPage}`;
+		let url = `${process.env.REACT_APP_SERVER_URL}/api/posts/search?q=${q}&from=0&to=${postsPerPage}`;
 		if (from && to) url = `
-			http://localhost:8000/api/posts/search?q=${q}&from=${from}&to=${to}
+		${process.env.REACT_APP_SERVER_URL}/api/posts/search?q=${q}&from=${from}&to=${to}
 		`;
 
 		setPostFetchLoading(true);

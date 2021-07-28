@@ -376,6 +376,7 @@ body {
   font-size: 1rem;
   color: #048;
   word-break: break-all;
+  line-clamp: 2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -707,16 +708,16 @@ body {
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: flex-start;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    overflow: hidden;
   }
-  .post-list .post .pinned-post-tag {
+  .post-list .post > *:first-child {
     -ms-grid-row: 1;
     grid-row: 1;
     -ms-grid-column: 1;
     grid-column: 1;
-  }
-  .post-list .post .post-title {
-    -ms-grid-row: 1;
-    grid-row: 1;
   }
   .post-list .post .post-author {
     -ms-grid-row: 2;

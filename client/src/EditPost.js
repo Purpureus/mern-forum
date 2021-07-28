@@ -34,7 +34,7 @@ const EditPost = () => {
 	}, []);
 
 	useEffect(() => {
-		const url = `http://localhost:8000/api/posts/${postId}`;
+		const url = `${process.env.REACT_APP_SERVER_URL}/api/posts/${postId}`;
 		const options = {
 			headers: {
 				'Authorization': `Bearer: ${accessToken}`
@@ -52,7 +52,7 @@ const EditPost = () => {
 	function submitPost(e = null) {
 		if (e) e.preventDefault();
 
-		const url = `http://localhost:8000/api/posts/${postId}`;
+		const url = `${process.env.REACT_APP_SERVER_URL}/api/posts/${postId}`;
 		const options = {
 			method: 'PUT',
 			headers: {

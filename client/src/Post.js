@@ -20,7 +20,7 @@ const Post = () => {
 	const [loginData, ,] = useContext(LoginDataContext);
 
 	useEffect(() => {
-		const url = `http://localhost:8000/api/posts/${postId}`;
+		const url = `${process.env.REACT_APP_SERVER_URL}/api/posts/${postId}`;
 		const options = {
 			headers: {
 				'Authorization': `Bearer: ${loginData.accessToken}`
@@ -38,7 +38,7 @@ const Post = () => {
 	}, [postId, doFetch, loginData]);
 
 	function deletePost() {
-		const url = `http://localhost:8000/api/posts/${postId}`;
+		const url = `${process.env.REACT_APP_SERVER_URL}/api/posts/${postId}`;
 		const options = {
 			method: 'DELETE',
 			headers: {
@@ -56,7 +56,7 @@ const Post = () => {
 	}
 
 	function pinPost(value) {
-		const url = `http://localhost:8000/api/posts/${postId}`;
+		const url = `${process.env.REACT_APP_SERVER_URL}/api/posts/${postId}`;
 		const options = {
 			method: 'PUT',
 			headers: {

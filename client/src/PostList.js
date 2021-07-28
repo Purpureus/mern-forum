@@ -21,7 +21,7 @@ const PostList = () => {
     useEffect(() => {
         const from = postsPerPage * (page - 1);
         const to = postsPerPage * page;
-        const url = `http://localhost:8000/api/posts?from=${from}&to=${to}`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/posts?from=${from}&to=${to}`;
         doFetch(url, {}, (data, error) => {
             setPostFetchError(error);
             setPostFetchLoading(false);
