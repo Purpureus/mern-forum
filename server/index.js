@@ -4,27 +4,25 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-// app.use((err, req, res, callback) => {
-//     // todo: implement error handling logic and return an appropriate response
-//     console.log(`Error: ${err}`);
-//     res.status(500).json({ message: `Error: ${err}` });
-//     return;
-//     // callback();
-// })
-
 
 // Server
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 app.use('/api/posts', require('./routes/posts'));
 app.use('/verifyToken', require('./routes/verifyToken'));
 app.use('/login', require('./routes/login'));
 app.use('/signup', require('./routes/signup'));
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send('<p>API is online</p>');
 });
 
