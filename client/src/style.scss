@@ -4,576 +4,609 @@ $accent-bg-light: #26a;
 $accent-bg-lighter: #48c;
 $accent: 210;
 
-$default-font: apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$default-font: apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+	"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+	sans-serif;
 
 %underline-on-hover {
-    &:hover {
-        text-decoration: underline;
-        cursor: pointer;
-    }
+	&:hover {
+		text-decoration: underline;
+		cursor: pointer;
+	}
 }
 
 .flex {
-    display: flex;
+	display: flex;
 }
 .row {
-    flex-direction: row;
+	flex-direction: row;
 }
 .center-vert {
-    align-items: center;
+	align-items: center;
 }
 
 .confirm-delete {
-    background-color: #eec;
-    border: 1px solid #aa0;
-    border-radius: 5px;
-    padding: 5px 10px;
+	background-color: #eec;
+	border: 1px solid #aa0;
+	border-radius: 5px;
+	padding: 5px 10px;
 
-    .confirm {
-        color: #a00;
-        padding: 5px;
-    }
-    .cancel {
-        color: #26a;
-        padding: 5px;
-    }
+	.confirm {
+		color: #a00;
+		padding: 5px;
+	}
+	.cancel {
+		color: #26a;
+		padding: 5px;
+	}
 }
 
 * {
-    margin: 0;
-    box-sizing: border-box;
-    font-family: $default-font;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: $default-font;
 }
 
-h1,h2,h3,h4,h5,h6 {
-    font-weight: normal;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: normal;
 }
 
 *:focus {
-    outline: 1px dashed #fff8;
+	outline: 1px dashed #fff8;
 }
 
 button {
-    border: none;
-    background: none;
-    color: inherit;
-    padding: 0;
-    &:hover { cursor: pointer }
+	border: none;
+	background: none;
+	color: inherit;
+	padding: 0;
+	&:hover {
+		cursor: pointer;
+	}
 }
 .rounded-button {
-    color: white;
-    padding: 7px;
-    border-radius: 5px;
+	color: white;
+	padding: 7px;
+	border-radius: 5px;
 
-    &:focus {
-        outline: 2px dashed #000;
-    }
-    &.default {
-        background: $accent-bg-light;
-        &:hover { background: $accent-bg-lighter }
-        &:active { background: $accent-bg }
-    }
-    &.red {
-        background: #a00;
-        &:hover { background: #c00 }
-        &:active { background: #800 }
-    }
-    &.blue {
-        background: #26a;
-        &:hover { background: #48c }
-        &:active { background: #048 }
-    }
+	&:focus {
+		outline: 2px dashed #000;
+	}
+	&.default {
+		background: $accent-bg-light;
+		&:hover {
+			background: $accent-bg-lighter;
+		}
+		&:active {
+			background: $accent-bg;
+		}
+	}
+	&.red {
+		background: #a00;
+		&:hover {
+			background: #c00;
+		}
+		&:active {
+			background: #800;
+		}
+	}
+	&.blue {
+		background: #26a;
+		&:hover {
+			background: #48c;
+		}
+		&:active {
+			background: #048;
+		}
+	}
 }
 .error,
 .info,
 .success {
-    background: #f003;
-    border: 1px solid #000;
-    border-radius: 10px;
-    margin: 10px;
-    padding: 10px;
+	background: #f003;
+	border: 1px solid #000;
+	border-radius: 10px;
+	margin: 10px;
+	padding: 10px;
 }
-.error { border-color: #f00 }
-.info { border-color: #00f }
+.error {
+	border-color: #f00;
+}
+.info {
+	border-color: #00f;
+}
 .success {
-    background: #0f03;
-    border-color: #0f0
+	background: #0f03;
+	border-color: #0f0;
 }
 
-a, .link {
-    text-decoration: none;
-    color: inherit;
-    @extend %underline-on-hover;
+a,
+.link {
+	text-decoration: none;
+	color: inherit;
+	@extend %underline-on-hover;
 
-    &.painted { color: $accent-bg-light }
+	&.painted {
+		color: $accent-bg-light;
+	}
 
-    &:focus { text-decoration: underline }
+	&:focus {
+		text-decoration: underline;
+	}
 }
 
 .flex-separator {
-    margin-lefT: auto;
+	margin-left: auto;
 }
 
 body {
-    background: #d9d9d9;
+	background: #d9d9d9;
 }
 
 .content {
-    background: #f4f4f4;
-    width: 800px;
-    min-height: 400px;
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-    border-radius: 10px 10px 0 0;
-    padding-bottom: 10px;
+	background: #f4f4f4;
+	width: 800px;
+	min-height: 400px;
+	max-width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	border-radius: 10px 10px 0 0;
+	padding-bottom: 10px;
 }
 
 .header-section {
-    border-radius: 10px 10px 0 0;
-    margin-bottom: 15px;
+	border-radius: 10px 10px 0 0;
+	margin-bottom: 15px;
 
-    header {
-        background: $accent-bg-light;
-        color: #fff;
-        padding: 40px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+	header {
+		background: $accent-bg-light;
+		color: #fff;
+		padding: 40px 20px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 
-    nav {
-        display: flex;
-        align-items: center;
-        color: $accent-fg;
-        background: $accent-bg;
+	nav {
+		display: flex;
+		align-items: center;
+		color: $accent-fg;
+		background: $accent-bg;
 
-        & > * {
-            padding: 10px;
-        }
+		& > * {
+			padding: 10px;
+		}
 
-        .nav-button {
-            @extend %underline-on-hover;
-            &.right {
-                justify-self: right;
-            }
-        }
-    }
+		.nav-button {
+			@extend %underline-on-hover;
+			&.right {
+				justify-self: right;
+			}
+		}
+	}
 }
 
 .main-board {
-    padding: 10px;
+	padding: 10px;
 }
 
 .post-list {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
 
-    $odd-bg: #ececec;
-    $even-bg: #e0e0e0;
+	$odd-bg: #ececec;
+	$even-bg: #e0e0e0;
 
-    .item {
-        background: $odd-bg;
-        padding: 10px;
-        width: 100%;
-        max-width: 100%;
-        height: 60px;
-        display: flex;
-        align-items: center;
-    }
+	.item {
+		background: $odd-bg;
+		padding: 10px;
+		width: 100%;
+		max-width: 100%;
+		height: 60px;
+		display: flex;
+		align-items: center;
+	}
 
-    .post-list-controls {
-        background: $accent-bg-light;
-        color: $accent-fg;
-        user-select: none;
-        height: max-content;
-        width: 100%;
+	.post-list-controls {
+		background: $accent-bg-light;
+		color: $accent-fg;
+		user-select: none;
+		height: max-content;
+		width: 100%;
 
-        &:first-child {
-            order: -2;
-        }
-        &:last-child {
-            order: 10;
-        }
-        
-        p {
-            margin-right: 5px;
-        }
+		&:first-child {
+			order: -2;
+		}
+		&:last-child {
+			order: 10;
+		}
 
-        .page-controls {
-            display: flex;
-            flex-direction: row;
-        }
-        
-        .post-search-form {
-            margin-left: auto;
-        }
+		p {
+			margin-right: 5px;
+		}
 
-        .create-post {
-            margin-left: 10px;
-        }
+		.page-controls {
+			display: flex;
+			flex-direction: row;
+		}
 
-        .page-button {
-            background: transparentize(white, 0.9);
-            color: white;
-            height: 25px;
-            width: 25px;
-            margin-right: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+		.post-search-form {
+			margin-left: auto;
+		}
 
-            &:hover {
-                background: transparentize(white, 0.8);
-            }
-            &.disabled {
-                cursor: default;
-                pointer-events: none;
-                opacity: .5;
-            }
-            &.current {
-                background: transparentize(white, 0.7);
-            }
-        }
-    }
+		.create-post {
+			margin-left: 10px;
+		}
 
-    .post {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        cursor: pointer;
-        position: relative;
+		.page-button {
+			background: transparentize(white, 0.9);
+			color: white;
+			height: 25px;
+			width: 25px;
+			margin-right: 5px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 
-        &:hover, &:focus {
-            text-decoration: none;
-            background: #ccc;
-            .post-title {
-                text-decoration: underline;
-            }
-        }
+			&:hover {
+				background: transparentize(white, 0.8);
+			}
+			&.disabled {
+				cursor: default;
+				pointer-events: none;
+				opacity: 0.5;
+			}
+			&.current {
+				background: transparentize(white, 0.7);
+			}
+		}
+	}
 
-        &:nth-child(even) {
-            background: $even-bg;
-        }
-        &:nth-child(odd) {
-            background: $odd-bg;
-        }
-        
-        .pinned-post-tag {
-            background: $accent-bg-lighter;
-            color: white;
-            padding: 1px 5px;
-            border-radius: 5px;
-            margin-right: 5px;
-        }
+	.post {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		cursor: pointer;
+		position: relative;
 
-        .post-date {
-            min-width: 100px;
-            opacity: .6;
-            font-size: .7rem;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .post-title {
-            font-size: 1rem;
-            color: $accent-bg;
-            word-break: break-all;
+		&:hover,
+		&:focus {
+			text-decoration: none;
+			background: #ccc;
+			.post-title {
+				text-decoration: underline;
+			}
+		}
 
-            line-clamp: 2;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .post-author {
-            font-size: 1rem;
-            opacity: .9;
-            min-width: 120px;
-            max-width: 120px;
-            margin-left: auto;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            
-            p {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            
-            a {
-                color: $accent-bg-light;
-                padding-left: 4px;
-            }
-        }
-    }
+		&:nth-child(even) {
+			background: $even-bg;
+		}
+		&:nth-child(odd) {
+			background: $odd-bg;
+		}
+
+		.pinned-post-tag {
+			background: $accent-bg-lighter;
+			color: white;
+			padding: 1px 5px;
+			border-radius: 5px;
+			margin-right: 5px;
+		}
+
+		.post-date {
+			min-width: 100px;
+			opacity: 0.6;
+			font-size: 0.7rem;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+		}
+		.post-title {
+			font-size: 1rem;
+			color: $accent-bg;
+			word-break: break-all;
+
+			line-clamp: 2;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.post-author {
+			font-size: 1rem;
+			opacity: 0.9;
+			min-width: 120px;
+			max-width: 120px;
+			margin-left: auto;
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+
+			p {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			a {
+				color: $accent-bg-light;
+				padding-left: 4px;
+			}
+		}
+	}
 }
 
 .post {
-    padding: 20px;
+	padding: 20px;
 
-    #post-title {
-        font-size: 1.4rem;
-        word-break: break-word;
-    }
+	#post-title {
+		font-size: 1.4rem;
+		word-break: break-word;
+	}
 
-    #edit-post {
-        color: $accent-bg;
-    }
+	#edit-post {
+		color: $accent-bg;
+	}
 
-    #post-author {
-        opacity: .7;
-    }
+	#post-author {
+		opacity: 0.7;
+	}
 
-    #post-content {
-        border-top: 2px solid #0001;
-        margin-top: 10px;
-        padding: 20px 0;
-        opacity: .8;
-        word-break: break-word;
-    }
+	#post-content {
+		border-top: 2px solid #0001;
+		margin-top: 10px;
+		padding: 20px 0;
+		opacity: 0.8;
+		word-break: break-word;
+	}
 
-    button {
-        &:focus {
-            text-decoration: underline;
-        }
-    }
+	button {
+		&:focus {
+			text-decoration: underline;
+		}
+	}
 }
 
 .user-details {
-    padding: 20px;
+	padding: 20px;
 
-    #username {
-        font-size: 1.5rem;
-        font-weight: bold;
-        border-bottom: 1px solid #0003;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
-    }
-    #biography {
-        font-style: italic;
-    }
+	#username {
+		font-size: 1.5rem;
+		font-weight: bold;
+		border-bottom: 1px solid #0003;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
+	}
+	#biography {
+		font-style: italic;
+	}
 }
 
 .default-form {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
 
-    label {
-        user-select: none;
-        display: flex;
-        justify-content: space-between;
-    }
-    label:not(:first-child) {
-        margin-top: 20px;
-    }
+	label {
+		user-select: none;
+		display: flex;
+		justify-content: space-between;
+	}
+	label:not(:first-child) {
+		margin-top: 20px;
+	}
 
-    textarea {
-        resize: none;
-    }
+	textarea {
+		resize: none;
+	}
 
-    input[type=text],
-    input[type=password],
-    textarea {
-        padding: 10px;
-    }
+	input[type="text"],
+	input[type="password"],
+	textarea {
+		padding: 10px;
+	}
 
-    #toggle-view-pswd-container {
-        display: flex;
-        align-items: center;
-        margin: 10px 0;
-        input {
-            margin: 0;
-            margin-right: 10px;
-        }
-        label {
-            margin: 0;
-        }
-    }
+	#toggle-view-pswd-container {
+		display: flex;
+		align-items: center;
+		margin: 10px 0;
+		input {
+			margin: 0;
+			margin-right: 10px;
+		}
+		label {
+			margin: 0;
+		}
+	}
 
-    .field-char-count {
-        opacity: .6;
-        display: flex;
-        justify-content: flex-end;
-    }
-    
-    input[type=submit] {
-        border: none;
-        background: $accent-bg;
-        color: $accent-fg;
-        margin-top: 20px;
-        padding: 10px;
+	.field-char-count {
+		opacity: 0.6;
+		display: flex;
+		justify-content: flex-end;
+	}
 
-        &:hover,
-        &:focus {
-            background: $accent-bg-light;
-        }
-        &:active {
-            background: $accent-bg-lighter;
-        }
+	input[type="submit"] {
+		border: none;
+		background: $accent-bg;
+		color: $accent-fg;
+		margin-top: 20px;
+		padding: 10px;
 
-        &.disabled {
-            background: #888;
-            cursor: auto;
-            pointer-events: none;
-        }
-    }
+		&:hover,
+		&:focus {
+			background: $accent-bg-light;
+		}
+		&:active {
+			background: $accent-bg-lighter;
+		}
 
-    #form-error-message {
-        color: #a00;
-        padding-top: 10px;
-    }
+		&.disabled {
+			background: #888;
+			cursor: auto;
+			pointer-events: none;
+		}
+	}
+
+	#form-error-message {
+		color: #a00;
+		padding-top: 10px;
+	}
 }
 
 .post-search-form {
-    display: flex;
-    flex-direction: row;
+	display: flex;
+	flex-direction: row;
 
-    input[type=text] {
-        background: #fff5;
-        color: white;
-        border: 2px solid transparent;
-    }
-    input[type=submit] {
-        background: #fffa;
-        border: 2px solid transparent;
-    }
+	input[type="text"] {
+		background: #fff5;
+		color: white;
+		border: 2px solid transparent;
+	}
+	input[type="submit"] {
+		background: #fffa;
+		border: 2px solid transparent;
+	}
 
-    input:focus {
-        outline: none;
-        border-color: #fffa;
-    }
+	input:focus {
+		outline: none;
+		border-color: #fffa;
+	}
 }
 
 .floating-form {
-    position: fixed;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 
-    background: #0008;
+	background: #0008;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-    .container {
-        background: $accent-fg;
-        border: 1px solid $accent-bg-light;
-        border-radius: 5px;
+	.container {
+		background: $accent-fg;
+		border: 1px solid $accent-bg-light;
+		border-radius: 5px;
 
-        display: flex;
-        flex-direction: column;
+		display: flex;
+		flex-direction: column;
 
-        .close-container {
-            position: relative;
-            top: -20px;
-            right: -20px;
-            align-self: flex-end;
-            width: 40px;
-            height: 40px;
-            background: $accent-bg;
-            color: $accent-fg;
-            border-radius: 50%;
-        }
-    }
+		.close-container {
+			position: relative;
+			top: -20px;
+			right: -20px;
+			align-self: flex-end;
+			width: 40px;
+			height: 40px;
+			background: $accent-bg;
+			color: $accent-fg;
+			border-radius: 50%;
+		}
+	}
 }
 
 #login-form,
 #signup-form {
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+	max-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 @media only screen and (max-width: 768px) {
-    .content {
-        margin: 0;
-    }
-    .header-section {
-        header {
-            flex-direction: column;
-        }
-        nav {
-            flex-direction: column;
-            .flex-separator {
-                display: none;
-            }
-        }
-    }
+	.content {
+		margin: 0;
+	}
+	.header-section {
+		header {
+			flex-direction: column;
+		}
+		nav {
+			flex-direction: column;
+			.flex-separator {
+				display: none;
+			}
+		}
+	}
 
-    .post-list {
-        max-width: 100%;
+	.post-list {
+		max-width: 100%;
 
-        .item {
-            height: 100px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
+		.item {
+			height: 100px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: center;
 
-            .post-title {
-                order: 1;
-                max-width: 100%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            .post-author {
-                order: 2;
-                margin: 0;
-                justify-content: flex-start;
-            }
-            .post-date {
-                order: 3;
-                display: flex;
-                flex-direction: row;
-                & > * {
-                    margin-right: 7px;
-                }
-            }
-        }
+			.post-title {
+				order: 1;
+				max-width: 100%;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.post-author {
+				order: 2;
+				margin: 0;
+				justify-content: flex-start;
+			}
+			.post-date {
+				order: 3;
+				display: flex;
+				flex-direction: row;
+				& > * {
+					margin-right: 7px;
+				}
+			}
+		}
 
-        .post {
-            display: grid;
-            grid-template-rows: 1fr 1fr 1fr;
-            grid-template-columns: auto auto;
-            justify-content: flex-start;
-            align-items: center;
-            overflow: hidden;
+		.post {
+			display: grid;
+			grid-template-rows: 1fr 1fr 1fr;
+			grid-template-columns: auto auto;
+			justify-content: flex-start;
+			align-items: center;
+			overflow: hidden;
 
-            & > *:first-child {
-                grid-row: 1;
-                grid-column: 1;
-            }
+			& > *:first-child {
+				grid-row: 1;
+				grid-column: 1;
+			}
 
-            .post-author {
-                grid-row: 2;
-                grid-column: span 2;
-            }
-            .post-date {
-                grid-row: 3;
-                grid-column: span 2;
-            }
-        }
+			.post-author {
+				grid-row: 2;
+				grid-column: span 2;
+			}
+			.post-date {
+				grid-row: 3;
+				grid-column: span 2;
+			}
+		}
 
-        .post-list-controls {
-            height: max-content;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            align-items: center;
+		.post-list-controls {
+			height: max-content;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			align-items: center;
 
-            & > * {
-                margin-bottom: 10px;
-            }
+			& > * {
+				margin-bottom: 10px;
+			}
 
-            .post-search-form {
-                margin-left: 0;
-                width: min-content;
-            }
-        }
-    }
+			.post-search-form {
+				margin-left: 0;
+				width: min-content;
+			}
+		}
+	}
 }

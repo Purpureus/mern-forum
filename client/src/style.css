@@ -1,4 +1,5 @@
-a:hover, .link:hover, .header-section nav .nav-button:hover {
+a:hover,
+.link:hover, .header-section nav .nav-button:hover {
   text-decoration: underline;
   cursor: pointer;
 }
@@ -46,7 +47,12 @@ a:hover, .link:hover, .header-section nav .nav-button:hover {
   font-family: apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: normal;
 }
 
@@ -134,21 +140,24 @@ button:hover {
   border-color: #0f0;
 }
 
-a, .link {
+a,
+.link {
   text-decoration: none;
   color: inherit;
 }
 
-a.painted, .link.painted {
+a.painted,
+.link.painted {
   color: #26a;
 }
 
-a:focus, .link:focus {
+a:focus,
+.link:focus {
   text-decoration: underline;
 }
 
 .flex-separator {
-  margin-lefT: auto;
+  margin-left: auto;
 }
 
 body {
@@ -309,7 +318,7 @@ body {
 .post-list .post-list-controls .page-button.disabled {
   cursor: default;
   pointer-events: none;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .post-list .post-list-controls .page-button.current {
@@ -358,8 +367,8 @@ body {
 
 .post-list .post .post-date {
   min-width: 100px;
-  opacity: .6;
-  font-size: .7rem;
+  opacity: 0.6;
+  font-size: 0.7rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -384,7 +393,7 @@ body {
 
 .post-list .post .post-author {
   font-size: 1rem;
-  opacity: .9;
+  opacity: 0.9;
   min-width: 120px;
   max-width: 120px;
   margin-left: auto;
@@ -425,14 +434,14 @@ body {
 }
 
 .post #post-author {
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .post #post-content {
   border-top: 2px solid #0001;
   margin-top: 10px;
   padding: 20px 0;
-  opacity: .8;
+  opacity: 0.8;
   word-break: break-word;
 }
 
@@ -488,8 +497,8 @@ body {
   resize: none;
 }
 
-.default-form input[type=text],
-.default-form input[type=password],
+.default-form input[type="text"],
+.default-form input[type="password"],
 .default-form textarea {
   padding: 10px;
 }
@@ -514,7 +523,7 @@ body {
 }
 
 .default-form .field-char-count {
-  opacity: .6;
+  opacity: 0.6;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -523,7 +532,7 @@ body {
           justify-content: flex-end;
 }
 
-.default-form input[type=submit] {
+.default-form input[type="submit"] {
   border: none;
   background: #048;
   color: #fff;
@@ -531,15 +540,15 @@ body {
   padding: 10px;
 }
 
-.default-form input[type=submit]:hover, .default-form input[type=submit]:focus {
+.default-form input[type="submit"]:hover, .default-form input[type="submit"]:focus {
   background: #26a;
 }
 
-.default-form input[type=submit]:active {
+.default-form input[type="submit"]:active {
   background: #48c;
 }
 
-.default-form input[type=submit].disabled {
+.default-form input[type="submit"].disabled {
   background: #888;
   cursor: auto;
   pointer-events: none;
@@ -560,13 +569,13 @@ body {
           flex-direction: row;
 }
 
-.post-search-form input[type=text] {
+.post-search-form input[type="text"] {
   background: #fff5;
   color: white;
   border: 2px solid transparent;
 }
 
-.post-search-form input[type=submit] {
+.post-search-form input[type="submit"] {
   background: #fffa;
   border: 2px solid transparent;
 }

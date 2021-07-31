@@ -26,5 +26,6 @@ app.get('/api', (req, res) => {
     res.send('<p>API is online</p>');
 });
 
+console.log(`PORT: ${process.env.PORT}`);
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
