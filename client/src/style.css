@@ -82,15 +82,15 @@ button:hover {
 }
 
 .rounded-button.default {
-  background: #26a;
+  background: #85474a;
 }
 
 .rounded-button.default:hover {
-  background: #48c;
+  background: #ab6367;
 }
 
 .rounded-button.default:active {
-  background: #048;
+  background: #5a3032;
 }
 
 .rounded-button.red {
@@ -148,7 +148,7 @@ a,
 
 a.painted,
 .link.painted {
-  color: #26a;
+  color: #85474a;
 }
 
 a:focus,
@@ -182,7 +182,7 @@ body {
 }
 
 .header-section header {
-  background: #26a;
+  background: #85474a;
   color: #fff;
   padding: 40px 20px;
   display: -webkit-box;
@@ -204,7 +204,7 @@ body {
       -ms-flex-align: center;
           align-items: center;
   color: #fff;
-  background: #048;
+  background: #5a3032;
 }
 
 .header-section nav > * {
@@ -248,7 +248,7 @@ body {
 }
 
 .post-list .post-list-controls {
-  background: #26a;
+  background: #85474a;
   color: #fff;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -358,7 +358,7 @@ body {
 }
 
 .post-list .post .pinned-post-tag {
-  background: #48c;
+  background: #ab6367;
   color: white;
   padding: 1px 5px;
   border-radius: 5px;
@@ -383,7 +383,7 @@ body {
 
 .post-list .post .post-title {
   font-size: 1rem;
-  color: #048;
+  color: #5a3032;
   word-break: break-all;
   line-clamp: 2;
   white-space: nowrap;
@@ -416,7 +416,7 @@ body {
 }
 
 .post-list .post .post-author a {
-  color: #26a;
+  color: #85474a;
   padding-left: 4px;
 }
 
@@ -430,7 +430,7 @@ body {
 }
 
 .post #edit-post {
-  color: #048;
+  color: #5a3032;
 }
 
 .post #post-author {
@@ -534,18 +534,18 @@ body {
 
 .default-form input[type="submit"] {
   border: none;
-  background: #048;
+  background: #5a3032;
   color: #fff;
   margin-top: 20px;
   padding: 10px;
 }
 
 .default-form input[type="submit"]:hover, .default-form input[type="submit"]:focus {
-  background: #26a;
+  background: #85474a;
 }
 
 .default-form input[type="submit"]:active {
-  background: #48c;
+  background: #ab6367;
 }
 
 .default-form input[type="submit"].disabled {
@@ -605,7 +605,7 @@ body {
 
 .floating-form .container {
   background: #fff;
-  border: 1px solid #26a;
+  border: 1px solid #85474a;
   border-radius: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -624,7 +624,7 @@ body {
       align-self: flex-end;
   width: 40px;
   height: 40px;
-  background: #048;
+  background: #5a3032;
   color: #fff;
   border-radius: 50%;
 }
